@@ -68,10 +68,15 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iShouldHaveTheCorrespondingString()
     {
-        $method = "assert" . ucfirst($this->format) . "StringEquals" . ucfirst($this->format) . "File";
         $filename = __DIR__ . '/Fixtures/person.' . strtolower($this->format);
 
-        PHPUnit::$method($filename, $this->string);
+        if (in_array(strtolower($this->format), array('json', 'xml'))) {
+            $method = "assert" . ucfirst($this->format) . "StringEquals" . ucfirst($this->format) . "File";
+
+            PHPUnit::$method($filename, $this->string);
+        } else {
+            PHPUnit::assertEquals(trim(file_get_contents($filename)), $this->string);
+        }
     }
 
     /**
@@ -80,7 +85,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iHaveAString($format)
     {
         $this->format = $format;
-        $this->string = file_get_contents(__DIR__ . '/Fixtures/person.' . strtolower($format));
+        $this->string = trim(file_get_contents(__DIR__ . '/Fixtures/person.' . strtolower($format)));
     }
 
     /**
