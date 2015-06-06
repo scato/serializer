@@ -1,5 +1,5 @@
 <?php
-namespace Scato\Serializer;
+namespace Scato\Serializer\Core;
 
 interface ObjectAccessorInterface
 {

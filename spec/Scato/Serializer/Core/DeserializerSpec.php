@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Scato\Serializer;
+namespace spec\Scato\Serializer\Core;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\DecoderInterface;
-use Scato\Serializer\Navigator;
-use Scato\Serializer\TypedValueVisitorInterface;
+use Scato\Serializer\Core\DecoderInterface;
+use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\TypedValueVisitorInterface;
 
 class DeserializerSpec extends ObjectBehavior
 {

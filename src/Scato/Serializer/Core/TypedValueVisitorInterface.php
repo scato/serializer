@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Scato\Serializer;
+namespace Scato\Serializer\Core;
 
 
 interface TypedValueVisitorInterface extends ValueVisitorInterface
