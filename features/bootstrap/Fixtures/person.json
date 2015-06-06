@@ -1,0 +1,18 @@
+{
+  "name": "Bob",
+  "address": {
+    "street": "Dam",
+    "number": 1,
+    "city": "Amsterdam"
+  },
+  "phoneNumbers": [
+    {
+      "name": "Home",
+      "number": "0201234567"
+    },
+    {
+      "name": "Mobile",
+      "number": "0612345678"
+    }
+  ]
+}
