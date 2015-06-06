@@ -2,9 +2,9 @@
 
 namespace Scato\Serializer\Url;
 
-use Scato\Serializer\Common\AbstractTypedVisitor;
+use Scato\Serializer\Common\MapToObjectVisitor;
 
-class FromUrlVisitor extends AbstractTypedVisitor
+class FromUrlVisitor extends MapToObjectVisitor
 {
     public function visitArrayStart()
     {

@@ -2,32 +2,12 @@
 
 namespace Scato\Serializer\Url;
 
-use Scato\Serializer\Common\AbstractVisitor;
+use Scato\Serializer\Common\ObjectToArrayVisitor;
 
-class ToUrlVisitor extends AbstractVisitor
+class ToUrlVisitor extends ObjectToArrayVisitor
 {
     public function __construct()
     {
-    }
-
-    public function visitObjectStart($class)
-    {
-        $this->visitArrayStart();
-    }
-
-    public function visitObjectEnd($class)
-    {
-        $this->visitArrayEnd();
-    }
-
-    public function visitPropertyStart($name)
-    {
-        $this->visitElementStart($name);
-    }
-
-    public function visitPropertyEnd($name)
-    {
-        $this->visitElementEnd($name);
     }
 
     public function visitNull()

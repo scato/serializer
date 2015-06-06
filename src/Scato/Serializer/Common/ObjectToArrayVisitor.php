@@ -8,7 +8,7 @@ use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\VisitorInterface;
 use stdClass;
 
-abstract class AbstractVisitor implements VisitorInterface
+class ObjectToArrayVisitor implements VisitorInterface
 {
     protected $objectAccessor;
 
@@ -34,25 +34,22 @@ abstract class AbstractVisitor implements VisitorInterface
 
     public function visitObjectStart($class)
     {
-        $this->pushResult(new stdClass());
+        self::visitArrayStart();
     }
 
     public function visitObjectEnd($class)
     {
+        self::visitArrayEnd();
     }
 
     public function visitPropertyStart($name)
     {
+        self::visitElementStart($name);
     }
 
     public function visitPropertyEnd($name)
     {
-        $property = $this->popResult();
-        $object = $this->popResult();
-
-        $this->objectAccessor->setValue($object, $name, $property);
-
-        $this->pushResult($object);
+        self::visitElementEnd($name);
     }
 
     public function visitArrayStart()
