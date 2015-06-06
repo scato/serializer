@@ -24,6 +24,24 @@ class SerializerFactorySpec extends ObjectBehavior
             ->deserialize('{"personId":1,"name":"Bryon Hetrick","registered":true}', get_class($object))
             ->shouldBeLike($object);
     }
+
+    function it_should_create_a_url_serializer()
+    {
+        $object = new Person(1, "Bryon Hetrick", true);
+
+        $this->createUrlSerializer()
+            ->serialize($object)
+            ->shouldBe('personId=1&name=Bryon+Hetrick&registered=1');
+    }
+
+    function it_should_create_a_url_deserializer()
+    {
+        $object = new Person(1, "Bryon Hetrick", true);
+
+        $this->createUrlDeserializer()
+            ->deserialize('personId=1&name=Bryon+Hetrick&registered=1', get_class($object))
+            ->shouldBeLike($object);
+    }
 }
 
 class Person
