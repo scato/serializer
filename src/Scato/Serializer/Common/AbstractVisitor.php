@@ -4,11 +4,20 @@
 namespace Scato\Serializer\Common;
 
 use LogicException;
+use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\VisitorInterface;
+use stdClass;
 
 abstract class AbstractVisitor implements VisitorInterface
 {
+    protected $objectAccessor;
+
     private $results = array();
+
+    public function __construct(ObjectAccessorInterface $objectAccessor)
+    {
+        $this->objectAccessor = $objectAccessor;
+    }
 
     public function getResult()
     {
@@ -21,6 +30,72 @@ abstract class AbstractVisitor implements VisitorInterface
         }
 
         return array_pop($this->results);
+    }
+
+    public function visitObjectStart($class)
+    {
+        $this->pushResult(new stdClass());
+    }
+
+    public function visitObjectEnd($class)
+    {
+    }
+
+    public function visitPropertyStart($name)
+    {
+    }
+
+    public function visitPropertyEnd($name)
+    {
+        $property = $this->popResult();
+        $object = $this->popResult();
+
+        $this->objectAccessor->setValue($object, $name, $property);
+
+        $this->pushResult($object);
+    }
+
+    public function visitArrayStart()
+    {
+        $this->pushResult(array());
+    }
+
+    public function visitArrayEnd()
+    {
+    }
+
+    public function visitElementStart($key)
+    {
+    }
+
+    public function visitElementEnd($key)
+    {
+        $element = $this->popResult();
+        $array = $this->popResult();
+
+        $array[$key] = $element;
+
+        $this->pushResult($array);
+    }
+
+    public function visitString($value)
+    {
+        $this->pushResult($value);
+    }
+
+    public function visitNull()
+    {
+        $this->pushResult(null);
+    }
+
+    public function visitNumber($value)
+    {
+        $this->pushResult($value);
+    }
+
+    public function visitBoolean($value)
+    {
+        $this->pushResult($value);
     }
 
     protected function pushResult($result)
