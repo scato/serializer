@@ -11,7 +11,7 @@ class Deserializer
 
     public function __construct(
         Navigator $navigator,
-        TypedValueVisitorInterface $visitor,
+        TypedVisitorInterface $visitor,
         DecoderInterface $decoder
     ) {
         $this->navigator = $navigator;

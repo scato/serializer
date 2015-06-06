@@ -11,7 +11,7 @@ class Navigator
         $this->objectAccessor = $objectAccessor;
     }
 
-    public function accept(ValueVisitorInterface $visitor, $value)
+    public function accept(VisitorInterface $visitor, $value)
     {
         switch (gettype($value)) {
             case 'object':

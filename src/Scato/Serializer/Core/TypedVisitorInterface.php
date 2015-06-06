@@ -4,7 +4,7 @@
 namespace Scato\Serializer\Core;
 
 
-interface TypedValueVisitorInterface extends ValueVisitorInterface
+interface TypedVisitorInterface extends VisitorInterface
 {
     public function visitType($type);
 }
