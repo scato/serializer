@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require-dev": {
+    "phpspec/phpspec": "~2.0",
+    "behat/behat": "~3.0",
+    "nelmio/alice": "~1.7"
+  }
+}
