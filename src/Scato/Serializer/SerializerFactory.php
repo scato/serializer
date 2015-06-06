@@ -2,6 +2,7 @@
 
 namespace Scato\Serializer;
 
+use Scato\Serializer\Common\MapToObjectVisitor;
 use Scato\Serializer\Common\PublicAccessor;
 use Scato\Serializer\Common\ReflectionTypeProvider;
 use Scato\Serializer\Core\Deserializer;
@@ -9,7 +10,6 @@ use Scato\Serializer\Core\Navigator;
 use Scato\Serializer\Core\Serializer;
 use Scato\Serializer\Json\JsonDecoder;
 use Scato\Serializer\Json\JsonEncoder;
-use Scato\Serializer\Json\FromJsonVisitor;
 use Scato\Serializer\Json\ToJsonVisitor;
 use Scato\Serializer\Url\FromUrlVisitor;
 use Scato\Serializer\Url\ToUrlVisitor;
@@ -38,7 +38,7 @@ class SerializerFactory
             new Navigator(
                 new PublicAccessor()
             ),
-            new FromJsonVisitor(
+            new MapToObjectVisitor(
                 new PublicAccessor(),
                 new ReflectionTypeProvider()
             ),

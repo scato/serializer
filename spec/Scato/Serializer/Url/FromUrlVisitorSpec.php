@@ -14,9 +14,9 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->beConstructedWith(new PublicAccessor(), $typeProvider);
     }
 
-    function it_should_be_a_typed_visitor()
+    function it_should_be_an_object_to_array_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Core\TypedVisitorInterface');
+        $this->shouldHaveType('Scato\Serializer\Common\MapToObjectVisitor');
     }
 
     function it_should_handle_an_object_with_a_string() {

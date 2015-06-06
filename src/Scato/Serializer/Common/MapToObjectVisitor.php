@@ -7,7 +7,7 @@ namespace Scato\Serializer\Common;
 use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
-abstract class AbstractTypedVisitor extends AbstractVisitor implements TypedVisitorInterface
+class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInterface
 {
     protected $objectAccessor;
     protected $typeProvider;
@@ -57,7 +57,12 @@ abstract class AbstractTypedVisitor extends AbstractVisitor implements TypedVisi
     {
         $this->popType();
 
-        parent::visitPropertyEnd($name);
+        $property = $this->popResult();
+        $object = $this->popResult();
+
+        $this->objectAccessor->setValue($object, $name, $property);
+
+        $this->pushResult($object);
     }
 
     public function visitElementStart($key)
