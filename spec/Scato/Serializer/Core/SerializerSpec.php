@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Scato\Serializer;
+namespace spec\Scato\Serializer\Core;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\EncoderInterface;
-use Scato\Serializer\Navigator;
-use Scato\Serializer\ValueVisitorInterface;
+use Scato\Serializer\Core\EncoderInterface;
+use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\ValueVisitorInterface;
 
 class SerializerSpec extends ObjectBehavior
 {
