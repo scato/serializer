@@ -6,18 +6,18 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\EncoderInterface;
 use Scato\Serializer\Core\Navigator;
-use Scato\Serializer\Core\ValueVisitorInterface;
+use Scato\Serializer\Core\VisitorInterface;
 
 class SerializerSpec extends ObjectBehavior
 {
-    function let(Navigator $navigator, ValueVisitorInterface $visitor, EncoderInterface $encoder)
+    function let(Navigator $navigator, VisitorInterface $visitor, EncoderInterface $encoder)
     {
         $this->beConstructedWith($navigator, $visitor, $encoder);
     }
 
     function it_should_serialize_values(
         Navigator $navigator,
-        ValueVisitorInterface $visitor,
+        VisitorInterface $visitor,
         EncoderInterface $encoder
     ) {
         // the navigator guides the visitor through the value graph

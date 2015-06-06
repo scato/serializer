@@ -11,7 +11,7 @@ class Serializer
 
     public function __construct(
         Navigator $navigator,
-        ValueVisitorInterface $visitor,
+        VisitorInterface $visitor,
         EncoderInterface $encoder
     ) {
         $this->navigator = $navigator;

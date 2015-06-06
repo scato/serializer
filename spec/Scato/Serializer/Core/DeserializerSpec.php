@@ -6,18 +6,18 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\DecoderInterface;
 use Scato\Serializer\Core\Navigator;
-use Scato\Serializer\Core\TypedValueVisitorInterface;
+use Scato\Serializer\Core\TypedVisitorInterface;
 
 class DeserializerSpec extends ObjectBehavior
 {
-    function let(Navigator $navigator, TypedValueVisitorInterface $visitor, DecoderInterface $decoder)
+    function let(Navigator $navigator, TypedVisitorInterface $visitor, DecoderInterface $decoder)
     {
         $this->beConstructedWith($navigator, $visitor, $decoder);
     }
 
     function it_should_deserialize_values(
         Navigator $navigator,
-        TypedValueVisitorInterface $visitor,
+        TypedVisitorInterface $visitor,
         DecoderInterface $decoder
     ) {
         // the decoder turns the string back into a tree

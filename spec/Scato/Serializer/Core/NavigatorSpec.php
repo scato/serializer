@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\EncoderInterface;
 use Scato\Serializer\Core\ObjectAccessorInterface;
-use Scato\Serializer\Core\ValueVisitorInterface;
+use Scato\Serializer\Core\VisitorInterface;
 use stdClass;
 
 class NavigatorSpec extends ObjectBehavior
@@ -16,7 +16,7 @@ class NavigatorSpec extends ObjectBehavior
         $this->beConstructedWith($objectAccessor);
     }
 
-    function it_should_accept_an_empty_array(ValueVisitorInterface $visitor)
+    function it_should_accept_an_empty_array(VisitorInterface $visitor)
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
@@ -24,7 +24,7 @@ class NavigatorSpec extends ObjectBehavior
         $this->accept($visitor, array());
     }
 
-    function it_should_accept_an_array_with_a_string(ValueVisitorInterface $visitor)
+    function it_should_accept_an_array_with_a_string(VisitorInterface $visitor)
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('foo')->shouldBeCalled();
@@ -35,7 +35,7 @@ class NavigatorSpec extends ObjectBehavior
         $this->accept($visitor, array('foo' => 'bar'));
     }
 
-    function it_should_accept_an_array_with_an_array(ValueVisitorInterface $visitor)
+    function it_should_accept_an_array_with_an_array(VisitorInterface $visitor)
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart(0)->shouldBeCalled();
@@ -52,7 +52,7 @@ class NavigatorSpec extends ObjectBehavior
 
     function it_should_accept_an_empty_object(
         ObjectAccessorInterface $objectAccessor,
-        ValueVisitorInterface $visitor
+        VisitorInterface $visitor
     ) {
         $object = new stdClass();
 
@@ -66,7 +66,7 @@ class NavigatorSpec extends ObjectBehavior
 
     function it_should_accept_an_object_with_a_string(
         ObjectAccessorInterface $objectAccessor,
-        ValueVisitorInterface $visitor
+        VisitorInterface $visitor
     ) {
         $object = new stdClass();
 
@@ -84,7 +84,7 @@ class NavigatorSpec extends ObjectBehavior
 
     function it_should_accept_an_object_with_an_array(
         ObjectAccessorInterface $objectAccessor,
-        ValueVisitorInterface $visitor
+        VisitorInterface $visitor
     ) {
         $object = new stdClass();
 
@@ -104,28 +104,28 @@ class NavigatorSpec extends ObjectBehavior
         $this->accept($visitor, $object);
     }
 
-    function it_should_accept_a_string(ValueVisitorInterface $visitor)
+    function it_should_accept_a_string(VisitorInterface $visitor)
     {
         $visitor->visitString('foobar')->shouldBeCalled();
 
         $this->accept($visitor, 'foobar');
     }
 
-    function it_should_accept_null(ValueVisitorInterface $visitor)
+    function it_should_accept_null(VisitorInterface $visitor)
     {
         $visitor->visitNull()->shouldBeCalled();
 
         $this->accept($visitor, null);
     }
 
-    function it_should_accept_a_number(ValueVisitorInterface $visitor)
+    function it_should_accept_a_number(VisitorInterface $visitor)
     {
         $visitor->visitNumber(1)->shouldBeCalled();
 
         $this->accept($visitor, 1);
     }
 
-    function it_should_accept_a_boolean(ValueVisitorInterface $visitor)
+    function it_should_accept_a_boolean(VisitorInterface $visitor)
     {
         $visitor->visitBoolean(true)->shouldBeCalled();
 

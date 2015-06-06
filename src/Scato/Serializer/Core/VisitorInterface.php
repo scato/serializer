@@ -2,7 +2,7 @@
 
 namespace Scato\Serializer\Core;
 
-interface ValueVisitorInterface
+interface VisitorInterface
 {
     public function getResult();
 
