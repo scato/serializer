@@ -10,14 +10,7 @@ use stdClass;
 
 class ObjectToArrayVisitor implements VisitorInterface
 {
-    protected $objectAccessor;
-
     private $results = array();
-
-    public function __construct(ObjectAccessorInterface $objectAccessor)
-    {
-        $this->objectAccessor = $objectAccessor;
-    }
 
     public function getResult()
     {

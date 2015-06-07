@@ -9,11 +9,6 @@ use stdClass;
 
 class ObjectToArrayVisitorSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith(new PublicAccessor());
-    }
-
     function it_should_be_a_visitor()
     {
         $this->shouldHaveType('Scato\Serializer\Core\VisitorInterface');

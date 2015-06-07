@@ -25,9 +25,7 @@ class SerializerFactory
             new Navigator(
                 new PublicAccessor()
             ),
-            new ToJsonVisitor(
-                new PublicAccessor()
-            ),
+            new ToJsonVisitor(),
             new JsonEncoder()
         );
     }
@@ -52,9 +50,7 @@ class SerializerFactory
             new Navigator(
                 new PublicAccessor()
             ),
-            new ToUrlVisitor(
-                new PublicAccessor()
-            ),
+            new ToUrlVisitor(),
             new UrlEncoder()
         );
     }
