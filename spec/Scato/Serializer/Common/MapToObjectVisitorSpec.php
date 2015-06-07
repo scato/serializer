@@ -34,10 +34,10 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $object = new Person(1, "Bryon Hetrick", true);
         $object->address = new Address('Dam', '1', 'Amsterdam');
 
-        $typeOfPerson = Argument::type('spec\Scato\Serializer\Common\Person');
-
-        $typeProvider->getType($typeOfPerson, 'address')->willReturn('spec\Scato\Serializer\Common\Address');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType('spec\Scato\Serializer\Common\Person', 'address')
+            ->willReturn('spec\Scato\Serializer\Common\Address');
+        $typeProvider->getType(Argument::any(), Argument::any())
+            ->willReturn(null);
 
         $this->visitType(get_class($object));
         $this->visitObjectStart('stdClass');
@@ -53,10 +53,10 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $object->phoneNumbers[] = new PhoneNumber('Home', '0201234567');
         $object->phoneNumbers[] = new PhoneNumber('Mobile', '0612345678');
 
-        $typeOfPerson = Argument::type('spec\Scato\Serializer\Common\Person');
-
-        $typeProvider->getType($typeOfPerson, 'phoneNumbers')->willReturn('spec\Scato\Serializer\Common\PhoneNumber[]');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType('spec\Scato\Serializer\Common\Person', 'phoneNumbers')
+            ->willReturn('spec\Scato\Serializer\Common\PhoneNumber[]');
+        $typeProvider->getType(Argument::any(), Argument::any())
+            ->willReturn(null);
 
         $this->visitType(get_class($object));
         $this->visitObjectStart('stdClass');

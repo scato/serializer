@@ -33,10 +33,10 @@ class FromUrlVisitorSpec extends ObjectBehavior
     function it_should_handle_an_object_with_a_number(TypeProviderInterface $typeProvider) {
         $object = new Person(1, "Bryon Hetrick", true);
 
-        $typeOfPerson = Argument::type('spec\Scato\Serializer\Url\Person');
-
-        $typeProvider->getType($typeOfPerson, 'personId')->willReturn('integer');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'personId')
+            ->willReturn('integer');
+        $typeProvider->getType(Argument::any(), Argument::any())
+            ->willReturn(null);
 
         $this->visitType(get_class($object));
         $this->visitArrayStart();
@@ -49,10 +49,10 @@ class FromUrlVisitorSpec extends ObjectBehavior
     function it_should_handle_an_object_with_a_boolean(TypeProviderInterface $typeProvider) {
         $object = new Person(1, "Bryon Hetrick", true);
 
-        $typeOfPerson = Argument::type('spec\Scato\Serializer\Url\Person');
-
-        $typeProvider->getType($typeOfPerson, 'registered')->willReturn('boolean');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'registered')
+            ->willReturn('boolean');
+        $typeProvider->getType(Argument::any(), Argument::any())
+            ->willReturn(null);
 
         $this->visitType(get_class($object));
         $this->visitArrayStart();
@@ -66,10 +66,10 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $object = new Person(1, "Bryon Hetrick", true);
         $object->address = new Address('Dam', '1', 'Amsterdam');
 
-        $typeOfPerson = Argument::type('spec\Scato\Serializer\Url\Person');
-
-        $typeProvider->getType($typeOfPerson, 'address')->willReturn('spec\Scato\Serializer\Url\Address');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'address')
+            ->willReturn('spec\Scato\Serializer\Url\Address');
+        $typeProvider->getType(Argument::any(), Argument::any())
+            ->willReturn(null);
 
         $this->visitType(get_class($object));
         $this->visitArrayStart();
@@ -85,10 +85,10 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $object->phoneNumbers[] = new PhoneNumber('Home', '0201234567');
         $object->phoneNumbers[] = new PhoneNumber('Mobile', '0612345678');
 
-        $typeOfPerson = Argument::type('spec\Scato\Serializer\Url\Person');
-
-        $typeProvider->getType($typeOfPerson, 'phoneNumbers')->willReturn('spec\Scato\Serializer\Url\PhoneNumber[]');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'phoneNumbers')
+            ->willReturn('spec\Scato\Serializer\Url\PhoneNumber[]');
+        $typeProvider->getType(Argument::any(), Argument::any())
+            ->willReturn(null);
 
         $this->visitType(get_class($object));
         $this->visitArrayStart();
