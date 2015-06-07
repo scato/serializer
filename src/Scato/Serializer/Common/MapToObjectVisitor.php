@@ -9,14 +9,14 @@ use Scato\Serializer\Core\TypedVisitorInterface;
 
 class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInterface
 {
-    protected $objectAccessor;
+    protected $objectFactory;
     protected $typeProvider;
 
     private $types = array();
 
-    public function __construct(ObjectAccessorInterface $objectAccessor, TypeProviderInterface $typeProvider)
+    public function __construct(ObjectFactoryInterface $objectFactory, TypeProviderInterface $typeProvider)
     {
-        $this->objectAccessor = $objectAccessor;
+        $this->objectFactory = $objectFactory;
         $this->typeProvider = $typeProvider;
     }
 
@@ -32,7 +32,7 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
         $type = $this->peekType(1);
         $array = $this->popResult();
 
-        $object = $this->createObject($type, $array);
+        $object = $this->objectFactory->createObject($type, $array);
 
         $this->pushResult($object);
     }
@@ -74,21 +74,5 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
     protected function popType()
     {
         return array_pop($this->types);
-    }
-
-    private function createObject($type, $array)
-    {
-        if ($type === null) {
-            $type = 'stdClass';
-        }
-
-        $reflection = new \ReflectionClass($type);
-        $object = $reflection->newInstanceWithoutConstructor();
-
-        foreach ($array as $name => $property) {
-            $this->objectAccessor->setValue($object, $name, $property);
-        }
-
-        return $object;
     }
 }
