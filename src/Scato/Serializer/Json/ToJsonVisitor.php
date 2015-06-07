@@ -8,7 +8,7 @@ class ToJsonVisitor extends ObjectToArrayVisitor
 {
     public function visitObjectEnd($class)
     {
-        parent::visitObjectEnd($class);
+        parent::visitArrayEnd();
 
         $result = $this->popResult();
 

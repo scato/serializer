@@ -27,22 +27,22 @@ class ObjectToArrayVisitor implements VisitorInterface
 
     public function visitObjectStart($class)
     {
-        self::visitArrayStart();
+        $this->visitArrayStart();
     }
 
     public function visitObjectEnd($class)
     {
-        self::visitArrayEnd();
+        $this->visitArrayEnd();
     }
 
     public function visitPropertyStart($name)
     {
-        self::visitElementStart($name);
+        $this->visitElementStart($name);
     }
 
     public function visitPropertyEnd($name)
     {
-        self::visitElementEnd($name);
+        $this->visitElementEnd($name);
     }
 
     public function visitArrayStart()

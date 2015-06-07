@@ -25,42 +25,14 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
         $this->pushType($type);
     }
 
-    public function visitObjectStart($class)
-    {
-        $type = $this->peekType(1);
-
-        if ($type === null) {
-            $type = 'stdClass';
-        }
-
-        $reflection = new \ReflectionClass($type);
-        $object = $reflection->newInstanceWithoutConstructor();
-
-        $this->pushResult($object);
-    }
-
     public function visitObjectEnd($class)
     {
-    }
+        parent::visitArrayEnd();
 
-    public function visitPropertyStart($name)
-    {
-        parent::visitPropertyStart($name);
+        $type = $this->peekType(1);
+        $array = $this->popResult();
 
-        $object = $this->peekResult(1);
-        $type = $this->typeProvider->getType(get_class($object), $name);
-
-        $this->pushType($type);
-    }
-
-    public function visitPropertyEnd($name)
-    {
-        $this->popType();
-
-        $property = $this->popResult();
-        $object = $this->popResult();
-
-        $this->objectAccessor->setValue($object, $name, $property);
+        $object = $this->createObject($type, $array);
 
         $this->pushResult($object);
     }
@@ -71,10 +43,12 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
 
         $type = $this->peekType(1);
 
-        if (preg_match('/^(.*)\\[\\]$/', $type, $matches)) {
+        if ($type === null || $type === 'array') {
+            $elementType = null;
+        } else if (preg_match('/^(.*)\\[\\]$/', $type, $matches)) {
             $elementType = $matches[1];
         } else {
-            $elementType = null;
+            $elementType = $this->typeProvider->getType($this->peekType(1), $key);
         }
 
         $this->pushType($elementType);
@@ -100,5 +74,21 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
     protected function popType()
     {
         return array_pop($this->types);
+    }
+
+    private function createObject($type, $array)
+    {
+        if ($type === null) {
+            $type = 'stdClass';
+        }
+
+        $reflection = new \ReflectionClass($type);
+        $object = $reflection->newInstanceWithoutConstructor();
+
+        foreach ($array as $name => $property) {
+            $this->objectAccessor->setValue($object, $name, $property);
+        }
+
+        return $object;
     }
 }
