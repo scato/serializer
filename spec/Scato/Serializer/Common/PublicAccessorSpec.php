@@ -28,22 +28,4 @@ class PublicAccessorSpec extends ObjectBehavior
 
         $this->getValue($object, 'foo')->shouldBe('bar');
     }
-
-    function it_should_write_values()
-    {
-        $object = new stdClass();
-
-        $this->setValue($object, 'foo', 'bar');
-
-        $this->shouldHaveSet($object, 'foo', 'bar');
-    }
-
-    public function getMatchers()
-    {
-        return [
-            'haveSet' => function ($subject, $object, $name, $value) {
-                return $object->{$name} === $value;
-            }
-        ];
-    }
 }

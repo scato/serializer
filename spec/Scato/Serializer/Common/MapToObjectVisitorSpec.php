@@ -5,13 +5,14 @@ namespace spec\Scato\Serializer\Common;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Common\PublicAccessor;
+use Scato\Serializer\Common\SimpleObjectFactory;
 use Scato\Serializer\Common\TypeProviderInterface;
 
 class MapToObjectVisitorSpec extends ObjectBehavior
 {
     function let(TypeProviderInterface $typeProvider)
     {
-        $this->beConstructedWith(new PublicAccessor(), $typeProvider);
+        $this->beConstructedWith(new SimpleObjectFactory(), $typeProvider);
     }
 
     function it_should_be_a_typed_visitor()
@@ -20,7 +21,7 @@ class MapToObjectVisitorSpec extends ObjectBehavior
     }
 
     function it_should_handle_an_object_with_a_string() {
-        $object = new Person(1, "Bryon Hetrick", true);
+        $object = Person::create(1, "Bryon Hetrick", true);
 
         $this->visitType(get_class($object));
         $this->visitObjectStart('stdClass');
@@ -31,8 +32,8 @@ class MapToObjectVisitorSpec extends ObjectBehavior
     }
 
     function it_should_handle_an_object_with_an_object(TypeProviderInterface $typeProvider) {
-        $object = new Person(1, "Bryon Hetrick", true);
-        $object->address = new Address('Dam', '1', 'Amsterdam');
+        $object = Person::create(1, "Bryon Hetrick", true);
+        $object->address = Address::create('Dam', '1', 'Amsterdam');
 
         $typeProvider->getType('spec\Scato\Serializer\Common\Person', 'address')
             ->willReturn('spec\Scato\Serializer\Common\Address');
@@ -49,9 +50,9 @@ class MapToObjectVisitorSpec extends ObjectBehavior
     }
 
     function it_should_handle_an_object_with_an_array(TypeProviderInterface $typeProvider) {
-        $object = new Person(1, "Bryon Hetrick", true);
-        $object->phoneNumbers[] = new PhoneNumber('Home', '0201234567');
-        $object->phoneNumbers[] = new PhoneNumber('Mobile', '0612345678');
+        $object = Person::create(1, "Bryon Hetrick", true);
+        $object->phoneNumbers[] = PhoneNumber::create('Home', '0201234567');
+        $object->phoneNumbers[] = PhoneNumber::create('Mobile', '0612345678');
 
         $typeProvider->getType('spec\Scato\Serializer\Common\Person', 'phoneNumbers')
             ->willReturn('spec\Scato\Serializer\Common\PhoneNumber[]');
@@ -134,11 +135,15 @@ class Person
     public $address;
     public $phoneNumbers = array();
 
-    public function __construct($personId, $name, $registered)
+    public static function create($personId, $name, $registered)
     {
-        $this->personId = $personId;
-        $this->name = $name;
-        $this->registered = $registered;
+        $object = new self();
+
+        $object->personId = $personId;
+        $object->name = $name;
+        $object->registered = $registered;
+
+        return $object;
     }
 }
 
@@ -148,11 +153,15 @@ class Address
     public $number;
     public $city;
 
-    public function __construct($street, $number, $city)
+    public static function create($street, $number, $city)
     {
-        $this->street = $street;
-        $this->number = $number;
-        $this->city = $city;
+        $object = new self();
+
+        $object->street = $street;
+        $object->number = $number;
+        $object->city = $city;
+
+        return $object;
     }
 }
 
@@ -161,9 +170,13 @@ class PhoneNumber
     public $name;
     public $number;
 
-    public function __construct($name, $number)
+    public static function create($name, $number)
     {
-        $this->name = $name;
-        $this->number = $number;
+        $object = new self();
+
+        $object->name = $name;
+        $object->number = $number;
+
+        return $object;
     }
 }

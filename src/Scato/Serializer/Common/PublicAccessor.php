@@ -15,9 +15,4 @@ class PublicAccessor implements ObjectAccessorInterface
     {
         return $object->{$name};
     }
-
-    public function setValue($object, $name, $value)
-    {
-        $object->{$name} = $value;
-    }
 }
