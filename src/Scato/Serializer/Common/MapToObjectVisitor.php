@@ -48,7 +48,7 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
         parent::visitPropertyStart($name);
 
         $object = $this->peekResult(1);
-        $type = $this->typeProvider->getType($object, $name);
+        $type = $this->typeProvider->getType(get_class($object), $name);
 
         $this->pushType($type);
     }

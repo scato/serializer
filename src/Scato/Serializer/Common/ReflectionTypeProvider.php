@@ -6,9 +6,9 @@ use phpDocumentor\Reflection\DocBlock;
 
 class ReflectionTypeProvider implements TypeProviderInterface
 {
-    public function getType($object, $name)
+    public function getType($class, $name)
     {
-        $reflectionObject = new \ReflectionObject($object);
+        $reflectionObject = new \ReflectionClass($class);
 
         if (!$reflectionObject->hasProperty($name)) {
             return null;

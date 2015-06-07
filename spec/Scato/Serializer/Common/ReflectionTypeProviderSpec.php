@@ -14,17 +14,17 @@ class ReflectionTypeProviderSpec extends ObjectBehavior
 
     function it_should_not_find_a_type_for_unknown_properties()
     {
-        $this->getType(new ExampleObject(), 'foz')->shouldBe(null);
+        $this->getType('spec\Scato\Serializer\Common\ExampleObject', 'foz')->shouldBe(null);
     }
 
     function it_should_not_find_a_type_for_untyped_properties()
     {
-        $this->getType(new ExampleObject(), 'foo')->shouldBe(null);
+        $this->getType('spec\Scato\Serializer\Common\ExampleObject', 'foo')->shouldBe(null);
     }
 
     function it_should_provide_a_type_for_typed_properties()
     {
-        $this->getType(new ExampleObject(), 'bar')->shouldBe('string');
+        $this->getType('spec\Scato\Serializer\Common\ExampleObject', 'bar')->shouldBe('string');
     }
 }
 
