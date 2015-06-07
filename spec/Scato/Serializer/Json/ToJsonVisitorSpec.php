@@ -4,7 +4,6 @@ namespace spec\Scato\Serializer\Json;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\PublicAccessor;
 use stdClass;
 
 class ToJsonVisitorSpec extends ObjectBehavior

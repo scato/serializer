@@ -3,8 +3,6 @@
 
 namespace Scato\Serializer\Common;
 
-
-use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
 class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInterface

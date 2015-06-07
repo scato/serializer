@@ -4,15 +4,21 @@ namespace spec\Scato\Serializer\Url;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\PublicAccessor;
-use Scato\Serializer\Common\SimpleObjectFactory;
+use Scato\Serializer\Common\ObjectFactoryInterface;
 use Scato\Serializer\Common\TypeProviderInterface;
+use stdClass;
 
 class FromUrlVisitorSpec extends ObjectBehavior
 {
-    function let(TypeProviderInterface $typeProvider)
+    function let(ObjectFactoryInterface $objectFactory, TypeProviderInterface $typeProvider)
     {
-        $this->beConstructedWith(new SimpleObjectFactory(), $typeProvider);
+        $typeProvider->getType('Person', 'personId')->willReturn('integer');
+        $typeProvider->getType('Person', 'registered')->willReturn('boolean');
+        $typeProvider->getType('Person', 'address')->willReturn('Address');
+        $typeProvider->getType('Person', 'phoneNumbers')->willReturn('PhoneNumber[]');
+        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+
+        $this->beConstructedWith($objectFactory, $typeProvider);
     }
 
     function it_should_be_an_object_to_array_visitor()
@@ -20,10 +26,14 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Common\MapToObjectVisitor');
     }
 
-    function it_should_handle_an_object_with_a_string() {
-        $object = Person::create(1, "Bryon Hetrick", true);
+    function it_should_handle_an_object_with_a_string(
+        ObjectFactoryInterface $objectFactory,
+        TypeProviderInterface $typeProvider,
+        stdClass $object
+    ) {
+        $objectFactory->createObject('Person', Argument::is($this->getProperties()))->willReturn($object);
 
-        $this->visitType(get_class($object));
+        $this->visitType('Person');
         $this->visitArrayStart();
         $this->visitProperties();
         $this->visitArrayEnd();
@@ -31,48 +41,17 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->getResult()->shouldBeLike($object);
     }
 
-    function it_should_handle_an_object_with_a_number(TypeProviderInterface $typeProvider) {
-        $object = Person::create(1, "Bryon Hetrick", true);
+    function it_should_handle_an_object_with_an_object(
+        ObjectFactoryInterface $objectFactory,
+        TypeProviderInterface $typeProvider,
+        stdClass $object,
+        stdClass $address
+    ) {
+        $extra = array('address' => $address);
+        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject('Address', $this->getAddress())->willReturn($address);
 
-        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'personId')
-            ->willReturn('integer');
-        $typeProvider->getType(Argument::any(), Argument::any())
-            ->willReturn(null);
-
-        $this->visitType(get_class($object));
-        $this->visitArrayStart();
-        $this->visitProperties();
-        $this->visitArrayEnd();
-
-        $this->getResult()->getPersonId()->shouldBe(1);
-    }
-
-    function it_should_handle_an_object_with_a_boolean(TypeProviderInterface $typeProvider) {
-        $object = Person::create(1, "Bryon Hetrick", true);
-
-        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'registered')
-            ->willReturn('boolean');
-        $typeProvider->getType(Argument::any(), Argument::any())
-            ->willReturn(null);
-
-        $this->visitType(get_class($object));
-        $this->visitArrayStart();
-        $this->visitProperties();
-        $this->visitArrayEnd();
-
-        $this->getResult()->getRegistered()->shouldBe(true);
-    }
-
-    function it_should_handle_an_object_with_an_object(TypeProviderInterface $typeProvider) {
-        $object = Person::create(1, "Bryon Hetrick", true);
-        $object->address = Address::create('Dam', '1', 'Amsterdam');
-
-        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'address')
-            ->willReturn('spec\Scato\Serializer\Url\Address');
-        $typeProvider->getType(Argument::any(), Argument::any())
-            ->willReturn(null);
-
-        $this->visitType(get_class($object));
+        $this->visitType('Person');
         $this->visitArrayStart();
         $this->visitProperties();
         $this->visitAddress();
@@ -81,17 +60,19 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->getResult()->shouldBeLike($object);
     }
 
-    function it_should_handle_an_object_with_an_array(TypeProviderInterface $typeProvider) {
-        $object = Person::create(1, "Bryon Hetrick", true);
-        $object->phoneNumbers[] = PhoneNumber::create('Home', '0201234567');
-        $object->phoneNumbers[] = PhoneNumber::create('Mobile', '0612345678');
+    function it_should_handle_an_object_with_an_array(
+        ObjectFactoryInterface $objectFactory,
+        TypeProviderInterface $typeProvider,
+        stdClass $object,
+        stdClass $homeNumber,
+        stdClass $mobileNumber
+    ) {
+        $extra = array('phoneNumbers' => array($homeNumber, $mobileNumber));
+        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[0])->willReturn($homeNumber);
+        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
-        $typeProvider->getType('spec\Scato\Serializer\Url\Person', 'phoneNumbers')
-            ->willReturn('spec\Scato\Serializer\Url\PhoneNumber[]');
-        $typeProvider->getType(Argument::any(), Argument::any())
-            ->willReturn(null);
-
-        $this->visitType(get_class($object));
+        $this->visitType('Person');
         $this->visitArrayStart();
         $this->visitProperties();
         $this->visitPhoneNumbers();
@@ -157,73 +138,22 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->visitArrayEnd();
         $this->visitElementEnd('phoneNumbers');
     }
-}
 
-class Person
-{
-    public $personId;
-    public $name;
-    public $registered;
-    public $address;
-    public $phoneNumbers = array();
-
-    public static function create($personId, $name, $registered)
+    private function getProperties()
     {
-        $object = new self();
-
-        $object->personId = $personId;
-        $object->name = $name;
-        $object->registered = $registered;
-
-        return $object;
+        return array('personId' => 1, 'name' => 'Bryon Hetrick', 'registered' => true);
     }
 
-    public function getPersonId()
+    private function getAddress()
     {
-        return $this->personId;
+        return array('street' => 'Dam', 'number' => '1', 'city' => 'Amsterdam');
     }
 
-    public function getName()
+    private function getPhoneNumbers()
     {
-        return $this->name;
-    }
-
-    public function getRegistered()
-    {
-        return $this->registered;
-    }
-}
-
-class Address
-{
-    public $street;
-    public $number;
-    public $city;
-
-    public static function create($street, $number, $city)
-    {
-        $object = new self();
-
-        $object->street = $street;
-        $object->number = $number;
-        $object->city = $city;
-
-        return $object;
-    }
-}
-
-class PhoneNumber
-{
-    public $name;
-    public $number;
-
-    public static function create($name, $number)
-    {
-        $object = new self();
-
-        $object->name = $name;
-        $object->number = $number;
-
-        return $object;
+        return array(
+            array('name' => 'Home', 'number' => '0201234567'),
+            array('name' => 'Mobile', 'number' => '0612345678')
+        );
     }
 }

@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use stdClass;
 
-class PublicAccessorSpec extends ObjectBehavior
+class SimpleAccessorSpec extends ObjectBehavior
 {
     function it_should_be_an_object_accessor()
     {
