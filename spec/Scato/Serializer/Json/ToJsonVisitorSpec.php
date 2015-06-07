@@ -9,11 +9,6 @@ use stdClass;
 
 class ToJsonVisitorSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith(new PublicAccessor());
-    }
-
     function it_should_be_an_object_to_array_visitor()
     {
         $this->shouldHaveType('Scato\Serializer\Common\ObjectToArrayVisitor');
