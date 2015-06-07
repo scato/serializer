@@ -4,8 +4,6 @@ namespace spec\Scato\Serializer\Common;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\PublicAccessor;
-use stdClass;
 
 class ObjectToArrayVisitorSpec extends ObjectBehavior
 {

@@ -4,15 +4,19 @@ namespace spec\Scato\Serializer\Common;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\PublicAccessor;
-use Scato\Serializer\Common\SimpleObjectFactory;
+use Scato\Serializer\Common\ObjectFactoryInterface;
 use Scato\Serializer\Common\TypeProviderInterface;
+use stdClass;
 
 class MapToObjectVisitorSpec extends ObjectBehavior
 {
-    function let(TypeProviderInterface $typeProvider)
+    function let(ObjectFactoryInterface $objectFactory, TypeProviderInterface $typeProvider)
     {
-        $this->beConstructedWith(new SimpleObjectFactory(), $typeProvider);
+        $typeProvider->getType('Person', 'address')->willReturn('Address');
+        $typeProvider->getType('Person', 'phoneNumbers')->willReturn('PhoneNumber[]');
+        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+
+        $this->beConstructedWith($objectFactory, $typeProvider);
     }
 
     function it_should_be_a_typed_visitor()
@@ -20,10 +24,13 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Core\TypedVisitorInterface');
     }
 
-    function it_should_handle_an_object_with_a_string() {
-        $object = Person::create(1, "Bryon Hetrick", true);
+    function it_should_handle_an_object_with_a_string(
+        ObjectFactoryInterface $objectFactory,
+        stdClass $object
+    ) {
+        $objectFactory->createObject('Person', $this->getProperties())->willReturn($object);
 
-        $this->visitType(get_class($object));
+        $this->visitType('Person');
         $this->visitObjectStart('stdClass');
         $this->visitProperties();
         $this->visitObjectEnd('stdClass');
@@ -31,16 +38,17 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $this->getResult()->shouldBeLike($object);
     }
 
-    function it_should_handle_an_object_with_an_object(TypeProviderInterface $typeProvider) {
-        $object = Person::create(1, "Bryon Hetrick", true);
-        $object->address = Address::create('Dam', '1', 'Amsterdam');
+    function it_should_handle_an_object_with_an_object(
+        ObjectFactoryInterface $objectFactory,
+        TypeProviderInterface $typeProvider,
+        stdClass $object,
+        stdClass $address
+    ) {
+        $extra = array('address' => $address);
+        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject('Address', $this->getAddress())->willReturn($address);
 
-        $typeProvider->getType('spec\Scato\Serializer\Common\Person', 'address')
-            ->willReturn('spec\Scato\Serializer\Common\Address');
-        $typeProvider->getType(Argument::any(), Argument::any())
-            ->willReturn(null);
-
-        $this->visitType(get_class($object));
+        $this->visitType('Person');
         $this->visitObjectStart('stdClass');
         $this->visitProperties();
         $this->visitAddress();
@@ -49,17 +57,19 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $this->getResult()->shouldBeLike($object);
     }
 
-    function it_should_handle_an_object_with_an_array(TypeProviderInterface $typeProvider) {
-        $object = Person::create(1, "Bryon Hetrick", true);
-        $object->phoneNumbers[] = PhoneNumber::create('Home', '0201234567');
-        $object->phoneNumbers[] = PhoneNumber::create('Mobile', '0612345678');
+    function it_should_handle_an_object_with_an_array(
+        ObjectFactoryInterface $objectFactory,
+        TypeProviderInterface $typeProvider,
+        stdClass $object,
+        stdClass $homeNumber,
+        stdClass $mobileNumber
+    ) {
+        $extra = array('phoneNumbers' => array($homeNumber, $mobileNumber));
+        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[0])->willReturn($homeNumber);
+        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
-        $typeProvider->getType('spec\Scato\Serializer\Common\Person', 'phoneNumbers')
-            ->willReturn('spec\Scato\Serializer\Common\PhoneNumber[]');
-        $typeProvider->getType(Argument::any(), Argument::any())
-            ->willReturn(null);
-
-        $this->visitType(get_class($object));
+        $this->visitType('Person');
         $this->visitObjectStart('stdClass');
         $this->visitProperties();
         $this->visitPhoneNumbers();
@@ -125,58 +135,22 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $this->visitArrayEnd();
         $this->visitPropertyEnd('phoneNumbers');
     }
-}
 
-class Person
-{
-    public $personId;
-    public $name;
-    public $registered;
-    public $address;
-    public $phoneNumbers = array();
-
-    public static function create($personId, $name, $registered)
+    private function getProperties()
     {
-        $object = new self();
-
-        $object->personId = $personId;
-        $object->name = $name;
-        $object->registered = $registered;
-
-        return $object;
+        return array('personId' => 1, 'name' => 'Bryon Hetrick', 'registered' => true);
     }
-}
 
-class Address
-{
-    public $street;
-    public $number;
-    public $city;
-
-    public static function create($street, $number, $city)
+    private function getAddress()
     {
-        $object = new self();
-
-        $object->street = $street;
-        $object->number = $number;
-        $object->city = $city;
-
-        return $object;
+        return array('street' => 'Dam', 'number' => '1', 'city' => 'Amsterdam');
     }
-}
 
-class PhoneNumber
-{
-    public $name;
-    public $number;
-
-    public static function create($name, $number)
+    private function getPhoneNumbers()
     {
-        $object = new self();
-
-        $object->name = $name;
-        $object->number = $number;
-
-        return $object;
+        return array(
+            array('name' => 'Home', 'number' => '0201234567'),
+            array('name' => 'Mobile', 'number' => '0612345678')
+        );
     }
 }

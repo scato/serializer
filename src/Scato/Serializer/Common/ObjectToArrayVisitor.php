@@ -4,9 +4,7 @@
 namespace Scato\Serializer\Common;
 
 use LogicException;
-use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\VisitorInterface;
-use stdClass;
 
 class ObjectToArrayVisitor implements VisitorInterface
 {

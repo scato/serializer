@@ -4,7 +4,7 @@ namespace Scato\Serializer\Common;
 
 use Scato\Serializer\Core\ObjectAccessorInterface;
 
-class PublicAccessor implements ObjectAccessorInterface
+class SimpleAccessor implements ObjectAccessorInterface
 {
     public function getNames($object)
     {

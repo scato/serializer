@@ -4,8 +4,6 @@ namespace spec\Scato\Serializer\Url;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\PublicAccessor;
-use stdClass;
 
 class ToUrlVisitorSpec extends ObjectBehavior
 {
