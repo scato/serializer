@@ -42,6 +42,30 @@ class SerializerFactorySpec extends ObjectBehavior
             ->deserialize('personId=1&name=Bryon+Hetrick&registered=1', get_class($object))
             ->shouldBeLike($object);
     }
+
+    function it_should_create_an_xml_serializer()
+    {
+        $object = Person::create(1, "Bryon Hetrick", true);
+
+        $xml = "<?xml version=\"1.0\"?>\n"
+            . "<root><personId>1</personId><name>Bryon Hetrick</name><registered>true</registered></root>\n";
+
+        $this->createXmlSerializer()
+            ->serialize($object)
+            ->shouldBe($xml);
+    }
+
+    function it_should_create_an_xml_deserializer()
+    {
+        $xml = "<?xml version=\"1.0\"?>\n"
+            . "<root><personId>1</personId><name>Bryon Hetrick</name><registered>true</registered></root>\n";
+
+        $object = Person::create(1, "Bryon Hetrick", true);
+
+        $this->createXmlDeserializer()
+            ->deserialize($xml, get_class($object))
+            ->shouldBeLike($object);
+    }
 }
 
 class Person

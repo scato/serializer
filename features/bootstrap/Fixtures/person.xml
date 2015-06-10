@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<root>
+    <name>Bob</name>
+    <address>
+        <street>Dam</street>
+        <number>1</number>
+        <city>Amsterdam</city>
+    </address>
+    <phoneNumbers>
+        <entry>
+            <name>Home</name>
+            <number>0201234567</number>
+        </entry>
+        <entry>
+            <name>Mobile</name>
+            <number>0612345678</number>
+        </entry>
+    </phoneNumbers>
+</root>
