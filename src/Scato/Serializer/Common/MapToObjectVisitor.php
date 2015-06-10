@@ -3,6 +3,7 @@
 
 namespace Scato\Serializer\Common;
 
+use InvalidArgumentException;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
 class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInterface
@@ -29,6 +30,10 @@ class MapToObjectVisitor extends ObjectToArrayVisitor implements TypedVisitorInt
 
         $type = $this->peekType(1);
         $array = $this->popResult();
+
+        if ($type === null) {
+            throw new InvalidArgumentException('Cannot create object because its type is unknown');
+        }
 
         $object = $this->objectFactory->createObject($type, $array);
 
