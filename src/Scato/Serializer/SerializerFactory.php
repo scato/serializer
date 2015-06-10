@@ -16,6 +16,11 @@ use Scato\Serializer\Url\FromUrlVisitor;
 use Scato\Serializer\Url\ToUrlVisitor;
 use Scato\Serializer\Url\UrlDecoder;
 use Scato\Serializer\Url\UrlEncoder;
+use Scato\Serializer\Xml\DOMElementAccessor;
+use Scato\Serializer\Xml\FromXmlVisitor;
+use Scato\Serializer\Xml\ToXmlVisitor;
+use Scato\Serializer\Xml\XmlDecoder;
+use Scato\Serializer\Xml\XmlEncoder;
 
 class SerializerFactory
 {
@@ -67,6 +72,31 @@ class SerializerFactory
                 new ReflectionTypeProvider()
             ),
             new UrlDecoder()
+        );
+    }
+
+    public function createXmlSerializer()
+    {
+        return new Serializer(
+            new Navigator(
+                new SimpleAccessor()
+            ),
+            new ToXmlVisitor(),
+            new XmlEncoder()
+        );
+    }
+
+    public function createXmlDeserializer()
+    {
+        return new Deserializer(
+            new Navigator(
+                new DOMElementAccessor()
+            ),
+            new FromXmlVisitor(
+                new SimpleObjectFactory(),
+                new ReflectionTypeProvider()
+            ),
+            new XmlDecoder()
         );
     }
 }
