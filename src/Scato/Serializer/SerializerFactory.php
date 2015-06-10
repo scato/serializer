@@ -2,7 +2,7 @@
 
 namespace Scato\Serializer;
 
-use Scato\Serializer\Common\MapToObjectVisitor;
+use Scato\Serializer\Common\DeserializeVisitor;
 use Scato\Serializer\Common\SimpleAccessor;
 use Scato\Serializer\Common\ReflectionTypeProvider;
 use Scato\Serializer\Common\SimpleObjectFactory;
@@ -42,7 +42,7 @@ class SerializerFactory
             new Navigator(
                 new SimpleAccessor()
             ),
-            new MapToObjectVisitor(
+            new DeserializeVisitor(
                 new SimpleObjectFactory(),
                 new ReflectionTypeProvider()
             ),

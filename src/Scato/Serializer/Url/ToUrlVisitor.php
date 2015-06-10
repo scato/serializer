@@ -2,22 +2,16 @@
 
 namespace Scato\Serializer\Url;
 
-use Scato\Serializer\Common\ObjectToArrayVisitor;
+use Scato\Serializer\Common\SerializeVisitor;
 
-class ToUrlVisitor extends ObjectToArrayVisitor
+class ToUrlVisitor extends SerializeVisitor
 {
-    public function visitNull()
+    public function visitValue($value)
     {
-        $this->pushResult('');
-    }
-
-    public function visitNumber($value)
-    {
-        $this->pushResult((string) $value);
-    }
-
-    public function visitBoolean($value)
-    {
-        $this->pushResult($value ? '1' : '0');
+        if (is_bool($value)) {
+            $this->results->push($value ? '1' : '0');
+        } else {
+            $this->results->push((string) $value);
+        }
     }
 }

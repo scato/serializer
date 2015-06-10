@@ -2,34 +2,64 @@
 
 namespace Scato\Serializer\Url;
 
-use Scato\Serializer\Common\MapToObjectVisitor;
+use Scato\Serializer\Common\DeserializeVisitor;
 
-class FromUrlVisitor extends MapToObjectVisitor
+class FromUrlVisitor extends DeserializeVisitor
 {
     public function visitArrayEnd()
     {
-        $type = $this->peekType(1);
-        $inArray = $type === null || $type === 'array' || preg_match('/\\[\\]$/', $type);
+        parent::visitArrayEnd();
 
-        if ($inArray) {
-            parent::visitArrayEnd();
+        $this->createObject();
+    }
+
+    public function visitValue($value)
+    {
+        $type = $this->types->top();
+
+        if (in_array($type, array('int', 'integer'))) {
+            $this->results->push(intval($value));
+        } else if (in_array($type, array('float'))) {
+            $this->results->push(floatval($value));
+        } else if (in_array($type, array('bool', 'boolean'))) {
+            $this->results->push($value === '1');
         } else {
-            parent::visitObjectEnd('array');
+            $this->results->push($value);
         }
     }
 
-    public function visitString($value)
+    protected function createObject()
     {
-        $type = $this->peekType(1);
-
-        if (in_array($type, array('int', 'integer'))) {
-            parent::visitNumber(intval($value));
-        } else if (in_array($type, array('float'))) {
-            parent::visitNumber(floatval($value));
-        } else if (in_array($type, array('bool', 'boolean'))) {
-            parent::visitBoolean($value === '1');
-        } else {
-            parent::visitString($value);
+        if ($this->inObject()) {
+            parent::createObject();
         }
+    }
+
+    protected function pushElementType($key)
+    {
+        if ($this->inObject()) {
+            parent::pushPropertyType($key);
+        } else {
+            parent::pushElementType($key);
+        }
+    }
+
+    private function inObject()
+    {
+        $type = $this->types->top();
+
+        if ($type === null || $type === 'mixed') {
+            return false;
+        }
+
+        if (in_array($type, array('array', 'int', 'integer', 'float', 'bool', 'boolean', 'string'))) {
+            return false;
+        }
+
+        if (preg_match('/\\[\\]$/', $type)) {
+            return false;
+        }
+
+        return true;
     }
 }

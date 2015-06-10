@@ -4,9 +4,9 @@ namespace Scato\Serializer\Xml;
 
 use DOMDocument;
 use DOMElement;
-use Scato\Serializer\Common\ObjectToArrayVisitor;
+use Scato\Serializer\Common\SerializeVisitor;
 
-class ToXmlVisitor extends ObjectToArrayVisitor
+class ToXmlVisitor extends SerializeVisitor
 {
     /**
      * @var DOMDocument|null
@@ -15,33 +15,51 @@ class ToXmlVisitor extends ObjectToArrayVisitor
 
     public function getResult()
     {
-        $result = parent::getResult();
+        $this->finishDocument();
+
+        return parent::getResult();
+    }
+
+    public function visitValue($value)
+    {
+        if (is_bool($value)) {
+            $this->results->push($value ? 'true' : 'false');
+        } else {
+            $this->results->push((string) $value);
+        }
+    }
+
+    private function getDocument()
+    {
+        if ($this->document === null) {
+            $this->document = new DOMDocument();
+        }
+
+        return $this->document;
+    }
+
+    private function finishDocument()
+    {
+        $result = $this->results->pop();
 
         $document = $this->getDocument();
         $document->appendChild($result);
 
-        $this->flushDocument();
+        $this->document = null;
 
-        return $document;
+        $this->results->push($document);
     }
 
-    public function visitObjectEnd($class)
+    protected function createObject()
     {
-        parent::visitArrayEnd();
-
-        $array = $this->popResult();
+        $array = $this->results->pop();
         $root = $this->getDocument()->createElement('root');
 
         foreach ($array as $name => $property) {
             $this->setValue($root, $name, $property);
         }
 
-        $this->pushResult($root);
-    }
-
-    public function visitBoolean($value)
-    {
-        $this->pushResult($value ? 'true' : 'false');
+        $this->results->push($root);
     }
 
     private function setValue(DOMElement $root, $name, $property)
@@ -63,19 +81,5 @@ class ToXmlVisitor extends ObjectToArrayVisitor
         }
 
         $root->appendChild($childNode);
-    }
-
-    private function getDocument()
-    {
-        if ($this->document === null) {
-            $this->document = new DOMDocument();
-        }
-
-        return $this->document;
-    }
-
-    private function flushDocument()
-    {
-        $this->document = null;
     }
 }

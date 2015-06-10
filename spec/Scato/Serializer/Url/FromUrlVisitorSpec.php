@@ -23,7 +23,7 @@ class FromUrlVisitorSpec extends ObjectBehavior
 
     function it_should_be_an_map_to_object_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\MapToObjectVisitor');
+        $this->shouldHaveType('Scato\Serializer\Common\DeserializeVisitor');
     }
 
     function it_should_handle_an_object_with_a_string(
@@ -81,13 +81,13 @@ class FromUrlVisitorSpec extends ObjectBehavior
     private function visitProperties()
     {
         $this->visitElementStart('personId');
-        $this->visitString('1');
+        $this->visitValue('1');
         $this->visitElementEnd('personId');
         $this->visitElementStart('name');
-        $this->visitString('Bryon Hetrick');
+        $this->visitValue('Bryon Hetrick');
         $this->visitElementEnd('name');
         $this->visitElementStart('registered');
-        $this->visitString('1');
+        $this->visitValue('1');
         $this->visitElementEnd('registered');
     }
 
@@ -96,13 +96,13 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->visitElementStart('address');
         $this->visitArrayStart();
         $this->visitElementStart('street');
-        $this->visitString('Dam');
+        $this->visitValue('Dam');
         $this->visitElementEnd('street');
         $this->visitElementStart('number');
-        $this->visitString('1');
+        $this->visitValue('1');
         $this->visitElementEnd('number');
         $this->visitElementStart('city');
-        $this->visitString('Amsterdam');
+        $this->visitValue('Amsterdam');
         $this->visitElementEnd('city');
         $this->visitArrayEnd();
         $this->visitElementEnd('address');
@@ -115,20 +115,20 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->visitElementStart('0');
         $this->visitArrayStart();
         $this->visitElementStart('name');
-        $this->visitString('Home');
+        $this->visitValue('Home');
         $this->visitElementEnd('name');
         $this->visitElementStart('number');
-        $this->visitString('0201234567');
+        $this->visitValue('0201234567');
         $this->visitElementEnd('number');
         $this->visitArrayEnd();
         $this->visitElementEnd('0');
         $this->visitElementStart('1');
         $this->visitArrayStart();
         $this->visitElementStart('name');
-        $this->visitString('Mobile');
+        $this->visitValue('Mobile');
         $this->visitElementEnd('name');
         $this->visitElementStart('number');
-        $this->visitString('0612345678');
+        $this->visitValue('0612345678');
         $this->visitElementEnd('number');
         $this->visitArrayEnd();
         $this->visitElementEnd('1');
