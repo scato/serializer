@@ -6,8 +6,8 @@ interface VisitorInterface
 {
     public function getResult();
 
-    public function visitObjectStart($class);
-    public function visitObjectEnd($class);
+    public function visitObjectStart();
+    public function visitObjectEnd();
     public function visitPropertyStart($name);
     public function visitPropertyEnd($name);
 
@@ -16,9 +16,6 @@ interface VisitorInterface
     public function visitElementStart($key);
     public function visitElementEnd($key);
 
-    public function visitString($value);
-    public function visitNull();
-    public function visitNumber($value);
-    public function visitBoolean($value);
+    public function visitValue($value);
 
 }

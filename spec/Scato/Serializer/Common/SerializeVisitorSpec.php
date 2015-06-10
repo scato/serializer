@@ -5,7 +5,7 @@ namespace spec\Scato\Serializer\Common;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ObjectToArrayVisitorSpec extends ObjectBehavior
+class SerializeVisitorSpec extends ObjectBehavior
 {
     function it_should_be_a_visitor()
     {
@@ -24,7 +24,7 @@ class ObjectToArrayVisitorSpec extends ObjectBehavior
     {
         $this->visitArrayStart();
         $this->visitElementStart('foo');
-        $this->visitString('bar');
+        $this->visitValue('bar');
         $this->visitElementEnd('foo');
         $this->visitArrayEnd();
 
@@ -37,7 +37,7 @@ class ObjectToArrayVisitorSpec extends ObjectBehavior
         $this->visitElementStart(0);
         $this->visitArrayStart();
         $this->visitElementStart(0);
-        $this->visitString('foo');
+        $this->visitValue('foo');
         $this->visitElementEnd(0);
         $this->visitArrayEnd();
         $this->visitElementEnd(0);
@@ -47,60 +47,60 @@ class ObjectToArrayVisitorSpec extends ObjectBehavior
     }
 
     function it_should_handle_an_empty_object() {
-        $this->visitObjectStart('ExampleObject');
-        $this->visitObjectEnd('ExampleObject');
+        $this->visitObjectStart();
+        $this->visitObjectEnd();
 
         $this->getResult()->shouldBeLike(array());
     }
 
     function it_should_handle_an_object_with_a_string() {
-        $this->visitObjectStart('ExampleObject');
+        $this->visitObjectStart();
         $this->visitPropertyStart('foo');
-        $this->visitString('bar');
+        $this->visitValue('bar');
         $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd('ExampleObject');
+        $this->visitObjectEnd();
 
         $this->getResult()->shouldBeLike(array('foo' => 'bar'));
     }
 
     function it_should_handle_an_object_with_an_array() {
-        $this->visitObjectStart('ExampleObject');
+        $this->visitObjectStart();
         $this->visitPropertyStart('foo');
         $this->visitArrayStart();
         $this->visitElementStart(0);
-        $this->visitString('bar');
+        $this->visitValue('bar');
         $this->visitElementEnd(0);
         $this->visitArrayEnd();
         $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd('ExampleObject');
+        $this->visitObjectEnd();
 
         $this->getResult()->shouldBeLike(array('foo' => array('bar')));
     }
 
     function it_should_handle_a_string()
     {
-        $this->visitString('foobar');
+        $this->visitValue('foobar');
 
         $this->getResult()->shouldBe('foobar');
     }
 
     function it_should_handle_null()
     {
-        $this->visitNull();
+        $this->visitValue(null);
 
         $this->getResult()->shouldBe(null);
     }
 
     function it_should_handle_a_number()
     {
-        $this->visitNumber(1);
+        $this->visitValue(1);
 
         $this->getResult()->shouldBe(1);
     }
 
     function it_should_handle_a_boolean()
     {
-        $this->visitBoolean(true);
+        $this->visitValue(true);
 
         $this->getResult()->shouldBe(true);
     }

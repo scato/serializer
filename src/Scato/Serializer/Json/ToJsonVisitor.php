@@ -2,17 +2,14 @@
 
 namespace Scato\Serializer\Json;
 
-use Scato\Serializer\Common\ObjectToArrayVisitor;
+use Scato\Serializer\Common\SerializeVisitor;
 
-class ToJsonVisitor extends ObjectToArrayVisitor
+class ToJsonVisitor extends SerializeVisitor
 {
-    public function visitObjectEnd($class)
+    protected function createObject()
     {
-        parent::visitArrayEnd();
+        $result = $this->results->pop();
 
-        $result = $this->popResult();
-
-        $this->pushResult((object) $result);
+        $this->results->push((object)$result);
     }
-
 }

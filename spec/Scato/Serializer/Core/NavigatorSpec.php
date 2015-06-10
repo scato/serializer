@@ -28,7 +28,7 @@ class NavigatorSpec extends ObjectBehavior
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('foo')->shouldBeCalled();
-        $visitor->visitString('bar')->shouldBeCalled();
+        $visitor->visitValue('bar')->shouldBeCalled();
         $visitor->visitElementEnd('foo')->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 
@@ -41,7 +41,7 @@ class NavigatorSpec extends ObjectBehavior
         $visitor->visitElementStart(0)->shouldBeCalled();
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart(0)->shouldBeCalled();
-        $visitor->visitString('foo')->shouldBeCalled();
+        $visitor->visitValue('foo')->shouldBeCalled();
         $visitor->visitElementEnd(0)->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
         $visitor->visitElementEnd(0)->shouldBeCalled();
@@ -56,8 +56,8 @@ class NavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart('stdClass')->shouldBeCalled();
-        $visitor->visitObjectEnd('stdClass')->shouldBeCalled();
+        $visitor->visitObjectStart()->shouldBeCalled();
+        $visitor->visitObjectEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array());
 
@@ -70,11 +70,11 @@ class NavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart('stdClass')->shouldBeCalled();
+        $visitor->visitObjectStart()->shouldBeCalled();
         $visitor->visitPropertyStart('foo')->shouldBeCalled();
-        $visitor->visitString('bar')->shouldBeCalled();
+        $visitor->visitValue('bar')->shouldBeCalled();
         $visitor->visitPropertyEnd('foo')->shouldBeCalled();
-        $visitor->visitObjectEnd('stdClass')->shouldBeCalled();
+        $visitor->visitObjectEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn('bar');
@@ -88,15 +88,15 @@ class NavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart('stdClass')->shouldBeCalled();
+        $visitor->visitObjectStart()->shouldBeCalled();
         $visitor->visitPropertyStart('foo')->shouldBeCalled();
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart(0)->shouldBeCalled();
-        $visitor->visitString('bar')->shouldBeCalled();
+        $visitor->visitValue('bar')->shouldBeCalled();
         $visitor->visitElementEnd(0)->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
         $visitor->visitPropertyEnd('foo')->shouldBeCalled();
-        $visitor->visitObjectEnd('stdClass')->shouldBeCalled();
+        $visitor->visitObjectEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn(array('bar'));
@@ -106,28 +106,28 @@ class NavigatorSpec extends ObjectBehavior
 
     function it_should_accept_a_string(VisitorInterface $visitor)
     {
-        $visitor->visitString('foobar')->shouldBeCalled();
+        $visitor->visitValue('foobar')->shouldBeCalled();
 
         $this->accept($visitor, 'foobar');
     }
 
     function it_should_accept_null(VisitorInterface $visitor)
     {
-        $visitor->visitNull()->shouldBeCalled();
+        $visitor->visitValue(null)->shouldBeCalled();
 
         $this->accept($visitor, null);
     }
 
     function it_should_accept_a_number(VisitorInterface $visitor)
     {
-        $visitor->visitNumber(1)->shouldBeCalled();
+        $visitor->visitValue(1)->shouldBeCalled();
 
         $this->accept($visitor, 1);
     }
 
     function it_should_accept_a_boolean(VisitorInterface $visitor)
     {
-        $visitor->visitBoolean(true)->shouldBeCalled();
+        $visitor->visitValue(true)->shouldBeCalled();
 
         $this->accept($visitor, true);
     }

@@ -15,7 +15,7 @@ class Navigator
     {
         switch (gettype($value)) {
             case 'object':
-                $visitor->visitObjectStart(get_class($value));
+                $visitor->visitObjectStart();
                 $names = $this->objectAccessor->getNames($value);
 
                 foreach ($names as $name) {
@@ -25,7 +25,7 @@ class Navigator
                     $visitor->visitPropertyEnd($name);
                 }
 
-                $visitor->visitObjectEnd(get_class($value));
+                $visitor->visitObjectEnd();
 
                 break;
             case 'array':
@@ -40,26 +40,10 @@ class Navigator
                 $visitor->visitArrayEnd();
 
                 break;
-            case 'string':
-                $visitor->visitString($value);
-
-                break;
-            case 'NULL':
-                $visitor->visitNull();
-
-                break;
-            case 'boolean':
-                $visitor->visitBoolean($value);
-
-                break;
             default:
-                if (is_numeric($value)) {
-                    $visitor->visitNumber($value);
+                $visitor->visitValue($value);
 
-                    break;
-                }
-
-                throw new \InvalidArgumentException('Cannot accept a value of type ' . gettype($value));
+                break;
         }
     }
 }

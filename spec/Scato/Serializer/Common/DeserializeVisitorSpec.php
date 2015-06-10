@@ -9,7 +9,7 @@ use Scato\Serializer\Common\ObjectFactoryInterface;
 use Scato\Serializer\Common\TypeProviderInterface;
 use stdClass;
 
-class MapToObjectVisitorSpec extends ObjectBehavior
+class DeserializeVisitorSpec extends ObjectBehavior
 {
     function let(ObjectFactoryInterface $objectFactory, TypeProviderInterface $typeProvider)
     {
@@ -30,7 +30,7 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         stdClass $object
     ) {
         $this->visitType(null);
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
 
         $this->shouldThrow(new InvalidArgumentException('Cannot create object because its type is unknown'))
             ->duringVisitObjectEnd('stdClass');
@@ -43,9 +43,9 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $objectFactory->createObject('Person', $this->getProperties())->willReturn($object);
 
         $this->visitType('Person');
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
         $this->visitProperties();
-        $this->visitObjectEnd('stdClass');
+        $this->visitObjectEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -60,10 +60,10 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $objectFactory->createObject('Address', $this->getAddress())->willReturn($address);
 
         $this->visitType('Person');
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
         $this->visitProperties();
         $this->visitAddress();
-        $this->visitObjectEnd('stdClass');
+        $this->visitObjectEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -80,10 +80,10 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
         $this->visitType('Person');
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
         $this->visitProperties();
         $this->visitPhoneNumbers();
-        $this->visitObjectEnd('stdClass');
+        $this->visitObjectEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -91,30 +91,30 @@ class MapToObjectVisitorSpec extends ObjectBehavior
     private function visitProperties()
     {
         $this->visitPropertyStart('personId');
-        $this->visitNumber(1);
+        $this->visitValue(1);
         $this->visitPropertyEnd('personId');
         $this->visitPropertyStart('name');
-        $this->visitString('Bryon Hetrick');
+        $this->visitValue('Bryon Hetrick');
         $this->visitPropertyEnd('name');
         $this->visitPropertyStart('registered');
-        $this->visitBoolean(true);
+        $this->visitValue(true);
         $this->visitPropertyEnd('registered');
     }
 
     private function visitAddress()
     {
         $this->visitPropertyStart('address');
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
         $this->visitPropertyStart('street');
-        $this->visitString('Dam');
+        $this->visitValue('Dam');
         $this->visitPropertyEnd('street');
         $this->visitPropertyStart('number');
-        $this->visitString('1');
+        $this->visitValue('1');
         $this->visitPropertyEnd('number');
         $this->visitPropertyStart('city');
-        $this->visitString('Amsterdam');
+        $this->visitValue('Amsterdam');
         $this->visitPropertyEnd('city');
-        $this->visitObjectEnd('stdClass');
+        $this->visitObjectEnd();
         $this->visitPropertyEnd('address');
     }
 
@@ -123,24 +123,24 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $this->visitPropertyStart('phoneNumbers');
         $this->visitArrayStart();
         $this->visitElementStart(0);
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
         $this->visitPropertyStart('name');
-        $this->visitString('Home');
+        $this->visitValue('Home');
         $this->visitPropertyEnd('name');
         $this->visitPropertyStart('number');
-        $this->visitString('0201234567');
+        $this->visitValue('0201234567');
         $this->visitPropertyEnd('number');
-        $this->visitObjectEnd('stdClass');
+        $this->visitObjectEnd();
         $this->visitElementEnd(0);
         $this->visitElementStart(1);
-        $this->visitObjectStart('stdClass');
+        $this->visitObjectStart();
         $this->visitPropertyStart('name');
-        $this->visitString('Mobile');
+        $this->visitValue('Mobile');
         $this->visitPropertyEnd('name');
         $this->visitPropertyStart('number');
-        $this->visitString('0612345678');
+        $this->visitValue('0612345678');
         $this->visitPropertyEnd('number');
-        $this->visitObjectEnd('stdClass');
+        $this->visitObjectEnd();
         $this->visitElementEnd(1);
         $this->visitArrayEnd();
         $this->visitPropertyEnd('phoneNumbers');

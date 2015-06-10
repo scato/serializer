@@ -9,26 +9,26 @@ class ToUrlVisitorSpec extends ObjectBehavior
 {
     function it_should_be_an_object_to_array_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\ObjectToArrayVisitor');
+        $this->shouldHaveType('Scato\Serializer\Common\SerializeVisitor');
     }
 
     function it_should_handle_null()
     {
-        $this->visitNull();
+        $this->visitValue(null);
 
         $this->getResult()->shouldBe('');
     }
 
     function it_should_handle_a_number()
     {
-        $this->visitNumber(1);
+        $this->visitValue(1);
 
         $this->getResult()->shouldBe('1');
     }
 
     function it_should_handle_a_boolean()
     {
-        $this->visitBoolean(true);
+        $this->visitValue(true);
 
         $this->getResult()->shouldBe('1');
     }

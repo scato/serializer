@@ -2,81 +2,98 @@
 
 namespace Scato\Serializer\Xml;
 
-use Scato\Serializer\Common\MapToObjectVisitor;
+use Scato\Serializer\Common\DeserializeVisitor;
 
-class FromXmlVisitor extends MapToObjectVisitor
+class FromXmlVisitor extends DeserializeVisitor
 {
-    public function visitObjectStart($class)
+    public function visitPropertyStart($name)
     {
-        parent::visitArrayStart($class);
-    }
+        parent::visitPropertyStart($name);
 
-    public function visitObjectEnd($class)
-    {
-        $type = $this->peekType(1);
-
-        if (preg_match('/\\[\\]$/', $type)) {
-            parent::visitArrayEnd();
-        } else {
-            parent::visitObjectEnd($class);
-        }
+        $this->createArrayType();
     }
 
     public function visitPropertyEnd($name)
     {
-        $type = $this->peekType(2);
+        $this->deleteArrayType();
 
-        if (preg_match('/\\[\\]$/', $type)) {
-            parent::visitPropertyEnd($name);
+        parent::visitPropertyEnd($name);
+    }
 
-            $result = $this->popResult();
-            $this->pushResult($result['entry']);
+    public function visitValue($value)
+    {
+        $type = $this->types->top();
+
+        if (in_array($type, array('int', 'integer'))) {
+            $this->results->push(intval($value));
+        } else if (in_array($type, array('float'))) {
+            $this->results->push(floatval($value));
+        } else if (in_array($type, array('bool', 'boolean'))) {
+            $this->results->push($value === 'true');
         } else {
-            $result = $this->popResult();
-            $this->pushResult($result[0]);
-
-            parent::visitPropertyEnd($name);
+            $this->results->push($value);
         }
     }
 
-    public function visitArrayStart()
+    protected function createObject()
     {
-        $type = $this->popType();
+        $type = $this->types->top();
+
+        if (!preg_match('/\\[\\]$/', $type)) {
+            $this->deleteArrayWrappers();
+
+            parent::createObject();
+        } else {
+            $this->deleteEntryWrapper();
+        }
+    }
+
+    protected function pushPropertyType($name)
+    {
+        $type = $this->types->top();
+        $inArray = $type === null || $type === 'array' || preg_match('/\\[\\]$/', $type);
+
+        if (!$inArray) {
+            parent::pushPropertyType($name);
+        } else {
+            parent::pushElementType($name);
+        }
+    }
+
+    private function createArrayType()
+    {
+        $type = $this->types->pop();
 
         if ($type !== null) {
             $type = $type . '[]';
         }
 
-        $this->pushType($type);
-
-        parent::visitArrayStart();
+        $this->types->push($type);
     }
 
-    public function visitArrayEnd()
+    private function deleteArrayType()
     {
-        parent::visitArrayEnd();
-
-        $type = $this->popType();
+        $type = $this->types->pop();
 
         if ($type !== null) {
             $type = preg_replace('/\\[\\]$/', '', $type);
         }
 
-        $this->pushType($type);
+        $this->types->push($type);
     }
 
-    public function visitString($value)
+    private function deleteArrayWrappers()
     {
-        $type = $this->peekType(1);
-
-        if (in_array($type, array('int', 'integer'))) {
-            parent::visitNumber(intval($value));
-        } else if (in_array($type, array('float'))) {
-            parent::visitNumber(floatval($value));
-        } else if (in_array($type, array('bool', 'boolean'))) {
-            parent::visitBoolean($value === 'true');
-        } else {
-            parent::visitString($value);
+        $array = $this->results->pop();
+        foreach ($array as $key => $value) {
+            $array[$key] = $value[0];
         }
+        $this->results->push($array);
+    }
+
+    private function deleteEntryWrapper()
+    {
+        $result = $this->results->pop();
+        $this->results->push($result['entry']);
     }
 }
