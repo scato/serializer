@@ -21,14 +21,13 @@ class FromUrlVisitorSpec extends ObjectBehavior
         $this->beConstructedWith($objectFactory, $typeProvider);
     }
 
-    function it_should_be_an_object_to_array_visitor()
+    function it_should_be_an_map_to_object_visitor()
     {
         $this->shouldHaveType('Scato\Serializer\Common\MapToObjectVisitor');
     }
 
     function it_should_handle_an_object_with_a_string(
         ObjectFactoryInterface $objectFactory,
-        TypeProviderInterface $typeProvider,
         stdClass $object
     ) {
         $objectFactory->createObject('Person', Argument::is($this->getProperties()))->willReturn($object);
@@ -43,7 +42,6 @@ class FromUrlVisitorSpec extends ObjectBehavior
 
     function it_should_handle_an_object_with_an_object(
         ObjectFactoryInterface $objectFactory,
-        TypeProviderInterface $typeProvider,
         stdClass $object,
         stdClass $address
     ) {
@@ -62,7 +60,6 @@ class FromUrlVisitorSpec extends ObjectBehavior
 
     function it_should_handle_an_object_with_an_array(
         ObjectFactoryInterface $objectFactory,
-        TypeProviderInterface $typeProvider,
         stdClass $object,
         stdClass $homeNumber,
         stdClass $mobileNumber

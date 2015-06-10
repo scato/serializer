@@ -2,6 +2,7 @@
 
 namespace spec\Scato\Serializer\Common;
 
+use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Common\ObjectFactoryInterface;
@@ -24,6 +25,17 @@ class MapToObjectVisitorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Core\TypedVisitorInterface');
     }
 
+    function it_should_not_handle_an_object_without_knowing_its_type(
+        ObjectFactoryInterface $objectFactory,
+        stdClass $object
+    ) {
+        $this->visitType(null);
+        $this->visitObjectStart('stdClass');
+
+        $this->shouldThrow(new InvalidArgumentException('Cannot create object because its type is unknown'))
+            ->duringVisitObjectEnd('stdClass');
+    }
+
     function it_should_handle_an_object_with_a_string(
         ObjectFactoryInterface $objectFactory,
         stdClass $object
@@ -40,7 +52,6 @@ class MapToObjectVisitorSpec extends ObjectBehavior
 
     function it_should_handle_an_object_with_an_object(
         ObjectFactoryInterface $objectFactory,
-        TypeProviderInterface $typeProvider,
         stdClass $object,
         stdClass $address
     ) {
@@ -59,7 +70,6 @@ class MapToObjectVisitorSpec extends ObjectBehavior
 
     function it_should_handle_an_object_with_an_array(
         ObjectFactoryInterface $objectFactory,
-        TypeProviderInterface $typeProvider,
         stdClass $object,
         stdClass $homeNumber,
         stdClass $mobileNumber

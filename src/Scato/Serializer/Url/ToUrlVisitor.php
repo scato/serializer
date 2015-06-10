@@ -6,10 +6,6 @@ use Scato\Serializer\Common\ObjectToArrayVisitor;
 
 class ToUrlVisitor extends ObjectToArrayVisitor
 {
-    public function __construct()
-    {
-    }
-
     public function visitNull()
     {
         $this->pushResult('');
