@@ -25,14 +25,12 @@ class DeserializeVisitorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Core\TypedVisitorInterface');
     }
 
-    function it_should_not_handle_an_object_without_knowing_its_type(
-        ObjectFactoryInterface $objectFactory,
-        stdClass $object
-    ) {
+    function it_should_not_handle_an_object_without_knowing_its_type()
+    {
         $this->visitType(null);
         $this->visitObjectStart();
 
-        $this->shouldThrow(new InvalidArgumentException('Cannot create object because its type is unknown'))
+        $this->shouldThrow(new InvalidArgumentException("Cannot create object for non-class type: 'mixed'"))
             ->duringVisitObjectEnd('stdClass');
     }
 

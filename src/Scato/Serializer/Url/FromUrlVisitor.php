@@ -17,11 +17,11 @@ class FromUrlVisitor extends DeserializeVisitor
     {
         $type = $this->types->top();
 
-        if (in_array($type, array('int', 'integer'))) {
+        if ($type->isInteger()) {
             $this->results->push(intval($value));
-        } else if (in_array($type, array('float'))) {
+        } elseif ($type->isFloat()) {
             $this->results->push(floatval($value));
-        } else if (in_array($type, array('bool', 'boolean'))) {
+        } elseif ($type->isBoolean()) {
             $this->results->push($value === '1');
         } else {
             $this->results->push($value);
@@ -30,36 +30,21 @@ class FromUrlVisitor extends DeserializeVisitor
 
     protected function createObject()
     {
-        if ($this->inObject()) {
+        $type = $this->types->top();
+
+        if ($type->isClass()) {
             parent::createObject();
         }
     }
 
     protected function pushElementType($key)
     {
-        if ($this->inObject()) {
+        $type = $this->types->top();
+
+        if ($type->isClass()) {
             parent::pushPropertyType($key);
         } else {
             parent::pushElementType($key);
         }
-    }
-
-    private function inObject()
-    {
-        $type = $this->types->top();
-
-        if ($type === null || $type === 'mixed') {
-            return false;
-        }
-
-        if (in_array($type, array('array', 'int', 'integer', 'float', 'bool', 'boolean', 'string'))) {
-            return false;
-        }
-
-        if (preg_match('/\\[\\]$/', $type)) {
-            return false;
-        }
-
-        return true;
     }
 }

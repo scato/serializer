@@ -24,11 +24,11 @@ class FromXmlVisitor extends DeserializeVisitor
     {
         $type = $this->types->top();
 
-        if (in_array($type, array('int', 'integer'))) {
+        if ($type->isInteger()) {
             $this->results->push(intval($value));
-        } else if (in_array($type, array('float'))) {
+        } elseif ($type->isFloat()) {
             $this->results->push(floatval($value));
-        } else if (in_array($type, array('bool', 'boolean'))) {
+        } elseif ($type->isBoolean()) {
             $this->results->push($value === 'true');
         } else {
             $this->results->push($value);
@@ -39,7 +39,7 @@ class FromXmlVisitor extends DeserializeVisitor
     {
         $type = $this->types->top();
 
-        if (!preg_match('/\\[\\]$/', $type)) {
+        if ($type->isClass()) {
             $this->deleteArrayWrappers();
 
             parent::createObject();
@@ -51,9 +51,8 @@ class FromXmlVisitor extends DeserializeVisitor
     protected function pushPropertyType($name)
     {
         $type = $this->types->top();
-        $inArray = $type === null || $type === 'array' || preg_match('/\\[\\]$/', $type);
 
-        if (!$inArray) {
+        if ($type->isClass()) {
             parent::pushPropertyType($name);
         } else {
             parent::pushElementType($name);
@@ -65,7 +64,7 @@ class FromXmlVisitor extends DeserializeVisitor
         $type = $this->types->pop();
 
         if ($type !== null) {
-            $type = $type . '[]';
+            $type = $type->getArrayType();
         }
 
         $this->types->push($type);
@@ -76,7 +75,7 @@ class FromXmlVisitor extends DeserializeVisitor
         $type = $this->types->pop();
 
         if ($type !== null) {
-            $type = preg_replace('/\\[\\]$/', '', $type);
+            $type = $type->getElementType();
         }
 
         $this->types->push($type);

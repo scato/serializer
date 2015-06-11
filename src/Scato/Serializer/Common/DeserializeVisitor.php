@@ -26,7 +26,7 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
 
     public function visitType($type)
     {
-        $this->types->push($type);
+        $this->types->push(Type::fromString($type));
     }
 
     public function visitPropertyStart($name)
@@ -62,11 +62,11 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
         $type = $this->types->top();
         $array = $this->results->pop();
 
-        if ($type === null) {
-            throw new InvalidArgumentException('Cannot create object because its type is unknown');
+        if (!$type->isClass()) {
+            throw new InvalidArgumentException("Cannot create object for non-class type: '{$type->toString()}'");
         }
 
-        $object = $this->objectFactory->createObject($type, $array);
+        $object = $this->objectFactory->createObject($type->toString(), $array);
 
         $this->results->push($object);
     }
@@ -75,10 +75,10 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     {
         $type = $this->types->top();
 
-        if (preg_match('/\\[\\]$/', $type)) {
-            $this->types->push(preg_replace('/\\[\\]$/', '', $type));
+        if ($type->isArray()) {
+            $this->types->push($type->getElementType());
         } else {
-            $this->types->push(null);
+            $this->types->push(Type::fromString(null));
         }
     }
 
@@ -86,6 +86,6 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     {
         $type = $this->types->top();
 
-        $this->types->push($this->typeProvider->getType($type, $name));
+        $this->types->push(Type::fromString($this->typeProvider->getType($type->toString(), $name)));
     }
 }
