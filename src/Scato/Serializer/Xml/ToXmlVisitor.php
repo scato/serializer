@@ -4,6 +4,7 @@ namespace Scato\Serializer\Xml;
 
 use DOMDocument;
 use DOMElement;
+use DOMText;
 use Scato\Serializer\Common\SerializeVisitor;
 
 class ToXmlVisitor extends SerializeVisitor
@@ -20,13 +21,45 @@ class ToXmlVisitor extends SerializeVisitor
         return parent::getResult();
     }
 
+    public function visitObjectStart()
+    {
+        $root = $this->getDocument()->createElement('root');
+
+        $this->results->push($root);
+    }
+
+    public function visitPropertyStart($name)
+    {
+        $property = $this->getDocument()->createElement($name);
+
+        $this->results->push($property);
+    }
+
+    public function visitArrayStart()
+    {
+        $root = $this->getDocument()->createElement('root');
+
+        $this->results->push($root);
+    }
+
+    public function visitElementStart($key)
+    {
+        $property = $this->getDocument()->createElement('entry');
+
+        $this->results->push($property);
+    }
+
     public function visitValue($value)
     {
         if (is_bool($value)) {
-            $this->results->push($value ? 'true' : 'false');
+            $content = $value ? 'true' : 'false';
         } else {
-            $this->results->push((string) $value);
+            $content = (string) $value;
         }
+
+        $text = $this->getDocument()->createTextNode($content);
+
+        $this->results->push($text);
     }
 
     private function getDocument()
@@ -50,36 +83,22 @@ class ToXmlVisitor extends SerializeVisitor
         $this->results->push($document);
     }
 
-    protected function createObject()
+    protected function createElement($key)
     {
-        $array = $this->results->pop();
-        $root = $this->getDocument()->createElement('root');
+        $value = $this->results->pop();
+        $child = $this->results->pop();
+        $parent = $this->results->pop();
 
-        foreach ($array as $name => $property) {
-            $this->setValue($root, $name, $property);
-        }
-
-        $this->results->push($root);
-    }
-
-    private function setValue(DOMElement $root, $name, $property)
-    {
-        $dom = $this->getDocument();
-
-        $childNode = $dom->createElement($name);
-
-        if ($property instanceof DOMElement) {
-            while ($property->childNodes->length > 0) {
-                $childNode->appendChild($property->childNodes->item(0));
-            }
-        } elseif (is_array($property)) {
-            foreach ($property as $propertyKey => $propertyElement) {
-                $this->setValue($childNode, 'entry', $propertyElement);
+        if ($value instanceof DOMElement) {
+            while ($value->childNodes->length > 0) {
+                $child->appendChild($value->childNodes->item(0));
             }
         } else {
-            $childNode->appendChild($dom->createTextNode($property));
+            $child->appendChild($value);
         }
 
-        $root->appendChild($childNode);
+        $parent->appendChild($child);
+
+        $this->results->push($parent);
     }
 }
