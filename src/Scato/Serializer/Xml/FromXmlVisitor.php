@@ -40,11 +40,11 @@ class FromXmlVisitor extends DeserializeVisitor
         $type = $this->types->top();
 
         if ($type->isClass()) {
-            $this->deleteArrayWrappers();
+            $this->createAssociativeArray();
 
             parent::createObject();
         } else {
-            $this->deleteEntryWrapper();
+            $this->createIndexedArray();
         }
     }
 
@@ -81,18 +81,28 @@ class FromXmlVisitor extends DeserializeVisitor
         $this->types->push($type);
     }
 
-    private function deleteArrayWrappers()
+    /**
+     * Because we get properties as arrays, we need to take the first of each array to end up with the values
+     * themselves.
+     */
+    private function createAssociativeArray()
     {
         $array = $this->results->pop();
+
         foreach ($array as $key => $value) {
             $array[$key] = $value[0];
         }
+
         $this->results->push($array);
     }
 
-    private function deleteEntryWrapper()
+    /**
+     * Arrays look like objects with one property named entry, which can actually have a length other than 1.
+     */
+    private function createIndexedArray()
     {
         $result = $this->results->pop();
+
         $this->results->push($result['entry']);
     }
 }
