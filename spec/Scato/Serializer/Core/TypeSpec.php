@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Scato\Serializer\Common;
+namespace spec\Scato\Serializer\Core;
 
 use LogicException;
 use PhpSpec\ObjectBehavior;

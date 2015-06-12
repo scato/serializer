@@ -4,7 +4,9 @@
 namespace Scato\Serializer\Common;
 
 
+use Scato\Serializer\Core\Type;
+
 interface TypeProviderInterface
 {
-    public function getType($class, $name);
+    public function getType(Type $class, $name);
 }

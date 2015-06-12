@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\DecoderInterface;
 use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\Type;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
 class DeserializerSpec extends ObjectBehavior
@@ -24,7 +25,7 @@ class DeserializerSpec extends ObjectBehavior
         $decoder->decode('foo=1')->willReturn(array('foo' => '1'));
 
         // the visitor is told which type the root has
-        $visitor->visitType('boolean[]')->willReturn();
+        $visitor->visitType(Type::fromString('boolean[]'))->willReturn();
 
         // the navigator guides the visitor through the tree
         $navigator->accept($visitor, array('foo' => '1'))->willReturn();

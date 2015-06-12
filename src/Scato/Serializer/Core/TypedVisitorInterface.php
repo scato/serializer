@@ -6,5 +6,5 @@ namespace Scato\Serializer\Core;
 
 interface TypedVisitorInterface extends VisitorInterface
 {
-    public function visitType($type);
+    public function visitType(Type $type);
 }

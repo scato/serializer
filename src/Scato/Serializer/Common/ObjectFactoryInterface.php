@@ -1,7 +1,9 @@
 <?php
 namespace Scato\Serializer\Common;
 
+use Scato\Serializer\Core\Type;
+
 interface ObjectFactoryInterface
 {
-    public function createObject($class, $properties);
+    public function createObject(Type $type, $properties);
 }
