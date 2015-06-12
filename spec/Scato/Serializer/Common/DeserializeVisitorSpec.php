@@ -2,10 +2,10 @@
 
 namespace spec\Scato\Serializer\Common;
 
-use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Common\ObjectFactoryInterface;
+use Scato\Serializer\Core\Type;
 use Scato\Serializer\Common\TypeProviderInterface;
 use stdClass;
 
@@ -13,9 +13,9 @@ class DeserializeVisitorSpec extends ObjectBehavior
 {
     function let(ObjectFactoryInterface $objectFactory, TypeProviderInterface $typeProvider)
     {
-        $typeProvider->getType('Person', 'address')->willReturn('Address');
-        $typeProvider->getType('Person', 'phoneNumbers')->willReturn('PhoneNumber[]');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType(Type::fromString('Person'), 'address')->willReturn(Type::fromString('Address'));
+        $typeProvider->getType(Type::fromString('Person'), 'phoneNumbers')->willReturn(Type::fromString('PhoneNumber[]'));
+        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(Type::fromString(null));
 
         $this->beConstructedWith($objectFactory, $typeProvider);
     }
@@ -25,22 +25,13 @@ class DeserializeVisitorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Core\TypedVisitorInterface');
     }
 
-    function it_should_not_handle_an_object_without_knowing_its_type()
-    {
-        $this->visitType(null);
-        $this->visitObjectStart();
-
-        $this->shouldThrow(new InvalidArgumentException("Cannot create object for non-class type: 'mixed'"))
-            ->duringVisitObjectEnd('stdClass');
-    }
-
     function it_should_handle_an_object_with_a_string(
         ObjectFactoryInterface $objectFactory,
         stdClass $object
     ) {
-        $objectFactory->createObject('Person', $this->getProperties())->willReturn($object);
+        $objectFactory->createObject(Type::fromString('Person'), $this->getProperties())->willReturn($object);
 
-        $this->visitType('Person');
+        $this->visitType(Type::fromString('Person'));
         $this->visitObjectStart();
         $this->visitProperties();
         $this->visitObjectEnd();
@@ -54,10 +45,10 @@ class DeserializeVisitorSpec extends ObjectBehavior
         stdClass $address
     ) {
         $extra = array('address' => $address);
-        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
-        $objectFactory->createObject('Address', $this->getAddress())->willReturn($address);
+        $objectFactory->createObject(Type::fromString('Person'), $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject(Type::fromString('Address'), $this->getAddress())->willReturn($address);
 
-        $this->visitType('Person');
+        $this->visitType(Type::fromString('Person'));
         $this->visitObjectStart();
         $this->visitProperties();
         $this->visitAddress();
@@ -73,11 +64,11 @@ class DeserializeVisitorSpec extends ObjectBehavior
         stdClass $mobileNumber
     ) {
         $extra = array('phoneNumbers' => array($homeNumber, $mobileNumber));
-        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
-        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[0])->willReturn($homeNumber);
-        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
+        $objectFactory->createObject(Type::fromString('Person'), $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject(Type::fromString('PhoneNumber'), $this->getPhoneNumbers()[0])->willReturn($homeNumber);
+        $objectFactory->createObject(Type::fromString('PhoneNumber'), $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
-        $this->visitType('Person');
+        $this->visitType(Type::fromString('Person'));
         $this->visitObjectStart();
         $this->visitProperties();
         $this->visitPhoneNumbers();

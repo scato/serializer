@@ -2,8 +2,10 @@
 
 namespace spec\Scato\Serializer\Common;
 
+use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Scato\Serializer\Core\Type;
 use stdClass;
 
 class SimpleObjectFactorySpec extends ObjectBehavior
@@ -18,6 +20,16 @@ class SimpleObjectFactorySpec extends ObjectBehavior
         $object = new stdClass();
         $object->foo = 'bar';
 
-        $this->createObject('stdClass', array('foo' => 'bar'))->shouldBeLike($object);
+        $type = Type::fromString('stdClass');
+
+        $this->createObject($type, array('foo' => 'bar'))->shouldBeLike($object);
+    }
+
+    function it_should_not_create_an_object_without_knowing_its_type()
+    {
+        $type = Type::fromString(null);
+
+        $this->shouldThrow(new InvalidArgumentException("Cannot create object for non-class type: 'mixed'"))
+            ->duringCreateObject($type, array('foo' => 'bar'));
     }
 }

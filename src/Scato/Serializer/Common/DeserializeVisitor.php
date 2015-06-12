@@ -3,7 +3,7 @@
 
 namespace Scato\Serializer\Common;
 
-use InvalidArgumentException;
+use Scato\Serializer\Core\Type;
 use Scato\Serializer\Core\TypedVisitorInterface;
 use SplStack;
 
@@ -24,9 +24,9 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
         $this->typeProvider = $typeProvider;
     }
 
-    public function visitType($type)
+    public function visitType(Type $type)
     {
-        $this->types->push(Type::fromString($type));
+        $this->types->push($type);
     }
 
     public function visitPropertyStart($name)
@@ -62,11 +62,7 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
         $type = $this->types->top();
         $array = $this->results->pop();
 
-        if (!$type->isClass()) {
-            throw new InvalidArgumentException("Cannot create object for non-class type: '{$type->toString()}'");
-        }
-
-        $object = $this->objectFactory->createObject($type->toString(), $array);
+        $object = $this->objectFactory->createObject($type, $array);
 
         $this->results->push($object);
     }
@@ -75,17 +71,13 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     {
         $type = $this->types->top();
 
-        if ($type->isArray()) {
-            $this->types->push($type->getElementType());
-        } else {
-            $this->types->push(Type::fromString(null));
-        }
+        $this->types->push($type->getElementType());
     }
 
     protected function pushPropertyType($name)
     {
         $type = $this->types->top();
 
-        $this->types->push(Type::fromString($this->typeProvider->getType($type->toString(), $name)));
+        $this->types->push($this->typeProvider->getType($type, $name));
     }
 }

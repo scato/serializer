@@ -21,7 +21,7 @@ class Deserializer
 
     public function deserialize($string, $type)
     {
-        $this->visitor->visitType($type);
+        $this->visitor->visitType(Type::fromString($type));
 
         $value = $this->decoder->decode($string);
 

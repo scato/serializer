@@ -5,6 +5,7 @@ namespace spec\Scato\Serializer\Url;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Common\ObjectFactoryInterface;
+use Scato\Serializer\Core\Type;
 use Scato\Serializer\Common\TypeProviderInterface;
 use stdClass;
 
@@ -12,11 +13,11 @@ class FromUrlVisitorSpec extends ObjectBehavior
 {
     function let(ObjectFactoryInterface $objectFactory, TypeProviderInterface $typeProvider)
     {
-        $typeProvider->getType('Person', 'personId')->willReturn('integer');
-        $typeProvider->getType('Person', 'registered')->willReturn('boolean');
-        $typeProvider->getType('Person', 'address')->willReturn('Address');
-        $typeProvider->getType('Person', 'phoneNumbers')->willReturn('PhoneNumber[]');
-        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(null);
+        $typeProvider->getType(Type::fromString('Person'), 'personId')->willReturn(Type::fromString('integer'));
+        $typeProvider->getType(Type::fromString('Person'), 'registered')->willReturn(Type::fromString('boolean'));
+        $typeProvider->getType(Type::fromString('Person'), 'address')->willReturn(Type::fromString('Address'));
+        $typeProvider->getType(Type::fromString('Person'), 'phoneNumbers')->willReturn(Type::fromString('PhoneNumber[]'));
+        $typeProvider->getType(Argument::any(), Argument::any())->willReturn(Type::fromString(null));
 
         $this->beConstructedWith($objectFactory, $typeProvider);
     }
@@ -30,9 +31,9 @@ class FromUrlVisitorSpec extends ObjectBehavior
         ObjectFactoryInterface $objectFactory,
         stdClass $object
     ) {
-        $objectFactory->createObject('Person', Argument::is($this->getProperties()))->willReturn($object);
+        $objectFactory->createObject(Type::fromString('Person'), Argument::is($this->getProperties()))->willReturn($object);
 
-        $this->visitType('Person');
+        $this->visitType(Type::fromString('Person'));
         $this->visitArrayStart();
         $this->visitProperties();
         $this->visitArrayEnd();
@@ -46,10 +47,10 @@ class FromUrlVisitorSpec extends ObjectBehavior
         stdClass $address
     ) {
         $extra = array('address' => $address);
-        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
-        $objectFactory->createObject('Address', $this->getAddress())->willReturn($address);
+        $objectFactory->createObject(Type::fromString('Person'), $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject(Type::fromString('Address'), $this->getAddress())->willReturn($address);
 
-        $this->visitType('Person');
+        $this->visitType(Type::fromString('Person'));
         $this->visitArrayStart();
         $this->visitProperties();
         $this->visitAddress();
@@ -65,11 +66,11 @@ class FromUrlVisitorSpec extends ObjectBehavior
         stdClass $mobileNumber
     ) {
         $extra = array('phoneNumbers' => array($homeNumber, $mobileNumber));
-        $objectFactory->createObject('Person', $this->getProperties() + $extra)->willReturn($object);
-        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[0])->willReturn($homeNumber);
-        $objectFactory->createObject('PhoneNumber', $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
+        $objectFactory->createObject(Type::fromString('Person'), $this->getProperties() + $extra)->willReturn($object);
+        $objectFactory->createObject(Type::fromString('PhoneNumber'), $this->getPhoneNumbers()[0])->willReturn($homeNumber);
+        $objectFactory->createObject(Type::fromString('PhoneNumber'), $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
-        $this->visitType('Person');
+        $this->visitType(Type::fromString('Person'));
         $this->visitArrayStart();
         $this->visitProperties();
         $this->visitPhoneNumbers();
