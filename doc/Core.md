@@ -20,8 +20,8 @@ Encoder/Decoder
 These are the objects that turn data trees into a strings and vice versa. They are basically wrappers for JSON, XML and
 URL functions.
 
-Object Accessor
----------------
+ObjectAccessor
+--------------
 
 This object knows how to find the names of the properties of an object, as well as retrieve values for those properties.
 
@@ -30,7 +30,7 @@ Navigator
 
 This object takes care of the traversal. It can traverse both object graphs and data trees.
 
-To traverse the properties of an object, the Navigator uses an ObjectAccessor.
+To traverse the properties of an object, the Navigator is assisted by an ObjectAccessor.
 
 Visitor
 -------
