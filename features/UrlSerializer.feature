@@ -1,7 +1,7 @@
 Feature: JSON Serializer
   In order to send object over a network, using JSON
   As a developer
-  I need a serializer to convert object to JSON and vice versa
+  I need a serializer to convert objects to JSON and vice versa
 
   Scenario: Serializing an object to URL encoding
     Given I have an object
