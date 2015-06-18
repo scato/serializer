@@ -12,6 +12,8 @@ use Scato\Serializer\Core\Serializer;
 use Scato\Serializer\Json\JsonDecoder;
 use Scato\Serializer\Json\JsonEncoder;
 use Scato\Serializer\Json\ToJsonVisitor;
+use Scato\Serializer\Php\ArrayTypeProviderDecorator;
+use Scato\Serializer\Php\Mapper;
 use Scato\Serializer\Url\FromUrlVisitor;
 use Scato\Serializer\Url\ToUrlVisitor;
 use Scato\Serializer\Url\UrlDecoder;
@@ -97,6 +99,19 @@ class SerializerFactory
                 new ReflectionTypeProvider()
             ),
             new XmlDecoder()
+        );
+    }
+
+    public function createMapper()
+    {
+        return new Mapper(
+            new Navigator(
+                new SimpleAccessor()
+            ),
+            new FromUrlVisitor(
+                new SimpleObjectFactory(),
+                new ArrayTypeProviderDecorator(new ReflectionTypeProvider())
+            )
         );
     }
 }

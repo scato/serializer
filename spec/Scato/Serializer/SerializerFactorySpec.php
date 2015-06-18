@@ -66,6 +66,25 @@ class SerializerFactorySpec extends ObjectBehavior
             ->deserialize($xml, get_class($object))
             ->shouldBeLike($object);
     }
+
+    function it_should_create_a_mapper()
+    {
+        $data = array(
+            'personId' => 1,
+            'name' => 'Bryon Hetrick',
+            'registered' => true
+        );
+
+        $object = Person::create(1, "Bryon Hetrick", true);
+
+        $this->createMapper()
+            ->map($data, get_class($object))
+            ->shouldBeLike($object);
+
+        $this->createMapper()
+            ->map($object, 'array')
+            ->shouldBe($data);
+    }
 }
 
 class Person
