@@ -5,9 +5,10 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Nelmio\Alice\Loader\Yaml;
+use Nelmio\Alice\Loader\Yaml as YamlLoader;
 use PHPUnit_Framework_Assert as PHPUnit;
 use Scato\Serializer\SerializerFactory;
+use Symfony\Component\Yaml\Yaml as YamlParser;
 
 /**
  * Defines application features from the specific context.
@@ -30,6 +31,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $format;
 
     /**
+     * @var mixed
+     */
+    private $data;
+
+    /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -45,7 +51,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iHaveAnObject()
     {
-        $loader = new Yaml();
+        $loader = new YamlLoader();
         $loader->load(__DIR__ . '/Fixtures/person.yml');
 
         $this->object = $loader->getReference('person');
@@ -105,11 +111,37 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iShouldHaveTheCorrespondingObject()
     {
-        $loader = new Yaml();
+        $loader = new YamlLoader();
         $loader->load(__DIR__ . '/Fixtures/person.yml');
 
         $object = $loader->getReference('person');
 
         PHPUnit::assertEquals($object, $this->object);
+    }
+
+    /**
+     * @Given I have an array
+     */
+    public function iHaveAnArray()
+    {
+        $parser = new YamlParser();
+        $data = $parser->parse(file_get_contents(__DIR__ . '/Fixtures/person.yml'));
+
+        $this->data = $data['Fixtures\Person']['person'];
+        $this->data['address'] = $data['Fixtures\Address']['address'];
+        $this->data['phoneNumbers'] = array(
+            $data['Fixtures\PhoneNumber']['home'],
+            $data['Fixtures\PhoneNumber']['mobile']
+        );
+    }
+
+    /**
+     * @When I map it to :type
+     */
+    public function iMapItTo($type)
+    {
+        $factory = new SerializerFactory();
+
+        $this->object = $factory->createMapper()->map($this->data, $type);
     }
 }

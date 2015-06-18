@@ -1,7 +1,7 @@
 Feature: XML Serializer
   In order to send object over a network, using XML
   As a developer
-  I need a serializer to convert object to XML and vice versa
+  I need a serializer to convert objects to XML and vice versa
 
   Scenario: Serializing an object to XML
     Given I have an object
