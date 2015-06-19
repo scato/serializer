@@ -10,6 +10,7 @@ use Scato\Serializer\Core\Deserializer;
 use Scato\Serializer\Core\Navigator;
 use Scato\Serializer\Core\Serializer;
 use Scato\Serializer\Data\ArrayTypeProviderDecorator;
+use Scato\Serializer\Data\GetterAccessorDecorator;
 use Scato\Serializer\Data\Mapper;
 use Scato\Serializer\Json\JsonDecoder;
 use Scato\Serializer\Json\JsonEncoder;
@@ -106,7 +107,7 @@ class SerializerFactory
     {
         return new Mapper(
             new Navigator(
-                new SimpleAccessor()
+                new GetterAccessorDecorator(new SimpleAccessor())
             ),
             new FromUrlVisitor(
                 new SimpleObjectFactory(),
