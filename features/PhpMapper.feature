@@ -7,3 +7,8 @@ Feature: PHP Mapper
     Given I have an array
     When I map it to "Fixtures\Person"
     Then I should have the corresponding object
+
+  Scenario: Mapping an object to an array
+    Given I have an object
+    When I map it to "array"
+    Then I should have the corresponding array

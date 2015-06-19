@@ -74,6 +74,10 @@ class Type
             return true;
         }
 
+        if ($this->string === 'mixed') {
+            return true;
+        }
+
         if (preg_match('/\\[\\]$/', $this->string)) {
             return true;
         }
@@ -111,6 +115,10 @@ class Type
     public function getElementType()
     {
         if ($this->string === 'array') {
+            return self::fromString('mixed');
+        }
+
+        if ($this->string === 'mixed') {
             return self::fromString('mixed');
         }
 
