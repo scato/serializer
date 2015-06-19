@@ -1,7 +1,7 @@
-Php
-===
+Data
+====
 
-I realized that building a serializer this way, also gave me a sort of mapper -- almost for free!
+I realized that building a serializer this way, also gave me a sort of data mapper -- almost for free!
 
 Encoder/Decoder
 ---------------

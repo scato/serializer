@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Scato\Serializer\Php;
+namespace spec\Scato\Serializer\Data;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
