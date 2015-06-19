@@ -5,10 +5,9 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Nelmio\Alice\Loader\Yaml as YamlLoader;
+use Fixtures\DataSource;
 use PHPUnit_Framework_Assert as PHPUnit;
 use Scato\Serializer\SerializerFactory;
-use Symfony\Component\Yaml\Yaml as YamlParser;
 
 /**
  * Defines application features from the specific context.
@@ -16,14 +15,14 @@ use Symfony\Component\Yaml\Yaml as YamlParser;
 class FeatureContext implements Context, SnippetAcceptingContext
 {
     /**
-     * @var object
+     * @var mixed
      */
-    private $object;
+    private $input;
 
     /**
-     * @var string
+     * @var mixed
      */
-    private $string;
+    private $output;
 
     /**
      * @var string
@@ -31,9 +30,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     private $format;
 
     /**
-     * @var mixed
+     * @var DataSource
      */
-    private $data;
+    private $dataSource;
 
     /**
      * Initializes context.
@@ -44,6 +43,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function __construct()
     {
+        $this->dataSource = new DataSource();
     }
 
     /**
@@ -51,10 +51,24 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iHaveAnObject()
     {
-        $loader = new YamlLoader();
-        $loader->load(__DIR__ . '/Fixtures/person.yml');
+        $this->input = $this->dataSource->getObject();
+    }
 
-        $this->object = $loader->getReference('person');
+    /**
+     * @Given I have a :format string
+     */
+    public function iHaveAString($format)
+    {
+        $this->format = $format;
+        $this->input = $this->dataSource->getString($format);
+    }
+
+    /**
+     * @Given I have an array
+     */
+    public function iHaveAnArray()
+    {
+        $this->input = $this->dataSource->getArray();
     }
 
     /**
@@ -66,32 +80,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $method = 'create' . ucfirst($format) . 'Serializer';
 
         $this->format = $format;
-        $this->string = $factory->$method()->serialize($this->object);
-    }
-
-    /**
-     * @Then I should have the corresponding string
-     */
-    public function iShouldHaveTheCorrespondingString()
-    {
-        $filename = __DIR__ . '/Fixtures/person.' . strtolower($this->format);
-
-        if (in_array(strtolower($this->format), array('json', 'xml'))) {
-            $method = "assert" . ucfirst($this->format) . "StringEquals" . ucfirst($this->format) . "File";
-
-            PHPUnit::$method($filename, $this->string);
-        } else {
-            PHPUnit::assertEquals(trim(file_get_contents($filename)), $this->string);
-        }
-    }
-
-    /**
-     * @Given I have a :format string
-     */
-    public function iHaveAString($format)
-    {
-        $this->format = $format;
-        $this->string = trim(file_get_contents(__DIR__ . '/Fixtures/person.' . strtolower($format)));
+        $this->output = $factory->$method()->serialize($this->input);
     }
 
     /**
@@ -103,36 +92,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $method = 'create' . ucfirst($this->format) . 'Deserializer';
         $class = 'Fixtures\Person';
 
-        $this->object = $factory->$method()->deserialize($this->string, $class);
-    }
-
-    /**
-     * @Then I should have the corresponding object
-     */
-    public function iShouldHaveTheCorrespondingObject()
-    {
-        $loader = new YamlLoader();
-        $loader->load(__DIR__ . '/Fixtures/person.yml');
-
-        $object = $loader->getReference('person');
-
-        PHPUnit::assertEquals($object, $this->object);
-    }
-
-    /**
-     * @Given I have an array
-     */
-    public function iHaveAnArray()
-    {
-        $parser = new YamlParser();
-        $data = $parser->parse(file_get_contents(__DIR__ . '/Fixtures/person.yml'));
-
-        $this->data = $data['Fixtures\Person']['person'];
-        $this->data['address'] = $data['Fixtures\Address']['address'];
-        $this->data['phoneNumbers'] = array(
-            $data['Fixtures\PhoneNumber']['home'],
-            $data['Fixtures\PhoneNumber']['mobile']
-        );
+        $this->output = $factory->$method()->deserialize($this->input, $class);
     }
 
     /**
@@ -142,6 +102,38 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $factory = new SerializerFactory();
 
-        $this->object = $factory->createMapper()->map($this->data, $type);
+        $this->output = $factory->createMapper()->map($this->input, $type);
+    }
+
+    /**
+     * @Then I should have the corresponding string
+     */
+    public function iShouldHaveTheCorrespondingString()
+    {
+        $filename = $this->dataSource->getFilename($this->format);
+
+        if (strtolower($this->format) === 'json') {
+            PHPUnit::assertJsonStringEqualsJsonFile($filename, $this->output);
+        } elseif (strtolower($this->format) === 'xml') {
+            PHPUnit::assertXmlStringEqualsXmlFile($filename, $this->output);
+        } else {
+            PHPUnit::assertEquals(trim(file_get_contents($filename)), $this->output);
+        }
+    }
+
+    /**
+     * @Then I should have the corresponding object
+     */
+    public function iShouldHaveTheCorrespondingObject()
+    {
+        PHPUnit::assertEquals($this->dataSource->getObject(), $this->output);
+    }
+
+    /**
+     * @Then I should have the corresponding array
+     */
+    public function iShouldHaveTheCorrespondingArray()
+    {
+        PHPUnit::assertEquals($this->dataSource->getArray(), $this->output);
     }
 }

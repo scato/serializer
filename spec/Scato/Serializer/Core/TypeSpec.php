@@ -99,18 +99,18 @@ class TypeSpec extends ObjectBehavior
         $this->getElementType()->toString()->shouldBe('mixed');
     }
 
-    function it_should_recognize_special_types()
+    function it_should_recognize_the_mixed_type()
     {
         $this->beConstructedThrough('fromString', array('mixed'));
 
         $this->isClass()->shouldBe(false);
-        $this->isArray()->shouldBe(false);
+        $this->isArray()->shouldBe(true);
         $this->isInteger()->shouldBe(false);
         $this->isFloat()->shouldBe(false);
         $this->isBoolean()->shouldBe(false);
 
         $this->getArrayType()->toString()->shouldBe('array');
-        $this->shouldThrow(new LogicException("Type 'mixed' is not an array type"))->duringGetElementType();
+        $this->getElementType()->toString()->shouldBe('mixed');
     }
 
     function it_should_recognize_array_types()
