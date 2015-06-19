@@ -11,25 +11,26 @@ class DataSource
     /**
      * @return object
      */
-    public function getObject()
+    public function getDto()
     {
         $loader = new YamlLoader();
-        $loader->load(__DIR__ . '/person.yml');
+        $loader->load($this->getFilename('YML'));
 
         return $loader->getReference('person');
     }
 
     /**
-     * @param $format
+     * @param string $format
+     * @param string $type
      * @return string
      */
-    public function getFilename($format)
+    public function getFilename($format, $type = 'Dto')
     {
-        return __DIR__ . '/person.' . strtolower($format);
+        return __DIR__ . '/' . ucfirst(strtolower($type)) . '/person.' . strtolower($format);
     }
 
     /**
-     * @param $format
+     * @param string $format
      * @return string
      */
     public function getString($format)
@@ -43,15 +44,23 @@ class DataSource
     public function getArray()
     {
         $parser = new YamlParser();
-        $data = $parser->parse(file_get_contents(__DIR__ . '/person.yml'));
+        $data = $parser->parse(file_get_contents($this->getFilename('YML')));
 
-        $array = $data['Fixtures\Person']['person'];
-        $array['address'] = $data['Fixtures\Address']['address'];
+        $array = $data['Fixtures\Dto\Person']['person'];
+        $array['address'] = $data['Fixtures\Dto\Address']['address'];
         $array['phoneNumbers'] = array(
-            $data['Fixtures\PhoneNumber']['home'],
-            $data['Fixtures\PhoneNumber']['mobile']
+            $data['Fixtures\Dto\PhoneNumber']['home'],
+            $data['Fixtures\Dto\PhoneNumber']['mobile']
         );
 
         return $array;
+    }
+
+    public function getEntity()
+    {
+        $loader = new YamlLoader();
+        $loader->load($this->getFilename('YML', 'entity'));
+
+        return $loader->getReference('person');
     }
 }

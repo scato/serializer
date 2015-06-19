@@ -1,0 +1,19 @@
+Fixtures\Dto\Person:
+  person:
+    name: Bob
+    address: @address
+    phoneNumbers: [@home, @mobile]
+
+Fixtures\Dto\Address:
+  address:
+    street: Dam
+    number: 1
+    city: Amsterdam
+
+Fixtures\Dto\PhoneNumber:
+  home:
+    name: Home
+    number: "0201234567"
+  mobile:
+    name: Mobile
+    number: "0612345678"

@@ -47,11 +47,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have an object
+     * @Given I have a DTO
      */
-    public function iHaveAnObject()
+    public function iHaveADto()
     {
-        $this->input = $this->dataSource->getObject();
+        $this->input = $this->dataSource->getDto();
     }
 
     /**
@@ -72,12 +72,20 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I have an entity
+     */
+    public function iHaveAnEntity()
+    {
+        $this->input = $this->dataSource->getEntity();
+    }
+
+    /**
      * @When I serialize it to :format
      */
     public function iSerializeItTo($format)
     {
         $factory = new SerializerFactory();
-        $method = 'create' . ucfirst($format) . 'Serializer';
+        $method = 'create' . ucfirst(strtolower($format)) . 'Serializer';
 
         $this->format = $format;
         $this->output = $factory->$method()->serialize($this->input);
@@ -89,8 +97,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iDeserializeIt()
     {
         $factory = new SerializerFactory();
-        $method = 'create' . ucfirst($this->format) . 'Deserializer';
-        $class = 'Fixtures\Person';
+        $method = 'create' . ucfirst(strtolower($this->format)) . 'Deserializer';
+        $class = 'Fixtures\DTO\Person';
 
         $this->output = $factory->$method()->deserialize($this->input, $class);
     }
@@ -122,11 +130,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should have the corresponding object
+     * @Then I should have the corresponding DTO
      */
     public function iShouldHaveTheCorrespondingObject()
     {
-        PHPUnit::assertEquals($this->dataSource->getObject(), $this->output);
+        PHPUnit::assertEquals($this->dataSource->getDto(), $this->output);
     }
 
     /**

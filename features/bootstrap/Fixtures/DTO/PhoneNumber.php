@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Fixtures;
+namespace Fixtures\Dto;
 
 
 class PhoneNumber

@@ -1,16 +1,16 @@
-Fixtures\Person:
+Fixtures\Entity\Person:
   person:
     name: Bob
     address: @address
     phoneNumbers: [@home, @mobile]
 
-Fixtures\Address:
+Fixtures\Entity\Address:
   address:
     street: Dam
     number: 1
     city: Amsterdam
 
-Fixtures\PhoneNumber:
+Fixtures\Entity\PhoneNumber:
   home:
     name: Home
     number: "0201234567"

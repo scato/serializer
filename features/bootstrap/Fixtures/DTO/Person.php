@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Fixtures;
+namespace Fixtures\Dto;
 
 
 class Person
@@ -12,12 +12,12 @@ class Person
     public $name;
 
     /**
-     * @var \Fixtures\Address
+     * @var \Fixtures\Dto\Address
      */
     public $address;
 
     /**
-     * @var \Fixtures\PhoneNumber[]
+     * @var \Fixtures\Dto\PhoneNumber[]
      */
     public $phoneNumbers;
 }

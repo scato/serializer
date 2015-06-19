@@ -3,13 +3,13 @@ Feature: JSON Serializer
   As a developer
   I need a serializer to convert objects to JSON and vice versa
 
-  Scenario: Serializing an object to JSON
-    Given I have an object
+  Scenario: Serializing a DTO to JSON
+    Given I have a DTO
     When I serialize it to JSON
     Then I should have the corresponding string
 
-  Scenario: Deserializing an object from JSON
+  Scenario: Deserializing a DTO from JSON
     Given I have a JSON string
     When I deserialize it
-    Then I should have the corresponding object
+    Then I should have the corresponding DTO
 
