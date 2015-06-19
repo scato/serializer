@@ -1,19 +1,23 @@
 Fixtures\Entity\Person:
   person:
+    __construct: [ 1 ]
     name: Bob
     address: @address
     phoneNumbers: [@home, @mobile]
 
 Fixtures\Entity\Address:
   address:
+    __construct: [ 42 ]
     street: Dam
     number: 1
     city: Amsterdam
 
 Fixtures\Entity\PhoneNumber:
   home:
+    __construct: [ 46 ]
     name: Home
     number: "0201234567"
   mobile:
+    __construct: [ 2 ]
     name: Mobile
     number: "0612345678"

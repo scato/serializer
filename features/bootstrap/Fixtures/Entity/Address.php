@@ -7,6 +7,11 @@ namespace Fixtures\Entity;
 class Address
 {
     /**
+     * @var integer
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $street;
@@ -20,6 +25,22 @@ class Address
      * @var string
      */
     private $city;
+
+    /**
+     * @param integer $id
+     */
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return string

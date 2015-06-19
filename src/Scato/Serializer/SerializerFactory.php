@@ -12,6 +12,7 @@ use Scato\Serializer\Core\Serializer;
 use Scato\Serializer\Data\ArrayTypeProviderDecorator;
 use Scato\Serializer\Data\GetterAccessorDecorator;
 use Scato\Serializer\Data\Mapper;
+use Scato\Serializer\Data\SafeObjectFactory;
 use Scato\Serializer\Json\JsonDecoder;
 use Scato\Serializer\Json\JsonEncoder;
 use Scato\Serializer\Json\ToJsonVisitor;
@@ -110,7 +111,7 @@ class SerializerFactory
                 new GetterAccessorDecorator(new SimpleAccessor())
             ),
             new FromUrlVisitor(
-                new SimpleObjectFactory(),
+                new SafeObjectFactory(),
                 new ArrayTypeProviderDecorator(new ReflectionTypeProvider())
             )
         );

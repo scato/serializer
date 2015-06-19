@@ -7,6 +7,11 @@ namespace Fixtures\Entity;
 class Person
 {
     /**
+     * @var integer
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $name;
@@ -20,6 +25,22 @@ class Person
      * @var \Fixtures\Dto\PhoneNumber[]
      */
     private $phoneNumbers;
+
+    /**
+     * @param integer $id
+     */
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return string
