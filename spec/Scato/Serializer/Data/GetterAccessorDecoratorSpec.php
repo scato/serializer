@@ -21,7 +21,7 @@ class GetterAccessorDecoratorSpec extends ObjectBehavior
 
     function it_should_count_getters_as_properties(ObjectAccessorInterface $parent)
     {
-        $object = new Person();
+        $object = new PersonEntity();
 
         $parent->getNames($object)->willReturn(array());
 
@@ -39,7 +39,7 @@ class GetterAccessorDecoratorSpec extends ObjectBehavior
 
     function it_should_use_getters_when_available()
     {
-        $object = new Person();
+        $object = new PersonEntity();
         $object->setName('Bob');
 
         $this->getValue($object, 'name')->shouldBe('Bob');
@@ -55,7 +55,7 @@ class GetterAccessorDecoratorSpec extends ObjectBehavior
     }
 }
 
-class Person
+class PersonEntity
 {
     private $name;
 
