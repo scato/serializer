@@ -1,6 +1,6 @@
 <?php
 
-namespace Scato\Serializer\Php;
+namespace Scato\Serializer\Data;
 
 use Scato\Serializer\Common\TypeProviderInterface;
 use Scato\Serializer\Core\Type;
