@@ -4,6 +4,8 @@ namespace Scato\Serializer\Common;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tag\VarTag;
+use phpDocumentor\Reflection\Types\Context;
+use phpDocumentor\Reflection\Types\ContextFactory;
 use ReflectionClass;
 use Scato\Serializer\Core\Type;
 
@@ -19,7 +21,10 @@ class ReflectionTypeProvider implements TypeProviderInterface
 
         $reflectionProperty = $reflectionObject->getProperty($name);
 
-        $phpdoc = new DocBlock($reflectionProperty);
+        $contextFactory = new ContextFactory();
+        $context = $contextFactory->createFromReflector($reflectionProperty);
+
+        $phpdoc = new DocBlock($reflectionProperty, $this->convertToDocBlockContext($context));
 
         /** @var VarTag[] $vars */
         $vars = $phpdoc->getTagsByName('var');
@@ -29,5 +34,13 @@ class ReflectionTypeProvider implements TypeProviderInterface
         }
 
         return Type::fromString($vars[0]->getType());
+    }
+
+    private function convertToDocBlockContext(Context $context)
+    {
+        return new DocBlock\Context(
+            $context->getNamespace(),
+            $context->getNamespaceAliases()
+        );
     }
 }
