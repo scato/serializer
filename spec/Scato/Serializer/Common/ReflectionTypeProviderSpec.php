@@ -31,7 +31,7 @@ class ReflectionTypeProviderSpec extends ObjectBehavior
     {
         $class = Type::fromString('spec\Scato\Serializer\Common\ExampleObject');
 
-        $this->getType($class, 'bar')->shouldBeLike(Type::fromString('string'));
+        $this->getType($class, 'bar')->shouldBeLike(Type::fromString('\spec\Scato\Serializer\Common\ExampleObject'));
     }
 }
 
@@ -40,7 +40,7 @@ class ExampleObject
     public $foo;
 
     /**
-     * @var string
+     * @var ExampleObject
      */
     public $bar;
 }
