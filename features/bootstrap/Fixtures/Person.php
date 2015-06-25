@@ -4,6 +4,9 @@
 namespace Fixtures;
 
 
+use Fixtures\Address;
+use Fixtures\PhoneNumber;
+
 class Person
 {
     /**
@@ -12,12 +15,12 @@ class Person
     public $name;
 
     /**
-     * @var \Fixtures\Address
+     * @var Address
      */
     public $address;
 
     /**
-     * @var \Fixtures\PhoneNumber[]
+     * @var PhoneNumber[]
      */
     public $phoneNumbers;
 }
