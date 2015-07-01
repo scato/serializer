@@ -1,17 +1,22 @@
 {
+  "name":    "scato/serializer",
+  "type":    "library",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "": "src/"
     }
   },
   "require": {
-    "phpdocumentor/reflection-docblock": "~2.0",
-    "phpdocumentor/type-resolver": "~0.1"
+    "phpdocumentor/reflection-docblock": "^2.0",
+    "phpdocumentor/type-resolver": "^0.1.3@dev",
+    "phpdocumentor/reflection-common": "^1.0@dev"
   },
   "require-dev": {
-    "phpspec/phpspec": "~2.0",
-    "behat/behat": "~3.0",
-    "phpunit/phpunit": "~4.6",
-    "nelmio/alice": "~1.7"
+    "phpspec/phpspec": "^2.2",
+    "behat/behat": "^3.0",
+    "phpunit/phpunit": "^4.6",
+    "nelmio/alice": "^1.7",
+    "scrutinizer/ocular": "^1.1"
   }
 }
