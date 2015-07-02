@@ -41,3 +41,18 @@ modular, so it shouldn't be hard to add. It's just a lot of work.
 
 ## The Serializer
 Look at the `doc/` folder to find out what the serializer looks like.
+
+[ico-version]: https://img.shields.io/packagist/v/scato/serializer.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/scato/serializer/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/scato/serializer.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/scato/serializer.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/scato/serializer.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/scato/serializer
+[link-travis]: https://travis-ci.org/scato/serializer
+[link-scrutinizer]: https://scrutinizer-ci.com/g/scato/serializer/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/scato/serializer
+[link-downloads]: https://packagist.org/packages/scato/serializer
+[link-author]: https://github.com/scato
+[link-contributors]: ../../contributors
