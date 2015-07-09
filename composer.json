@@ -17,6 +17,7 @@
     "behat/behat": "^3.0",
     "phpunit/phpunit": "^4.6",
     "nelmio/alice": "^1.7",
-    "scrutinizer/ocular": "^1.1"
+    "scrutinizer/ocular": "^1.1",
+    "squizlabs/php_codesniffer": "^2.3"
   }
 }
