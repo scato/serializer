@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Scato\Serializer\Common;
-
 
 use Scato\Serializer\Core\Type;
 

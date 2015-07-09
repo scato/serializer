@@ -17,5 +17,4 @@ interface VisitorInterface
     public function visitElementEnd($key);
 
     public function visitValue($value);
-
 }

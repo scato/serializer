@@ -82,5 +82,4 @@ class EchoTypedVisitorDecorator implements TypedVisitorInterface
     {
         echo "$call($param)";
     }
-
 }
