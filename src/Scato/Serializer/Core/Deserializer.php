@@ -2,13 +2,31 @@
 
 namespace Scato\Serializer\Core;
 
+/**
+ * Turns a string into an object graph
+ */
 class Deserializer
 {
-
+    /**
+     * @var Navigator
+     */
     private $navigator;
+
+    /**
+     * @var TypedVisitorInterface
+     */
     private $visitor;
+
+    /**
+     * @var DecoderInterface
+     */
     private $decoder;
 
+    /**
+     * @param Navigator             $navigator
+     * @param TypedVisitorInterface $visitor
+     * @param DecoderInterface      $decoder
+     */
     public function __construct(
         Navigator $navigator,
         TypedVisitorInterface $visitor,
@@ -19,6 +37,13 @@ class Deserializer
         $this->decoder = $decoder;
     }
 
+    /**
+     * Turn a string into an object graph
+     *
+     * @param string $string
+     * @param string $type
+     * @return mixed
+     */
     public function deserialize($string, $type)
     {
         $this->visitor->visitType(Type::fromString($type));

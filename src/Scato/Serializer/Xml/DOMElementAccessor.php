@@ -7,8 +7,18 @@ use DOMElement;
 use InvalidArgumentException;
 use Scato\Serializer\Core\ObjectAccessorInterface;
 
+/**
+ * Accesses the childNodes of a DOMElement as properties
+ */
 class DOMElementAccessor implements ObjectAccessorInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @param object $object
+     * @return array
+     * @throws InvalidArgumentException
+     */
     public function getNames($object)
     {
         if ($object instanceof DOMDocument) {
@@ -30,6 +40,14 @@ class DOMElementAccessor implements ObjectAccessorInterface
         return array_unique($nodeNames);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param object $object
+     * @param string $name
+     * @return array
+     * @throws InvalidArgumentException
+     */
     public function getValue($object, $name)
     {
         if ($object instanceof DOMDocument) {

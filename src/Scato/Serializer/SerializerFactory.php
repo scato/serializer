@@ -24,9 +24,14 @@ use Scato\Serializer\Xml\ToXmlVisitor;
 use Scato\Serializer\Xml\XmlDecoder;
 use Scato\Serializer\Xml\XmlEncoder;
 
+/**
+ * Creates serializers, deserializers and mappers for all formats
+ */
 class SerializerFactory
 {
-
+    /**
+     * @return Serializer
+     */
     public function createJsonSerializer()
     {
         return new Serializer(
@@ -38,6 +43,9 @@ class SerializerFactory
         );
     }
 
+    /**
+     * @return Deserializer
+     */
     public function createJsonDeserializer()
     {
         return new Deserializer(
@@ -52,6 +60,9 @@ class SerializerFactory
         );
     }
 
+    /**
+     * @return Serializer
+     */
     public function createUrlSerializer()
     {
         return new Serializer(
@@ -63,6 +74,9 @@ class SerializerFactory
         );
     }
 
+    /**
+     * @return Deserializer
+     */
     public function createUrlDeserializer()
     {
         return new Deserializer(
@@ -77,6 +91,9 @@ class SerializerFactory
         );
     }
 
+    /**
+     * @return Serializer
+     */
     public function createXmlSerializer()
     {
         return new Serializer(
@@ -88,6 +105,9 @@ class SerializerFactory
         );
     }
 
+    /**
+     * @return Deserializer
+     */
     public function createXmlDeserializer()
     {
         return new Deserializer(
@@ -102,6 +122,9 @@ class SerializerFactory
         );
     }
 
+    /**
+     * @return Mapper
+     */
     public function createMapper()
     {
         return new Mapper(

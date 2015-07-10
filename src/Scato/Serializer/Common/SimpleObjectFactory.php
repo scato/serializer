@@ -5,9 +5,20 @@ namespace Scato\Serializer\Common;
 use InvalidArgumentException;
 use Scato\Serializer\Core\Type;
 
+/**
+ * Creates Plain Old PHP Objects
+ */
 class SimpleObjectFactory implements ObjectFactoryInterface
 {
-    public function createObject(Type $type, $properties)
+    /**
+     * {@inheritdoc}
+     *
+     * @param Type  $type
+     * @param array $properties
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function createObject(Type $type, array $properties)
     {
         if (!$type->isClass()) {
             throw new InvalidArgumentException("Cannot create object for non-class type: '{$type->toString()}'");

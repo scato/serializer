@@ -4,10 +4,19 @@ namespace Scato\Serializer\Core;
 
 use LogicException;
 
+/**
+ * A class, array or scalar type
+ */
 class Type
 {
+    /**
+     * @var string
+     */
     private $string;
 
+    /**
+     * @var array
+     */
     private static $primitiveTypes = array(
         'string',
         'int',
@@ -21,6 +30,9 @@ class Type
         'callable'
     );
 
+    /**
+     * @var array
+     */
     private static $specialTypes = array(
         'mixed',
         'void',
@@ -32,11 +44,20 @@ class Type
         '$this'
     );
 
+    /**
+     * @param string $string
+     */
     private function __construct($string)
     {
         $this->string = $string;
     }
 
+    /**
+     * Create a Type from its string representation
+     *
+     * @param string|null $string
+     * @return Type
+     */
     public static function fromString($string = null)
     {
         if ($string === null) {
@@ -46,11 +67,21 @@ class Type
         return new self($string);
     }
 
+    /**
+     * Return the string representation for this Type
+     *
+     * @return mixed
+     */
     public function toString()
     {
         return $this->string;
     }
 
+    /**
+     * Is this a class type?
+     *
+     * @return boolean
+     */
     public function isClass()
     {
         if (in_array($this->string, self::$primitiveTypes)) {
@@ -68,6 +99,11 @@ class Type
         return true;
     }
 
+    /**
+     * Is this an array type?
+     *
+     * @return boolean
+     */
     public function isArray()
     {
         if ($this->string === 'array') {
@@ -85,6 +121,11 @@ class Type
         return false;
     }
 
+    /**
+     * Is this one of the integer types?
+     *
+     * @return boolean
+     */
     public function isInteger()
     {
         if (in_array($this->string, array('int', 'integer'))) {
@@ -94,6 +135,11 @@ class Type
         return false;
     }
 
+    /**
+     * Is this the float type?
+     *
+     * @return boolean
+     */
     public function isFloat()
     {
         if (in_array($this->string, array('float'))) {
@@ -103,6 +149,11 @@ class Type
         return false;
     }
 
+    /**
+     * Is this one of the boolean types?
+     *
+     * @return boolean
+     */
     public function isBoolean()
     {
         if (in_array($this->string, array('bool', 'boolean'))) {
@@ -112,6 +163,12 @@ class Type
         return false;
     }
 
+    /**
+     * The type for the elements of an array of this type
+     *
+     * @return Type
+     * @throws LogicException
+     */
     public function getElementType()
     {
         if ($this->string === 'array') {
@@ -129,6 +186,11 @@ class Type
         throw new LogicException("Type '{$this->string}' is not an array type");
     }
 
+    /**
+     * The type for an array containing values of this type
+     *
+     * @return Type
+     */
     public function getArrayType()
     {
         if ($this->string === 'mixed') {

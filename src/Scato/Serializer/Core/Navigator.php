@@ -2,15 +2,29 @@
 
 namespace Scato\Serializer\Core;
 
+/**
+ * Guides a Visitor through an object graph or data tree
+ */
 class Navigator
 {
+    /**
+     * @var ObjectAccessorInterface
+     */
     private $objectAccessor;
 
+    /**
+     * @param ObjectAccessorInterface $objectAccessor
+     */
     public function __construct(ObjectAccessorInterface $objectAccessor)
     {
         $this->objectAccessor = $objectAccessor;
     }
 
+    /**
+     * @param VisitorInterface $visitor
+     * @param mixed            $value
+     * @return void
+     */
     public function accept(VisitorInterface $visitor, $value)
     {
         switch (gettype($value)) {

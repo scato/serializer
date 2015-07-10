@@ -4,8 +4,24 @@ namespace Scato\Serializer\Xml;
 
 use Scato\Serializer\Common\DeserializeVisitor;
 
+/**
+ * Turns a DOMDocument into an object graph
+ *
+ * The DOMDocument is accessed through the DOMElementAccessor
+ * The DOMElementAccessor wraps each property in an array
+ * Tags corresponding to properties should occur only once
+ * Tags corresponding to elements of an array (called 'entry') can occur any number of times
+ *
+ * Because properties are wrapped in arrays, the associated type should be corrected as well
+ * After visiting a tag that corresponds to an object, an associative array should be produced
+ * After visiting a tag that corresponds to an array, an indexed array should be produced
+ */
 class FromXmlVisitor extends DeserializeVisitor
 {
+    /**
+     * @param string $name
+     * @return void
+     */
     public function visitPropertyStart($name)
     {
         parent::visitPropertyStart($name);
@@ -13,6 +29,10 @@ class FromXmlVisitor extends DeserializeVisitor
         $this->createArrayType();
     }
 
+    /**
+     * @param string $name
+     * @return void
+     */
     public function visitPropertyEnd($name)
     {
         $this->deleteArrayType();
@@ -20,6 +40,10 @@ class FromXmlVisitor extends DeserializeVisitor
         parent::visitPropertyEnd($name);
     }
 
+    /**
+     * @param mixed $value
+     * @return void
+     */
     public function visitValue($value)
     {
         $type = $this->types->top();
@@ -35,6 +59,11 @@ class FromXmlVisitor extends DeserializeVisitor
         }
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
     protected function createObject()
     {
         $type = $this->types->top();
@@ -48,6 +77,12 @@ class FromXmlVisitor extends DeserializeVisitor
         }
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param string $name
+     * @return void
+     */
     protected function pushPropertyType($name)
     {
         $type = $this->types->top();
@@ -59,6 +94,13 @@ class FromXmlVisitor extends DeserializeVisitor
         }
     }
 
+    /**
+     * Replace the top of the type stack with the type for an array containing values of that type
+     *
+     * For example: replace string with string[]
+     *
+     * @return void
+     */
     private function createArrayType()
     {
         $type = $this->types->pop();
@@ -70,6 +112,13 @@ class FromXmlVisitor extends DeserializeVisitor
         $this->types->push($type);
     }
 
+    /**
+     * Replace the top of the type stack with the type for the elements of that type
+     *
+     * For example: replace string[] with string
+     *
+     * @return void
+     */
     private function deleteArrayType()
     {
         $type = $this->types->pop();
@@ -82,8 +131,14 @@ class FromXmlVisitor extends DeserializeVisitor
     }
 
     /**
+     * Replace the top of the result stack with the appropriate associative array
+     *
      * Because we get properties as arrays, we need to take the first of each array to end up with the values
-     * themselves.
+     * themselves
+     *
+     * For example: replace ['foo' => ['bar']] with ['foo' => 'bar']
+     *
+     * @return void
      */
     private function createAssociativeArray()
     {
@@ -97,7 +152,13 @@ class FromXmlVisitor extends DeserializeVisitor
     }
 
     /**
-     * Arrays look like objects with one property named entry, which can actually have a length other than 1.
+     * Replace the top of the result stack with the appropriate indexed array
+     *
+     * Arrays look like objects with one property named entry, which can actually have a length other than 1
+     *
+     * For example: replace ['entry' => ['foo', 'bar']] with ['foo', 'bar']
+     *
+     * @return void
      */
     private function createIndexedArray()
     {

@@ -4,8 +4,18 @@ namespace Scato\Serializer\Url;
 
 use Scato\Serializer\Common\DeserializeVisitor;
 
+/**
+ * Turns an array into an object graph
+ *
+ * Objects do not appear in URL encoded data
+ * All arrays are transformed into an object of the appropriate type using an ObjectFactory
+ * Strings are transformed into the appropriate scalar type
+ */
 class FromUrlVisitor extends DeserializeVisitor
 {
+    /**
+     * @return void
+     */
     public function visitArrayEnd()
     {
         parent::visitArrayEnd();
@@ -13,6 +23,10 @@ class FromUrlVisitor extends DeserializeVisitor
         $this->createObject();
     }
 
+    /**
+     * @param mixed $value
+     * @return void
+     */
     public function visitValue($value)
     {
         $type = $this->types->top();
@@ -28,6 +42,11 @@ class FromUrlVisitor extends DeserializeVisitor
         }
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
     protected function createObject()
     {
         $type = $this->types->top();
@@ -37,6 +56,12 @@ class FromUrlVisitor extends DeserializeVisitor
         }
     }
 
+    /**
+     * {$inheritdoc}
+     *
+     * @param integer|string $key
+     * @return void
+     */
     protected function pushElementType($key)
     {
         $type = $this->types->top();
