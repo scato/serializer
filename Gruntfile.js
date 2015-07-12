@@ -13,6 +13,16 @@ module.exports = function(grunt) {
         standard: 'phpcs.xml'
       }
     },
+    phpmd: {
+      application: {
+        dir: 'src'
+      },
+      options: {
+        bin: 'vendor/bin/phpmd',
+        reportFormat: 'text',
+        rulesets: 'codesize,controversial,design,naming,unusedcode'
+      }
+    },
     phpspec: {
         app: {
             specs: 'spec/'
@@ -35,10 +45,11 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-phpcs');
+  grunt.loadNpmTasks('grunt-phpmd');
   grunt.loadNpmTasks('grunt-phpspec');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['phpcs', 'phpspec']);
+  grunt.registerTask('default', ['phpcs', 'phpmd', 'phpspec']);
 
 };
