@@ -20,6 +20,7 @@ use Scato\Serializer\Url\ToUrlVisitor;
 use Scato\Serializer\Url\UrlDecoder;
 use Scato\Serializer\Url\UrlEncoder;
 use Scato\Serializer\Xml\DOMElementAccessor;
+use Scato\Serializer\Xml\DOMNavigator;
 use Scato\Serializer\Xml\FromXmlVisitor;
 use Scato\Serializer\Xml\ToXmlVisitor;
 use Scato\Serializer\Xml\XmlDecoder;
@@ -112,7 +113,7 @@ class SerializerFactory
     public function createXmlDeserializer()
     {
         return new Deserializer(
-            new Navigator(
+            new DOMNavigator(
                 new DOMElementAccessor()
             ),
             new FromXmlVisitor(

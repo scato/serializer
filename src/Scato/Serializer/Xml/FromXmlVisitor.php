@@ -25,8 +25,6 @@ class FromXmlVisitor extends DeserializeVisitor
     public function visitPropertyStart($name)
     {
         parent::visitPropertyStart($name);
-
-        $this->createArrayType();
     }
 
     /**
@@ -35,16 +33,7 @@ class FromXmlVisitor extends DeserializeVisitor
      */
     public function visitPropertyEnd($name)
     {
-        $this->deleteArrayType();
-
         parent::visitPropertyEnd($name);
-    }
-
-    /**
-     * @return void
-     */
-    public function visitArrayEnd()
-    {
     }
 
     /**
@@ -85,6 +74,20 @@ class FromXmlVisitor extends DeserializeVisitor
     }
 
     /**
+     * @param string $key
+     * @return void
+     */
+    protected function createElement($key)
+    {
+        $element = $this->results->pop();
+        $array = $this->results->pop();
+
+        $array[$key][] = $element;
+
+        $this->results->push($array);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @param string $name
@@ -92,49 +95,7 @@ class FromXmlVisitor extends DeserializeVisitor
      */
     protected function pushPropertyType($name)
     {
-        $type = $this->types->top();
-
-        if ($type->isClass()) {
-            parent::pushPropertyType($name);
-        } else {
-            parent::pushElementType($name);
-        }
-    }
-
-    /**
-     * Replace the top of the type stack with the type for an array containing values of that type
-     *
-     * For example: replace string with string[]
-     *
-     * @return void
-     */
-    private function createArrayType()
-    {
-        $type = $this->types->pop();
-
-        if ($type !== null) {
-            $type = $type->getArrayType();
-        }
-
-        $this->types->push($type);
-    }
-
-    /**
-     * Replace the top of the type stack with the type for the elements of that type
-     *
-     * For example: replace string[] with string
-     *
-     * @return void
-     */
-    private function deleteArrayType()
-    {
-        $type = $this->types->pop();
-
-        if ($type !== null) {
-            $type = $type->getElementType();
-        }
-
-        $this->types->push($type);
+        parent::pushElementType($name);
     }
 
     /**

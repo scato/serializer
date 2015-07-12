@@ -114,8 +114,6 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $this->visitPropertyStart('phoneNumbers');
         $this->visitSingleObjectStart();
         $this->visitPropertyStart('entry');
-        $this->visitArrayStart();
-        $this->visitElementStart(0);
         $this->visitObjectStart();
         $this->visitPropertyStart('name');
         $this->visitSingleValue('Home');
@@ -124,8 +122,8 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $this->visitSingleValue('0201234567');
         $this->visitPropertyEnd('number');
         $this->visitObjectEnd();
-        $this->visitElementEnd(0);
-        $this->visitElementStart(1);
+        $this->visitPropertyEnd('entry');
+        $this->visitPropertyStart('entry');
         $this->visitObjectStart();
         $this->visitPropertyStart('name');
         $this->visitSingleValue('Mobile');
@@ -134,8 +132,6 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $this->visitSingleValue('0612345678');
         $this->visitPropertyEnd('number');
         $this->visitObjectEnd();
-        $this->visitElementEnd(1);
-        $this->visitArrayEnd();
         $this->visitPropertyEnd('entry');
         $this->visitSingleObjectEnd();
         $this->visitPropertyEnd('phoneNumbers');
@@ -143,25 +139,17 @@ class FromXmlVisitorSpec extends ObjectBehavior
 
     private function visitSingleValue($value)
     {
-        $this->visitArrayStart();
-        $this->visitElementStart(0);
         $this->visitValue($value);
-        $this->visitElementEnd(0);
-        $this->visitArrayEnd();
     }
 
     private function visitSingleObjectStart()
     {
-        $this->visitArrayStart();
-        $this->visitElementStart(0);
         $this->visitObjectStart();
     }
 
     private function visitSingleObjectEnd()
     {
         $this->visitObjectEnd();
-        $this->visitElementEnd(0);
-        $this->visitArrayEnd();
     }
 
     private function getProperties()
