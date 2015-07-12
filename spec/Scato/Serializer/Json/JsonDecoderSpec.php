@@ -30,25 +30,17 @@ class JsonDecoderSpec extends ObjectBehavior
 
     function it_should_decode_an_empty_object()
     {
-        $object = new stdClass();
-
-        $this->decode('{}')->shouldBeLike($object);
+        $this->decode('{}')->shouldBeLike(array());
     }
 
     function it_should_decode_an_object_with_a_string()
     {
-        $object = new stdClass();
-        $object->foo = 'bar';
-
-        $this->decode('{"foo":"bar"}')->shouldBeLike($object);
+        $this->decode('{"foo":"bar"}')->shouldBeLike(array('foo' => 'bar'));
     }
 
     function it_should_decode_an_object_with_an_array()
     {
-        $object = new stdClass();
-        $object->foo = array('bar');
-
-        $this->decode('{"foo":["bar"]}')->shouldBeLike($object);
+        $this->decode('{"foo":["bar"]}')->shouldBeLike(array('foo' => array('bar')));
     }
 
     function it_should_decode_a_string()

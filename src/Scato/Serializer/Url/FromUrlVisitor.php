@@ -14,16 +14,6 @@ use Scato\Serializer\Common\DeserializeVisitor;
 class FromUrlVisitor extends DeserializeVisitor
 {
     /**
-     * @return void
-     */
-    public function visitArrayEnd()
-    {
-        parent::visitArrayEnd();
-
-        $this->createObject();
-    }
-
-    /**
      * @param mixed $value
      * @return void
      */
@@ -39,37 +29,6 @@ class FromUrlVisitor extends DeserializeVisitor
             $this->results->push($value === '1');
         } else {
             $this->results->push($value);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return void
-     */
-    protected function createObject()
-    {
-        $type = $this->types->top();
-
-        if ($type->isClass()) {
-            parent::createObject();
-        }
-    }
-
-    /**
-     * {$inheritdoc}
-     *
-     * @param integer|string $key
-     * @return void
-     */
-    protected function pushElementType($key)
-    {
-        $type = $this->types->top();
-
-        if ($type->isClass()) {
-            parent::pushPropertyType($key);
-        } else {
-            parent::pushElementType($key);
         }
     }
 }

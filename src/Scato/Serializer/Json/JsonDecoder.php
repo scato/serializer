@@ -17,6 +17,6 @@ class JsonDecoder implements DecoderInterface
      */
     public function decode($value)
     {
-        return json_decode($value);
+        return json_decode($value, true);
     }
 }

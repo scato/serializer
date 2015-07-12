@@ -81,6 +81,16 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     }
 
     /**
+     * @return void
+     */
+    public function visitArrayEnd()
+    {
+        parent::visitArrayEnd();
+
+        $this->createObject();
+    }
+
+    /**
      * @param integer|string $key
      * @return void
      */
@@ -110,11 +120,14 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     protected function createObject()
     {
         $type = $this->types->top();
-        $array = $this->results->pop();
 
-        $object = $this->objectFactory->createObject($type, $array);
+        if ($type->isClass()) {
+            $array = $this->results->pop();
 
-        $this->results->push($object);
+            $object = $this->objectFactory->createObject($type, $array);
+
+            $this->results->push($object);
+        }
     }
 
     /**
@@ -127,7 +140,11 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     {
         $type = $this->types->top();
 
-        $this->types->push($type->getElementType());
+        if ($type->isClass()) {
+            $this->types->push($this->typeProvider->getType($type, $key));
+        } else {
+            $this->types->push($type->getElementType());
+        }
     }
 
     /**

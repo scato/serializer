@@ -21,8 +21,8 @@ class ToJsonVisitor extends SerializeVisitor
      */
     protected function createObject()
     {
-        $result = $this->results->pop();
-
-        $this->results->push((object) $result);
+//        $result = $this->results->pop();
+//
+//        $this->results->push((object) $result);
     }
 }

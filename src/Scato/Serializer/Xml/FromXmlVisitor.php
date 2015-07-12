@@ -41,6 +41,13 @@ class FromXmlVisitor extends DeserializeVisitor
     }
 
     /**
+     * @return void
+     */
+    public function visitArrayEnd()
+    {
+    }
+
+    /**
      * @param mixed $value
      * @return void
      */

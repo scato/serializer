@@ -14,31 +14,23 @@ class ToJsonVisitorSpec extends ObjectBehavior
     }
 
     function it_should_handle_an_empty_object() {
-        $object = new stdClass();
-
         $this->visitObjectStart();
         $this->visitObjectEnd();
 
-        $this->getResult()->shouldBeLike($object);
+        $this->getResult()->shouldBeLike(array());
     }
 
     function it_should_handle_an_object_with_a_string() {
-        $object = new stdClass();
-        $object->foo = 'bar';
-
         $this->visitObjectStart();
         $this->visitPropertyStart('foo');
         $this->visitValue('bar');
         $this->visitPropertyEnd('foo');
         $this->visitObjectEnd();
 
-        $this->getResult()->shouldBeLike($object);
+        $this->getResult()->shouldBeLike(array('foo' => 'bar'));
     }
 
     function it_should_handle_an_object_with_an_array() {
-        $object = new stdClass();
-        $object->foo = array('bar');
-
         $this->visitObjectStart();
         $this->visitPropertyStart('foo');
         $this->visitArrayStart();
@@ -49,6 +41,6 @@ class ToJsonVisitorSpec extends ObjectBehavior
         $this->visitPropertyEnd('foo');
         $this->visitObjectEnd();
 
-        $this->getResult()->shouldBeLike($object);
+        $this->getResult()->shouldBeLike(array('foo' => array('bar')));
     }
 }
