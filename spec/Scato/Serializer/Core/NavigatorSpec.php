@@ -56,8 +56,8 @@ class NavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart()->shouldBeCalled();
-        $visitor->visitObjectEnd()->shouldBeCalled();
+        $visitor->visitArrayStart()->shouldBeCalled();
+        $visitor->visitArrayEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array());
 
@@ -70,11 +70,11 @@ class NavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart()->shouldBeCalled();
-        $visitor->visitPropertyStart('foo')->shouldBeCalled();
+        $visitor->visitArrayStart()->shouldBeCalled();
+        $visitor->visitElementStart('foo')->shouldBeCalled();
         $visitor->visitValue('bar')->shouldBeCalled();
-        $visitor->visitPropertyEnd('foo')->shouldBeCalled();
-        $visitor->visitObjectEnd()->shouldBeCalled();
+        $visitor->visitElementEnd('foo')->shouldBeCalled();
+        $visitor->visitArrayEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn('bar');
@@ -88,15 +88,15 @@ class NavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart()->shouldBeCalled();
-        $visitor->visitPropertyStart('foo')->shouldBeCalled();
+        $visitor->visitArrayStart()->shouldBeCalled();
+        $visitor->visitElementStart('foo')->shouldBeCalled();
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart(0)->shouldBeCalled();
         $visitor->visitValue('bar')->shouldBeCalled();
         $visitor->visitElementEnd(0)->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
-        $visitor->visitPropertyEnd('foo')->shouldBeCalled();
-        $visitor->visitObjectEnd()->shouldBeCalled();
+        $visitor->visitElementEnd('foo')->shouldBeCalled();
+        $visitor->visitArrayEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn(array('bar'));

@@ -73,7 +73,11 @@ class ToXmlVisitor extends SerializeVisitor
      */
     public function visitElementStart($key)
     {
-        $property = $this->getDocument()->createElement('entry');
+        if (is_numeric($key)) {
+            $property = $this->getDocument()->createElement('entry');
+        } else {
+            $property = $this->getDocument()->createElement($key);
+        }
 
         $this->results->push($property);
     }

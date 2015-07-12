@@ -29,17 +29,17 @@ class Navigator
     {
         switch (gettype($value)) {
             case 'object':
-                $visitor->visitObjectStart();
+                $visitor->visitArrayStart();
                 $names = $this->objectAccessor->getNames($value);
 
                 foreach ($names as $name) {
                     $property = $this->objectAccessor->getValue($value, $name);
-                    $visitor->visitPropertyStart($name);
+                    $visitor->visitElementStart($name);
                     $this->accept($visitor, $property);
-                    $visitor->visitPropertyEnd($name);
+                    $visitor->visitElementEnd($name);
                 }
 
-                $visitor->visitObjectEnd();
+                $visitor->visitArrayEnd();
 
                 break;
             case 'array':

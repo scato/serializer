@@ -17,8 +17,8 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $dom = new DOMDocument();
         $dom->appendChild($root = $dom->createElement('root'));
 
-        $this->visitObjectStart();
-        $this->visitObjectEnd();
+        $this->visitArrayStart();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
@@ -29,11 +29,11 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $root->appendChild($foo = $dom->createElement('foo'));
         $foo->appendChild($dom->createTextNode('bar'));
 
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitValue('bar');
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
@@ -49,8 +49,8 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $foo->appendChild($entry = $dom->createElement('entry'));
         $entry->appendChild($dom->createTextNode('baz'));
 
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitArrayStart();
         $this->visitElementStart(0);
         $this->visitValue('bar');
@@ -59,8 +59,8 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $this->visitValue('baz');
         $this->visitElementEnd(1);
         $this->visitArrayEnd();
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
@@ -74,18 +74,18 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $foo->appendChild($foz = $dom->createElement('foz'));
         $foz->appendChild($dom->createTextNode('baz'));
 
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
-        $this->visitObjectStart();
-        $this->visitPropertyStart('bar');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('bar');
         $this->visitValue('baz');
-        $this->visitPropertyEnd('bar');
-        $this->visitPropertyStart('foz');
+        $this->visitElementEnd('bar');
+        $this->visitElementStart('foz');
         $this->visitValue('baz');
-        $this->visitPropertyEnd('foz');
-        $this->visitObjectEnd();
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foz');
+        $this->visitArrayEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
@@ -97,11 +97,11 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $root->appendChild($foo = $dom->createElement('foo'));
         $foo->appendChild($dom->createTextNode(''));
 
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitValue(null);
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
@@ -113,11 +113,11 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $root->appendChild($foo = $dom->createElement('foo'));
         $foo->appendChild($dom->createTextNode('1'));
 
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitValue(1);
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
@@ -129,11 +129,11 @@ class ToXmlVisitorSpec extends ObjectBehavior
         $root->appendChild($foo = $dom->createElement('foo'));
         $foo->appendChild($dom->createTextNode('true'));
 
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitValue(true);
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldHaveSameXmlAs($dom);
     }
