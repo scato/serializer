@@ -3,6 +3,7 @@
 namespace Scato\Serializer;
 
 use Scato\Serializer\Common\DeserializeVisitor;
+use Scato\Serializer\Common\SerializeVisitor;
 use Scato\Serializer\Common\SimpleAccessor;
 use Scato\Serializer\Common\ReflectionTypeProvider;
 use Scato\Serializer\Common\SimpleObjectFactory;
@@ -38,7 +39,7 @@ class SerializerFactory
             new Navigator(
                 new SimpleAccessor()
             ),
-            new ToJsonVisitor(),
+            new SerializeVisitor(),
             new JsonEncoder()
         );
     }
