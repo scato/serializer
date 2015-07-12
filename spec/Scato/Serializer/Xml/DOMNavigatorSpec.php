@@ -22,8 +22,8 @@ class DOMNavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart()->shouldBeCalled();
-        $visitor->visitObjectEnd()->shouldBeCalled();
+        $visitor->visitArrayStart()->shouldBeCalled();
+        $visitor->visitArrayEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array());
 
@@ -36,14 +36,14 @@ class DOMNavigatorSpec extends ObjectBehavior
     ) {
         $object = new stdClass();
 
-        $visitor->visitObjectStart()->shouldBeCalled();
-        $visitor->visitPropertyStart('entry')->shouldBeCalled();
+        $visitor->visitArrayStart()->shouldBeCalled();
+        $visitor->visitElementStart('entry')->shouldBeCalled();
         $visitor->visitValue('foo')->shouldBeCalled();
-        $visitor->visitPropertyEnd('entry')->shouldBeCalled();
-        $visitor->visitPropertyStart('entry')->shouldBeCalled();
+        $visitor->visitElementEnd('entry')->shouldBeCalled();
+        $visitor->visitElementStart('entry')->shouldBeCalled();
         $visitor->visitValue('bar')->shouldBeCalled();
-        $visitor->visitPropertyEnd('entry')->shouldBeCalled();
-        $visitor->visitObjectEnd()->shouldBeCalled();
+        $visitor->visitElementEnd('entry')->shouldBeCalled();
+        $visitor->visitArrayEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array('entry'));
         $objectAccessor->getValue($object, 'entry')->willReturn(array('foo', 'bar'));

@@ -30,20 +30,20 @@ class DOMNavigator extends Navigator
     {
         switch (gettype($value)) {
             case 'object':
-                $visitor->visitObjectStart();
+                $visitor->visitArrayStart();
                 $names = $this->objectAccessor->getNames($value);
 
                 foreach ($names as $name) {
                     $properties = $this->objectAccessor->getValue($value, $name);
 
                     foreach ($properties as $property) {
-                        $visitor->visitPropertyStart($name);
+                        $visitor->visitElementStart($name);
                         $this->accept($visitor, $property);
-                        $visitor->visitPropertyEnd($name);
+                        $visitor->visitElementEnd($name);
                     }
                 }
 
-                $visitor->visitObjectEnd();
+                $visitor->visitArrayEnd();
 
                 break;
             default:
