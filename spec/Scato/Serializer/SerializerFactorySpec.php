@@ -67,7 +67,7 @@ class SerializerFactorySpec extends ObjectBehavior
             ->shouldBeLike($object);
     }
 
-    function it_should_create_a_mapper()
+    function it_should_create_a_data_mapper()
     {
         $data = array(
             'personId' => 1,
@@ -77,11 +77,11 @@ class SerializerFactorySpec extends ObjectBehavior
 
         $object = Person::create(1, "Bryon Hetrick", true);
 
-        $this->createMapper()
+        $this->createDataMapper()
             ->map($data, get_class($object))
             ->shouldBeLike($object);
 
-        $this->createMapper()
+        $this->createDataMapper()
             ->map($object, 'array')
             ->shouldBe($data);
     }

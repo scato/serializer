@@ -102,7 +102,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $factory = new SerializerFactory();
 
-        $this->output = $factory->createMapper()->map($this->input, $type);
+        $this->output = $factory->createDataMapper()->map($this->input, $type);
     }
 
     /**

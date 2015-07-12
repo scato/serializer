@@ -2,47 +2,39 @@
 
 namespace Scato\Serializer;
 
-use Scato\Serializer\Navigation\DeserializeVisitor;
-use Scato\Serializer\Navigation\SerializeVisitor;
-use Scato\Serializer\ObjectAccess\SimpleAccessor;
-use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
-use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
+use Scato\Serializer\Data\DataMapperFactory;
+use Scato\Serializer\Json\JsonDeserializerFactory;
+use Scato\Serializer\Json\JsonSerializerFactory;
 use Scato\Serializer\Core\Deserializer;
-use Scato\Serializer\Navigation\Navigator;
 use Scato\Serializer\Core\Serializer;
-use Scato\Serializer\Data\ArrayTypeProviderDecorator;
 use Scato\Serializer\Data\Mapper;
-use Scato\Serializer\Json\JsonDecoder;
-use Scato\Serializer\Json\JsonEncoder;
-use Scato\Serializer\Json\ToJsonVisitor;
-use Scato\Serializer\Url\FromUrlVisitor;
-use Scato\Serializer\Url\ToUrlVisitor;
-use Scato\Serializer\Url\UrlDecoder;
-use Scato\Serializer\Url\UrlEncoder;
-use Scato\Serializer\Xml\DOMElementAccessor;
-use Scato\Serializer\Xml\DOMNavigator;
-use Scato\Serializer\Xml\FromXmlVisitor;
-use Scato\Serializer\Xml\ToXmlVisitor;
-use Scato\Serializer\Xml\XmlDecoder;
-use Scato\Serializer\Xml\XmlEncoder;
+use Scato\Serializer\Url\UrlDeserializerFactory;
+use Scato\Serializer\Url\UrlSerializerFactory;
+use Scato\Serializer\Xml\XmlDeserializerFactory;
+use Scato\Serializer\Xml\XmlSerializerFactory;
 
 /**
  * Creates serializers, deserializers and mappers for all formats
  */
 class SerializerFactory
 {
+    public function __construct()
+    {
+        $this->jsonSerializerFactory = new JsonSerializerFactory();
+        $this->jsonDeserializerFactory = new JsonDeserializerFactory();
+        $this->urlSerializerFactory = new UrlSerializerFactory();
+        $this->urlDeserializerFactory = new UrlDeserializerFactory();
+        $this->xmlSerializerFactory = new XmlSerializerFactory();
+        $this->xmlDeserializerFactory = new XmlDeserializerFactory();
+        $this->dataMapperFactory = new DataMapperFactory();
+    }
+
     /**
      * @return Serializer
      */
     public function createJsonSerializer()
     {
-        return new Serializer(
-            new Navigator(
-                new SimpleAccessor()
-            ),
-            new SerializeVisitor(),
-            new JsonEncoder()
-        );
+        return $this->jsonSerializerFactory->createSerializer();
     }
 
     /**
@@ -50,16 +42,7 @@ class SerializerFactory
      */
     public function createJsonDeserializer()
     {
-        return new Deserializer(
-            new Navigator(
-                new SimpleAccessor()
-            ),
-            new DeserializeVisitor(
-                new SimpleObjectFactory(),
-                new ReflectionTypeProvider()
-            ),
-            new JsonDecoder()
-        );
+        return $this->jsonDeserializerFactory->createDeserializer();
     }
 
     /**
@@ -67,13 +50,7 @@ class SerializerFactory
      */
     public function createUrlSerializer()
     {
-        return new Serializer(
-            new Navigator(
-                new SimpleAccessor()
-            ),
-            new ToUrlVisitor(),
-            new UrlEncoder()
-        );
+        return $this->urlSerializerFactory->createSerializer();
     }
 
     /**
@@ -81,16 +58,7 @@ class SerializerFactory
      */
     public function createUrlDeserializer()
     {
-        return new Deserializer(
-            new Navigator(
-                new SimpleAccessor()
-            ),
-            new FromUrlVisitor(
-                new SimpleObjectFactory(),
-                new ReflectionTypeProvider()
-            ),
-            new UrlDecoder()
-        );
+        return $this->urlDeserializerFactory->createDeserializer();
     }
 
     /**
@@ -98,13 +66,7 @@ class SerializerFactory
      */
     public function createXmlSerializer()
     {
-        return new Serializer(
-            new Navigator(
-                new SimpleAccessor()
-            ),
-            new ToXmlVisitor(),
-            new XmlEncoder()
-        );
+        return $this->xmlSerializerFactory->createSerializer();
     }
 
     /**
@@ -112,31 +74,14 @@ class SerializerFactory
      */
     public function createXmlDeserializer()
     {
-        return new Deserializer(
-            new DOMNavigator(
-                new DOMElementAccessor()
-            ),
-            new FromXmlVisitor(
-                new SimpleObjectFactory(),
-                new ReflectionTypeProvider()
-            ),
-            new XmlDecoder()
-        );
+        return $this->xmlDeserializerFactory->createDeserializer();
     }
 
     /**
      * @return Mapper
      */
-    public function createMapper()
+    public function createDataMapper()
     {
-        return new Mapper(
-            new Navigator(
-                new SimpleAccessor()
-            ),
-            new FromUrlVisitor(
-                new SimpleObjectFactory(),
-                new ArrayTypeProviderDecorator(new ReflectionTypeProvider())
-            )
-        );
+        return $this->dataMapperFactory->createMapper();
     }
 }
