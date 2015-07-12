@@ -4,19 +4,19 @@ namespace spec\Scato\Serializer\Data;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\Type;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
 class MapperSpec extends ObjectBehavior
 {
-    function let(Navigator $navigator, TypedVisitorInterface $visitor)
+    function let(NavigatorInterface $navigator, TypedVisitorInterface $visitor)
     {
         $this->beConstructedWith($navigator, $visitor);
     }
 
     function it_should_deserialize_values(
-        Navigator $navigator,
+        NavigatorInterface $navigator,
         TypedVisitorInterface $visitor
     ) {
         // the visitor is told which type the root has

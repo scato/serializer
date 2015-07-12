@@ -2,13 +2,13 @@
 
 namespace Scato\Serializer;
 
-use Scato\Serializer\Common\DeserializeVisitor;
-use Scato\Serializer\Common\SerializeVisitor;
-use Scato\Serializer\Common\SimpleAccessor;
-use Scato\Serializer\Common\ReflectionTypeProvider;
-use Scato\Serializer\Common\SimpleObjectFactory;
+use Scato\Serializer\Navigation\DeserializeVisitor;
+use Scato\Serializer\Navigation\SerializeVisitor;
+use Scato\Serializer\ObjectAccess\SimpleAccessor;
+use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
+use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
 use Scato\Serializer\Core\Deserializer;
-use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Navigation\Navigator;
 use Scato\Serializer\Core\Serializer;
 use Scato\Serializer\Data\ArrayTypeProviderDecorator;
 use Scato\Serializer\Data\Mapper;

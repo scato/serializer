@@ -1,12 +1,11 @@
 <?php
 
-namespace spec\Scato\Serializer\Core;
+namespace spec\Scato\Serializer\Navigation;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Core\EncoderInterface;
-use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\VisitorInterface;
+use Scato\Serializer\Navigation\ObjectAccessorInterface;
 use stdClass;
 
 class NavigatorSpec extends ObjectBehavior
@@ -14,6 +13,11 @@ class NavigatorSpec extends ObjectBehavior
     function let(ObjectAccessorInterface $objectAccessor)
     {
         $this->beConstructedWith($objectAccessor);
+    }
+
+    function it_should_be_a_navigator()
+    {
+        $this->shouldHaveType('Scato\Serializer\Core\NavigatorInterface');
     }
 
     function it_should_accept_an_empty_array(VisitorInterface $visitor)

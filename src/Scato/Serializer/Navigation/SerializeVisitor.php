@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Scato\Serializer\Common;
+namespace Scato\Serializer\Navigation;
 
 use LogicException;
 use Scato\Serializer\Core\VisitorInterface;

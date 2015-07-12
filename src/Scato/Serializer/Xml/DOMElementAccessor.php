@@ -5,7 +5,7 @@ namespace Scato\Serializer\Xml;
 use DOMDocument;
 use DOMElement;
 use InvalidArgumentException;
-use Scato\Serializer\Core\ObjectAccessorInterface;
+use Scato\Serializer\Navigation\ObjectAccessorInterface;
 
 /**
  * Accesses the childNodes of a DOMElement as properties

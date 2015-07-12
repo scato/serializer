@@ -1,4 +1,5 @@
 <?php
+
 namespace Scato\Serializer\Core;
 
 /**

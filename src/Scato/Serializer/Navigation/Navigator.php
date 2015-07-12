@@ -1,11 +1,14 @@
 <?php
 
-namespace Scato\Serializer\Core;
+namespace Scato\Serializer\Navigation;
+
+use Scato\Serializer\Core\NavigatorInterface;
+use Scato\Serializer\Core\VisitorInterface;
 
 /**
  * Guides a Visitor through an object graph or data tree
  */
-class Navigator
+class Navigator implements NavigatorInterface
 {
     /**
      * @var ObjectAccessorInterface

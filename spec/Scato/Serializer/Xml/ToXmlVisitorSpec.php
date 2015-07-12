@@ -10,7 +10,7 @@ class ToXmlVisitorSpec extends ObjectBehavior
 {
     function it_should_be_a_serialize_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\SerializeVisitor');
+        $this->shouldHaveType('Scato\Serializer\Navigation\SerializeVisitor');
     }
 
     function it_should_handle_an_empty_object() {

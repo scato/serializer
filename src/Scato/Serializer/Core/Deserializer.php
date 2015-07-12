@@ -8,7 +8,7 @@ namespace Scato\Serializer\Core;
 class Deserializer
 {
     /**
-     * @var Navigator
+     * @var NavigatorInterface
      */
     private $navigator;
 
@@ -23,12 +23,12 @@ class Deserializer
     private $decoder;
 
     /**
-     * @param Navigator             $navigator
+     * @param NavigatorInterface    $navigator
      * @param TypedVisitorInterface $visitor
      * @param DecoderInterface      $decoder
      */
     public function __construct(
-        Navigator $navigator,
+        NavigatorInterface $navigator,
         TypedVisitorInterface $visitor,
         DecoderInterface $decoder
     ) {

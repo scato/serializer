@@ -2,7 +2,7 @@
 
 namespace Scato\Serializer\Data;
 
-use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\Type;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
@@ -12,7 +12,7 @@ use Scato\Serializer\Core\TypedVisitorInterface;
 class Mapper
 {
     /**
-     * @var Navigator
+     * @var NavigatorInterface
      */
     private $navigator;
 
@@ -22,10 +22,10 @@ class Mapper
     private $visitor;
 
     /**
-     * @param Navigator             $navigator
+     * @param NavigatorInterface    $navigator
      * @param TypedVisitorInterface $visitor
      */
-    public function __construct(Navigator $navigator, TypedVisitorInterface $visitor)
+    public function __construct(NavigatorInterface $navigator, TypedVisitorInterface $visitor)
     {
         $this->navigator = $navigator;
         $this->visitor = $visitor;

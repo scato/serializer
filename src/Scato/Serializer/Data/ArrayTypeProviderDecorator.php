@@ -2,8 +2,8 @@
 
 namespace Scato\Serializer\Data;
 
-use Scato\Serializer\Common\TypeProviderInterface;
 use Scato\Serializer\Core\Type;
+use Scato\Serializer\Navigation\TypeProviderInterface;
 
 /**
  * Decorates a TypeProvider so it can handle array types as well

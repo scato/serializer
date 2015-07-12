@@ -2,7 +2,7 @@
 
 namespace Scato\Serializer\Xml;
 
-use Scato\Serializer\Common\DeserializeVisitor;
+use Scato\Serializer\Navigation\DeserializeVisitor;
 
 /**
  * Turns a DOMDocument into an object graph
@@ -48,11 +48,11 @@ class FromXmlVisitor extends DeserializeVisitor
 
         if ($type->isClass()) {
             $this->createAssociativeArray();
-
-            parent::createObject();
         } else {
             $this->createIndexedArray();
         }
+
+        parent::createObject();
     }
 
     /**

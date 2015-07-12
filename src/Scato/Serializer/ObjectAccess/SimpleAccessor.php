@@ -1,8 +1,8 @@
 <?php
 
-namespace Scato\Serializer\Common;
+namespace Scato\Serializer\ObjectAccess;
 
-use Scato\Serializer\Core\ObjectAccessorInterface;
+use Scato\Serializer\Navigation\ObjectAccessorInterface;
 
 /**
  * Accesses the properties of a Plain Old PHP Object

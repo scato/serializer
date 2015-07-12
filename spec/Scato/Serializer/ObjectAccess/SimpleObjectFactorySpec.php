@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Scato\Serializer\Common;
+namespace spec\Scato\Serializer\ObjectAccess;
 
 use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
@@ -12,7 +12,7 @@ class SimpleObjectFactorySpec extends ObjectBehavior
 {
     function it_should_be_an_object_factory()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\ObjectFactoryInterface');
+        $this->shouldHaveType('Scato\Serializer\Navigation\ObjectFactoryInterface');
     }
 
     function it_should_create_an_object()

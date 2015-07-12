@@ -4,9 +4,9 @@ namespace spec\Scato\Serializer\Xml;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\ObjectFactoryInterface;
 use Scato\Serializer\Core\Type;
-use Scato\Serializer\Common\TypeProviderInterface;
+use Scato\Serializer\Navigation\ObjectFactoryInterface;
+use Scato\Serializer\Navigation\TypeProviderInterface;
 use stdClass;
 
 class FromXmlVisitorSpec extends ObjectBehavior
@@ -24,7 +24,7 @@ class FromXmlVisitorSpec extends ObjectBehavior
 
     function it_should_be_a_deserialize_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\DeserializeVisitor');
+        $this->shouldHaveType('Scato\Serializer\Navigation\DeserializeVisitor');
     }
 
     function it_should_handle_an_object_with_a_string(

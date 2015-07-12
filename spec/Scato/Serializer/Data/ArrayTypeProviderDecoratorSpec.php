@@ -4,7 +4,7 @@ namespace spec\Scato\Serializer\Data;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\TypeProviderInterface;
+use Scato\Serializer\Navigation\TypeProviderInterface;
 use Scato\Serializer\Core\Type;
 
 class ArrayTypeProviderDecoratorSpec extends ObjectBehavior
@@ -16,7 +16,7 @@ class ArrayTypeProviderDecoratorSpec extends ObjectBehavior
 
     function it_should_be_a_type_provider()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\TypeProviderInterface');
+        $this->shouldHaveType('Scato\Serializer\Navigation\TypeProviderInterface');
     }
 
     function it_should_pass_along_types_for_properties(TypeProviderInterface $parent)

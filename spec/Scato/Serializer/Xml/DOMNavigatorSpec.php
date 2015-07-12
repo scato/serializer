@@ -2,12 +2,11 @@
 
 namespace spec\Scato\Serializer\Xml;
 
+use DOMDocument;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Core\EncoderInterface;
-use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\VisitorInterface;
-use stdClass;
+use Scato\Serializer\Navigation\ObjectAccessorInterface;
 
 class DOMNavigatorSpec extends ObjectBehavior
 {
@@ -16,11 +15,17 @@ class DOMNavigatorSpec extends ObjectBehavior
         $this->beConstructedWith($objectAccessor);
     }
 
+    function it_should_be_a_navigator()
+    {
+        $this->shouldHaveType('Scato\Serializer\Core\NavigatorInterface');
+    }
+
     function it_should_accept_an_empty_object(
         ObjectAccessorInterface $objectAccessor,
         VisitorInterface $visitor
     ) {
-        $object = new stdClass();
+        $object = new DOMDocument();
+        $object->loadXML('<root/>');
 
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
@@ -34,7 +39,8 @@ class DOMNavigatorSpec extends ObjectBehavior
         ObjectAccessorInterface $objectAccessor,
         VisitorInterface $visitor
     ) {
-        $object = new stdClass();
+        $object = new DOMDocument();
+        $object->loadXML('<root/>');
 
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('entry')->shouldBeCalled();

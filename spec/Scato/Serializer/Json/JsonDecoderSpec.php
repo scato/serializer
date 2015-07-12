@@ -4,7 +4,6 @@ namespace spec\Scato\Serializer\Json;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use stdClass;
 
 class JsonDecoderSpec extends ObjectBehavior
 {

@@ -12,7 +12,7 @@ class DOMElementAccessorSpec extends ObjectBehavior
 {
     function it_should_be_an_accessor()
     {
-        $this->shouldHaveType('Scato\Serializer\Core\ObjectAccessorInterface');
+        $this->shouldHaveType('Scato\Serializer\Navigation\ObjectAccessorInterface');
     }
 
     function it_should_only_accept_dom_elements()

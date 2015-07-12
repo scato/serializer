@@ -2,11 +2,11 @@
 
 namespace Scato\Serializer\Xml;
 
-use Scato\Serializer\Core\Navigator;
-use Scato\Serializer\Core\ObjectAccessorInterface;
 use Scato\Serializer\Core\VisitorInterface;
+use Scato\Serializer\Core\NavigatorInterface;
+use Scato\Serializer\Navigation\ObjectAccessorInterface;
 
-class DOMNavigator extends Navigator
+class DOMNavigator implements NavigatorInterface
 {
     /**
      * @var ObjectAccessorInterface

@@ -2,7 +2,7 @@
 
 namespace Scato\Serializer\Url;
 
-use Scato\Serializer\Common\SerializeVisitor;
+use Scato\Serializer\Navigation\SerializeVisitor;
 
 /**
  * Turns an object graph into an array

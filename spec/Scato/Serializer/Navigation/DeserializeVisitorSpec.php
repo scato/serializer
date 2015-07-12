@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Scato\Serializer\Common;
+namespace spec\Scato\Serializer\Navigation;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\ObjectFactoryInterface;
 use Scato\Serializer\Core\Type;
-use Scato\Serializer\Common\TypeProviderInterface;
+use Scato\Serializer\Navigation\ObjectFactoryInterface;
+use Scato\Serializer\Navigation\TypeProviderInterface;
 use stdClass;
 
 class DeserializeVisitorSpec extends ObjectBehavior

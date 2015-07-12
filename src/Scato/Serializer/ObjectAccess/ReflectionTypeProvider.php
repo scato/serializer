@@ -1,6 +1,6 @@
 <?php
 
-namespace Scato\Serializer\Common;
+namespace Scato\Serializer\ObjectAccess;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tag\VarTag;
@@ -8,6 +8,7 @@ use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\ContextFactory;
 use ReflectionClass;
 use Scato\Serializer\Core\Type;
+use Scato\Serializer\Navigation\TypeProviderInterface;
 
 /**
  * Provides property types using the var docblock tag

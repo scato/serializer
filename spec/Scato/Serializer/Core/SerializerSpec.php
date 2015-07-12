@@ -5,18 +5,18 @@ namespace spec\Scato\Serializer\Core;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\EncoderInterface;
-use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\VisitorInterface;
 
 class SerializerSpec extends ObjectBehavior
 {
-    function let(Navigator $navigator, VisitorInterface $visitor, EncoderInterface $encoder)
+    function let(NavigatorInterface $navigator, VisitorInterface $visitor, EncoderInterface $encoder)
     {
         $this->beConstructedWith($navigator, $visitor, $encoder);
     }
 
     function it_should_serialize_values(
-        Navigator $navigator,
+        NavigatorInterface $navigator,
         VisitorInterface $visitor,
         EncoderInterface $encoder
     ) {

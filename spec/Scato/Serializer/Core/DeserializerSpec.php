@@ -5,19 +5,19 @@ namespace spec\Scato\Serializer\Core;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\DecoderInterface;
-use Scato\Serializer\Core\Navigator;
+use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\Type;
 use Scato\Serializer\Core\TypedVisitorInterface;
 
 class DeserializerSpec extends ObjectBehavior
 {
-    function let(Navigator $navigator, TypedVisitorInterface $visitor, DecoderInterface $decoder)
+    function let(NavigatorInterface $navigator, TypedVisitorInterface $visitor, DecoderInterface $decoder)
     {
         $this->beConstructedWith($navigator, $visitor, $decoder);
     }
 
     function it_should_deserialize_values(
-        Navigator $navigator,
+        NavigatorInterface $navigator,
         TypedVisitorInterface $visitor,
         DecoderInterface $decoder
     ) {

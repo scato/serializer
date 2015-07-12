@@ -8,7 +8,7 @@ namespace Scato\Serializer\Core;
 class Serializer
 {
     /**
-     * @var Navigator
+     * @var NavigatorInterface
      */
     private $navigator;
 
@@ -23,12 +23,12 @@ class Serializer
     private $encoder;
 
     /**
-     * @param Navigator        $navigator
-     * @param VisitorInterface $visitor
-     * @param EncoderInterface $encoder
+     * @param NavigatorInterface $navigator
+     * @param VisitorInterface   $visitor
+     * @param EncoderInterface   $encoder
      */
     public function __construct(
-        Navigator $navigator,
+        NavigatorInterface $navigator,
         VisitorInterface $visitor,
         EncoderInterface $encoder
     ) {

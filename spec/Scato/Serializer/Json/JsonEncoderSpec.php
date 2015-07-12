@@ -4,7 +4,6 @@ namespace spec\Scato\Serializer\Json;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use stdClass;
 
 class JsonEncoderSpec extends ObjectBehavior
 {
@@ -28,27 +27,14 @@ class JsonEncoderSpec extends ObjectBehavior
         $this->encode(array(array('foo')))->shouldBe('[["foo"]]');
     }
 
-    function it_should_encode_an_empty_object()
-    {
-        $object = new stdClass();
-
-        $this->encode($object)->shouldBe('{}');
-    }
-
     function it_should_encode_an_object_with_a_string()
     {
-        $object = new stdClass();
-        $object->foo = 'bar';
-
-        $this->encode($object)->shouldBe('{"foo":"bar"}');
+        $this->encode(array('foo' => 'bar'))->shouldBe('{"foo":"bar"}');
     }
 
     function it_should_encode_an_object_with_an_array()
     {
-        $object = new stdClass();
-        $object->foo = array('bar');
-
-        $this->encode($object)->shouldBe('{"foo":["bar"]}');
+        $this->encode(array('foo' => array('bar')))->shouldBe('{"foo":["bar"]}');
     }
 
     function it_should_encode_a_string()

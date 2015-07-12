@@ -1,5 +1,6 @@
 <?php
-namespace Scato\Serializer\Core;
+
+namespace Scato\Serializer\Navigation;
 
 /**
  * Accesses the properties of an object

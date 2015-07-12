@@ -1,9 +1,10 @@
 <?php
 
-namespace Scato\Serializer\Common;
+namespace Scato\Serializer\ObjectAccess;
 
 use InvalidArgumentException;
 use Scato\Serializer\Core\Type;
+use Scato\Serializer\Navigation\ObjectFactoryInterface;
 
 /**
  * Creates Plain Old PHP Objects

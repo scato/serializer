@@ -5,7 +5,7 @@ namespace Scato\Serializer\Xml;
 use DOMDocument;
 use DOMElement;
 use DOMText;
-use Scato\Serializer\Common\SerializeVisitor;
+use Scato\Serializer\Navigation\SerializeVisitor;
 
 /**
  * Turns an object graph into a DOMDocument
@@ -79,6 +79,29 @@ class ToXmlVisitor extends SerializeVisitor
     }
 
     /**
+     * @param integer|string $key
+     * @return void
+     */
+    protected function createElement($key)
+    {
+        $value = $this->results->pop();
+        $child = $this->results->pop();
+        $parent = $this->results->pop();
+
+        if ($value instanceof DOMElement) {
+            while ($value->childNodes->length > 0) {
+                $child->appendChild($value->childNodes->item(0));
+            }
+        } else {
+            $child->appendChild($value);
+        }
+
+        $parent->appendChild($child);
+
+        $this->results->push($parent);
+    }
+
+    /**
      * @return DOMDocument
      */
     private function getDocument()
@@ -103,28 +126,5 @@ class ToXmlVisitor extends SerializeVisitor
         $this->document = null;
 
         $this->results->push($document);
-    }
-
-    /**
-     * @param integer|string $key
-     * @return void
-     */
-    protected function createElement($key)
-    {
-        $value = $this->results->pop();
-        $child = $this->results->pop();
-        $parent = $this->results->pop();
-
-        if ($value instanceof DOMElement) {
-            while ($value->childNodes->length > 0) {
-                $child->appendChild($value->childNodes->item(0));
-            }
-        } else {
-            $child->appendChild($value);
-        }
-
-        $parent->appendChild($child);
-
-        $this->results->push($parent);
     }
 }

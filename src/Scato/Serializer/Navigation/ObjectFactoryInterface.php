@@ -1,6 +1,6 @@
 <?php
 
-namespace Scato\Serializer\Common;
+namespace Scato\Serializer\Navigation;
 
 use Scato\Serializer\Core\Type;
 

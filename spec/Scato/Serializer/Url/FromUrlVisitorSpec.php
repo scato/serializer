@@ -4,10 +4,9 @@ namespace spec\Scato\Serializer\Url;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Scato\Serializer\Common\ObjectFactoryInterface;
 use Scato\Serializer\Core\Type;
-use Scato\Serializer\Common\TypeProviderInterface;
-use stdClass;
+use Scato\Serializer\Navigation\ObjectFactoryInterface;
+use Scato\Serializer\Navigation\TypeProviderInterface;
 
 class FromUrlVisitorSpec extends ObjectBehavior
 {
@@ -24,7 +23,7 @@ class FromUrlVisitorSpec extends ObjectBehavior
 
     function it_should_be_a_deserialize_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\DeserializeVisitor');
+        $this->shouldHaveType('Scato\Serializer\Navigation\DeserializeVisitor');
     }
 
     function it_should_handle_a_number()

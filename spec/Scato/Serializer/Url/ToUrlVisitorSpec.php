@@ -9,7 +9,7 @@ class ToUrlVisitorSpec extends ObjectBehavior
 {
     function it_should_be_a_serializer_visitor()
     {
-        $this->shouldHaveType('Scato\Serializer\Common\SerializeVisitor');
+        $this->shouldHaveType('Scato\Serializer\Navigation\SerializeVisitor');
     }
 
     function it_should_handle_null()
