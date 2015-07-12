@@ -19,24 +19,6 @@ use Scato\Serializer\Common\DeserializeVisitor;
 class FromXmlVisitor extends DeserializeVisitor
 {
     /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyStart($name)
-    {
-        parent::visitPropertyStart($name);
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyEnd($name)
-    {
-        parent::visitPropertyEnd($name);
-    }
-
-    /**
      * @param mixed $value
      * @return void
      */

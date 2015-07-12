@@ -59,38 +59,6 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
     }
 
     /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyStart($name)
-    {
-        parent::visitPropertyStart($name);
-
-        $this->pushPropertyType($name);
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyEnd($name)
-    {
-        $this->types->pop();
-
-        parent::visitPropertyEnd($name);
-    }
-
-    /**
-     * @return void
-     */
-    public function visitArrayEnd()
-    {
-        parent::visitArrayEnd();
-
-        $this->createObject();
-    }
-
-    /**
      * @param integer|string $key
      * @return void
      */
@@ -145,18 +113,5 @@ class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterfa
         } else {
             $this->types->push($type->getElementType());
         }
-    }
-
-    /**
-     * Push the type corresponding to a property on the top of the type stack
-     *
-     * @param string $name
-     * @return void
-     */
-    protected function pushPropertyType($name)
-    {
-        $type = $this->types->top();
-
-        $this->types->push($this->typeProvider->getType($type, $name));
     }
 }

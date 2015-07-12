@@ -60,6 +60,7 @@ class SerializeVisitor implements VisitorInterface
      */
     public function visitArrayEnd()
     {
+        $this->createObject();
     }
 
     /**

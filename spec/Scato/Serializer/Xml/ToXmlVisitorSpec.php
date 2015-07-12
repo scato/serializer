@@ -8,7 +8,7 @@ use Prophecy\Argument;
 
 class ToXmlVisitorSpec extends ObjectBehavior
 {
-    function it_should_be_an_object_to_array_visitor()
+    function it_should_be_a_serialize_visitor()
     {
         $this->shouldHaveType('Scato\Serializer\Common\SerializeVisitor');
     }

@@ -22,7 +22,7 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $this->beConstructedWith($objectFactory, $typeProvider);
     }
 
-    function it_should_be_an_map_to_object_visitor()
+    function it_should_be_a_deserialize_visitor()
     {
         $this->shouldHaveType('Scato\Serializer\Common\DeserializeVisitor');
     }
