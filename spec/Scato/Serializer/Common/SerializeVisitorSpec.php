@@ -47,32 +47,32 @@ class SerializeVisitorSpec extends ObjectBehavior
     }
 
     function it_should_handle_an_empty_object() {
-        $this->visitObjectStart();
-        $this->visitObjectEnd();
+        $this->visitArrayStart();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike(array());
     }
 
     function it_should_handle_an_object_with_a_string() {
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitValue('bar');
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike(array('foo' => 'bar'));
     }
 
     function it_should_handle_an_object_with_an_array() {
-        $this->visitObjectStart();
-        $this->visitPropertyStart('foo');
+        $this->visitArrayStart();
+        $this->visitElementStart('foo');
         $this->visitArrayStart();
         $this->visitElementStart(0);
         $this->visitValue('bar');
         $this->visitElementEnd(0);
         $this->visitArrayEnd();
-        $this->visitPropertyEnd('foo');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('foo');
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike(array('foo' => array('bar')));
     }

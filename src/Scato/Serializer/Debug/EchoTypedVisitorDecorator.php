@@ -46,44 +46,6 @@ class EchoTypedVisitorDecorator implements TypedVisitorInterface
     /**
      * @return void
      */
-    public function visitObjectStart()
-    {
-        $this->log('visitObjectStart');
-        $this->parent->visitObjectStart();
-    }
-
-    /**
-     * @return void
-     */
-    public function visitObjectEnd()
-    {
-        $this->log('visitObjectEnd');
-        $this->parent->visitObjectEnd();
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyStart($name)
-    {
-        $this->log('visitPropertyStart', $name);
-        $this->parent->visitPropertyStart($name);
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyEnd($name)
-    {
-        $this->log('visitPropertyEnd', $name);
-        $this->parent->visitPropertyEnd($name);
-    }
-
-    /**
-     * @return void
-     */
     public function visitArrayStart()
     {
         $this->log('visitArrayStart');

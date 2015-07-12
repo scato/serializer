@@ -15,28 +15,6 @@ interface VisitorInterface
     /**
      * @return void
      */
-    public function visitObjectStart();
-
-    /**
-     * @return void
-     */
-    public function visitObjectEnd();
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyStart($name);
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyEnd($name);
-
-    /**
-     * @return void
-     */
     public function visitArrayStart();
 
     /**

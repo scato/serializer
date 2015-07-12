@@ -39,27 +39,6 @@ class ToXmlVisitor extends SerializeVisitor
     /**
      * @return void
      */
-    public function visitObjectStart()
-    {
-        $root = $this->getDocument()->createElement('root');
-
-        $this->results->push($root);
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyStart($name)
-    {
-        $property = $this->getDocument()->createElement($name);
-
-        $this->results->push($property);
-    }
-
-    /**
-     * @return void
-     */
     public function visitArrayStart()
     {
         $root = $this->getDocument()->createElement('root');

@@ -34,9 +34,9 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $objectFactory->createObject(Type::fromString('Person'), Argument::is($this->getProperties()))->willReturn($object);
 
         $this->visitType(Type::fromString('Person'));
-        $this->visitObjectStart();
+        $this->visitArrayStart();
         $this->visitProperties();
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -51,10 +51,10 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $objectFactory->createObject(Type::fromString('Address'), $this->getAddress())->willReturn($address);
 
         $this->visitType(Type::fromString('Person'));
-        $this->visitObjectStart();
+        $this->visitArrayStart();
         $this->visitProperties();
         $this->visitAddress();
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -71,70 +71,70 @@ class FromXmlVisitorSpec extends ObjectBehavior
         $objectFactory->createObject(Type::fromString('PhoneNumber'), $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
         $this->visitType(Type::fromString('Person'));
-        $this->visitObjectStart();
+        $this->visitArrayStart();
         $this->visitProperties();
         $this->visitPhoneNumbers();
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
 
     private function visitProperties()
     {
-        $this->visitPropertyStart('personId');
+        $this->visitElementStart('personId');
         $this->visitSingleValue('1');
-        $this->visitPropertyEnd('personId');
-        $this->visitPropertyStart('name');
+        $this->visitElementEnd('personId');
+        $this->visitElementStart('name');
         $this->visitSingleValue('Bryon Hetrick');
-        $this->visitPropertyEnd('name');
-        $this->visitPropertyStart('registered');
+        $this->visitElementEnd('name');
+        $this->visitElementStart('registered');
         $this->visitSingleValue('true');
-        $this->visitPropertyEnd('registered');
+        $this->visitElementEnd('registered');
     }
 
     private function visitAddress()
     {
-        $this->visitPropertyStart('address');
+        $this->visitElementStart('address');
         $this->visitSingleObjectStart();
-        $this->visitPropertyStart('street');
+        $this->visitElementStart('street');
         $this->visitSingleValue('Dam');
-        $this->visitPropertyEnd('street');
-        $this->visitPropertyStart('number');
+        $this->visitElementEnd('street');
+        $this->visitElementStart('number');
         $this->visitSingleValue('1');
-        $this->visitPropertyEnd('number');
-        $this->visitPropertyStart('city');
+        $this->visitElementEnd('number');
+        $this->visitElementStart('city');
         $this->visitSingleValue('Amsterdam');
-        $this->visitPropertyEnd('city');
+        $this->visitElementEnd('city');
         $this->visitSingleObjectEnd();
-        $this->visitPropertyEnd('address');
+        $this->visitElementEnd('address');
     }
 
     private function visitPhoneNumbers()
     {
-        $this->visitPropertyStart('phoneNumbers');
+        $this->visitElementStart('phoneNumbers');
         $this->visitSingleObjectStart();
-        $this->visitPropertyStart('entry');
-        $this->visitObjectStart();
-        $this->visitPropertyStart('name');
+        $this->visitElementStart('entry');
+        $this->visitArrayStart();
+        $this->visitElementStart('name');
         $this->visitSingleValue('Home');
-        $this->visitPropertyEnd('name');
-        $this->visitPropertyStart('number');
+        $this->visitElementEnd('name');
+        $this->visitElementStart('number');
         $this->visitSingleValue('0201234567');
-        $this->visitPropertyEnd('number');
-        $this->visitObjectEnd();
-        $this->visitPropertyEnd('entry');
-        $this->visitPropertyStart('entry');
-        $this->visitObjectStart();
-        $this->visitPropertyStart('name');
+        $this->visitElementEnd('number');
+        $this->visitArrayEnd();
+        $this->visitElementEnd('entry');
+        $this->visitElementStart('entry');
+        $this->visitArrayStart();
+        $this->visitElementStart('name');
         $this->visitSingleValue('Mobile');
-        $this->visitPropertyEnd('name');
-        $this->visitPropertyStart('number');
+        $this->visitElementEnd('name');
+        $this->visitElementStart('number');
         $this->visitSingleValue('0612345678');
-        $this->visitPropertyEnd('number');
-        $this->visitObjectEnd();
-        $this->visitPropertyEnd('entry');
+        $this->visitElementEnd('number');
+        $this->visitArrayEnd();
+        $this->visitElementEnd('entry');
         $this->visitSingleObjectEnd();
-        $this->visitPropertyEnd('phoneNumbers');
+        $this->visitElementEnd('phoneNumbers');
     }
 
     private function visitSingleValue($value)
@@ -144,12 +144,12 @@ class FromXmlVisitorSpec extends ObjectBehavior
 
     private function visitSingleObjectStart()
     {
-        $this->visitObjectStart();
+        $this->visitArrayStart();
     }
 
     private function visitSingleObjectEnd()
     {
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
     }
 
     private function getProperties()

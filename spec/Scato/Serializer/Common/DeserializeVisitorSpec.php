@@ -32,9 +32,9 @@ class DeserializeVisitorSpec extends ObjectBehavior
         $objectFactory->createObject(Type::fromString('Person'), $this->getProperties())->willReturn($object);
 
         $this->visitType(Type::fromString('Person'));
-        $this->visitObjectStart();
+        $this->visitArrayStart();
         $this->visitProperties();
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -49,10 +49,10 @@ class DeserializeVisitorSpec extends ObjectBehavior
         $objectFactory->createObject(Type::fromString('Address'), $this->getAddress())->willReturn($address);
 
         $this->visitType(Type::fromString('Person'));
-        $this->visitObjectStart();
+        $this->visitArrayStart();
         $this->visitProperties();
         $this->visitAddress();
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
@@ -69,70 +69,70 @@ class DeserializeVisitorSpec extends ObjectBehavior
         $objectFactory->createObject(Type::fromString('PhoneNumber'), $this->getPhoneNumbers()[1])->willReturn($mobileNumber);
 
         $this->visitType(Type::fromString('Person'));
-        $this->visitObjectStart();
+        $this->visitArrayStart();
         $this->visitProperties();
         $this->visitPhoneNumbers();
-        $this->visitObjectEnd();
+        $this->visitArrayEnd();
 
         $this->getResult()->shouldBeLike($object);
     }
 
     private function visitProperties()
     {
-        $this->visitPropertyStart('personId');
+        $this->visitElementStart('personId');
         $this->visitValue(1);
-        $this->visitPropertyEnd('personId');
-        $this->visitPropertyStart('name');
+        $this->visitElementEnd('personId');
+        $this->visitElementStart('name');
         $this->visitValue('Bryon Hetrick');
-        $this->visitPropertyEnd('name');
-        $this->visitPropertyStart('registered');
+        $this->visitElementEnd('name');
+        $this->visitElementStart('registered');
         $this->visitValue(true);
-        $this->visitPropertyEnd('registered');
+        $this->visitElementEnd('registered');
     }
 
     private function visitAddress()
     {
-        $this->visitPropertyStart('address');
-        $this->visitObjectStart();
-        $this->visitPropertyStart('street');
+        $this->visitElementStart('address');
+        $this->visitArrayStart();
+        $this->visitElementStart('street');
         $this->visitValue('Dam');
-        $this->visitPropertyEnd('street');
-        $this->visitPropertyStart('number');
+        $this->visitElementEnd('street');
+        $this->visitElementStart('number');
         $this->visitValue('1');
-        $this->visitPropertyEnd('number');
-        $this->visitPropertyStart('city');
+        $this->visitElementEnd('number');
+        $this->visitElementStart('city');
         $this->visitValue('Amsterdam');
-        $this->visitPropertyEnd('city');
-        $this->visitObjectEnd();
-        $this->visitPropertyEnd('address');
+        $this->visitElementEnd('city');
+        $this->visitArrayEnd();
+        $this->visitElementEnd('address');
     }
 
     private function visitPhoneNumbers()
     {
-        $this->visitPropertyStart('phoneNumbers');
+        $this->visitElementStart('phoneNumbers');
         $this->visitArrayStart();
         $this->visitElementStart(0);
-        $this->visitObjectStart();
-        $this->visitPropertyStart('name');
+        $this->visitArrayStart();
+        $this->visitElementStart('name');
         $this->visitValue('Home');
-        $this->visitPropertyEnd('name');
-        $this->visitPropertyStart('number');
+        $this->visitElementEnd('name');
+        $this->visitElementStart('number');
         $this->visitValue('0201234567');
-        $this->visitPropertyEnd('number');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('number');
+        $this->visitArrayEnd();
         $this->visitElementEnd(0);
         $this->visitElementStart(1);
-        $this->visitObjectStart();
-        $this->visitPropertyStart('name');
+        $this->visitArrayStart();
+        $this->visitElementStart('name');
         $this->visitValue('Mobile');
-        $this->visitPropertyEnd('name');
-        $this->visitPropertyStart('number');
+        $this->visitElementEnd('name');
+        $this->visitElementStart('number');
         $this->visitValue('0612345678');
-        $this->visitPropertyEnd('number');
-        $this->visitObjectEnd();
+        $this->visitElementEnd('number');
+        $this->visitArrayEnd();
         $this->visitElementEnd(1);
         $this->visitArrayEnd();
-        $this->visitPropertyEnd('phoneNumbers');
+        $this->visitElementEnd('phoneNumbers');
     }
 
     private function getProperties()

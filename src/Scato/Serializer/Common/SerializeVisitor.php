@@ -50,39 +50,6 @@ class SerializeVisitor implements VisitorInterface
     /**
      * @return void
      */
-    public function visitObjectStart()
-    {
-        $this->results->push(array());
-    }
-
-    /**
-     * @return void
-     */
-    public function visitObjectEnd()
-    {
-        $this->createObject();
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyStart($name)
-    {
-    }
-
-    /**
-     * @param string $name
-     * @return void
-     */
-    public function visitPropertyEnd($name)
-    {
-        $this->createElement($name);
-    }
-
-    /**
-     * @return void
-     */
     public function visitArrayStart()
     {
         $this->results->push(array());
