@@ -31,6 +31,15 @@ module.exports = function(grunt) {
             prefix: 'vendor/bin/'
         }
     },
+    behat: {
+        app: {
+            options: {
+                output: true
+            },
+            cmd: 'vendor/bin/behat',
+            features: 'features/'
+        }
+    },
     watch: {
       specs: {
         files: '<%= phpspec.app.specs %>',
@@ -47,9 +56,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-phpcs');
   grunt.loadNpmTasks('grunt-phpmd');
   grunt.loadNpmTasks('grunt-phpspec');
+  grunt.loadNpmTasks('grunt-behat');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['phpcs', 'phpmd', 'phpspec']);
+  grunt.registerTask('default', ['phpcs', 'phpmd', 'phpspec', 'behat']);
 
 };
