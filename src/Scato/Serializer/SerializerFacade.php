@@ -62,7 +62,7 @@ class SerializerFacade
      */
     public function deserialize($value, $type, $format)
     {
-        if (isset($this->deserializerFactories[$format])) {
+        if (!isset($this->deserializerFactories[$format])) {
             throw new InvalidArgumentException("Unknown format '$format'");
         }
 
