@@ -9,6 +9,9 @@ use Scato\Serializer\Core\VisitorInterface;
 use Scato\Serializer\Navigation\Navigator;
 use Scato\Serializer\ObjectAccess\SimpleAccessor;
 
+/**
+ * Creates a URL serializer and all its components
+ */
 class UrlSerializerFactory extends AbstractSerializerFactory
 {
     /**

@@ -2,6 +2,9 @@
 
 namespace Scato\Serializer\Core;
 
+/**
+ * Creates a deserializer and all its components
+ */
 abstract class AbstractDeserializerFactory
 {
     /**

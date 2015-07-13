@@ -6,6 +6,9 @@ use InvalidArgumentException;
 use Scato\Serializer\Core\AbstractDeserializerFactory;
 use Scato\Serializer\Core\AbstractSerializerFactory;
 
+/**
+ * Serializes, deserializes and maps values
+ */
 class SerializerFacade
 {
     /**
@@ -18,6 +21,10 @@ class SerializerFacade
      */
     private $deserializerFactories = [];
 
+    /**
+     * @param array|AbstractSerializerFactory[]   $serializerFactories
+     * @param array|AbstractDeserializerFactory[] $deserializerFactories
+     */
     public function __construct(array $serializerFactories, array $deserializerFactories)
     {
         foreach ($serializerFactories as $format => $serializerFactory) {
@@ -29,6 +36,12 @@ class SerializerFacade
         }
     }
 
+    /**
+     * @param mixed  $value
+     * @param string $format
+     * @return string
+     * @throws InvalidArgumentException
+     */
     public function serialize($value, $format)
     {
         if (!isset($this->serializerFactories[$format])) {
@@ -40,6 +53,13 @@ class SerializerFacade
         return $serializer->serialize($value);
     }
 
+    /**
+     * @param string $value
+     * @param string $type
+     * @param string $format
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
     public function deserialize($value, $type, $format)
     {
         if (isset($this->deserializerFactories[$format])) {
@@ -51,11 +71,21 @@ class SerializerFacade
         return $deserializer->deserialize($value, $type);
     }
 
+    /**
+     * @param string                    $format
+     * @param AbstractSerializerFactory $serializerFactory
+     * @return void
+     */
     private function addSerializerFactory($format, AbstractSerializerFactory $serializerFactory)
     {
         $this->serializerFactories[$format] = $serializerFactory;
     }
 
+    /**
+     * @param string                      $format
+     * @param AbstractDeserializerFactory $deserializerFactory
+     * @return void
+     */
     private function addDeserializerFactory($format, AbstractDeserializerFactory $deserializerFactory)
     {
         $this->deserializerFactories[$format] = $deserializerFactory;

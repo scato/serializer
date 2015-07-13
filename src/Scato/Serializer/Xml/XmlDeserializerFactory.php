@@ -9,6 +9,9 @@ use Scato\Serializer\Core\TypedVisitorInterface;
 use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
 use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
 
+/**
+ * Creates an XML deserializer and all its components
+ */
 class XmlDeserializerFactory extends AbstractDeserializerFactory
 {
     /**

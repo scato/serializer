@@ -10,6 +10,9 @@ use Scato\Serializer\Navigation\Navigator;
 use Scato\Serializer\Navigation\SerializeVisitor;
 use Scato\Serializer\ObjectAccess\SimpleAccessor;
 
+/**
+ * Creates a JSON serializer and all its components
+ */
 class JsonSerializerFactory extends AbstractSerializerFactory
 {
     /**

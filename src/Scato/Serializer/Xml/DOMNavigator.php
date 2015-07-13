@@ -6,6 +6,9 @@ use Scato\Serializer\Core\VisitorInterface;
 use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Navigation\ObjectAccessorInterface;
 
+/**
+ * Guides a Visitor through a DOMDocument
+ */
 class DOMNavigator implements NavigatorInterface
 {
     /**

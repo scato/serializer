@@ -18,6 +18,44 @@ use Scato\Serializer\Xml\XmlSerializerFactory;
  */
 class SerializerFactory
 {
+    /**
+     * @var JsonSerializerFactory
+     */
+    private $jsonSerializerFactory;
+
+    /**
+     * @var JsonDeserializerFactory
+     */
+    private $jsonDeserializerFactory;
+
+    /**
+     * @var UrlSerializerFactory
+     */
+    private $urlSerializerFactory;
+
+    /**
+     * @var UrlDeserializerFactory
+     */
+    private $urlDeserializerFactory;
+
+    /**
+     * @var XmlSerializerFactory
+     */
+    private $xmlSerializerFactory;
+
+    /**
+     * @var XmlDeserializerFactory
+     */
+    private $xmlDeserializerFactory;
+
+    /**
+     * @var DataMapperFactory
+     */
+    private $dataMapperFactory;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->jsonSerializerFactory = new JsonSerializerFactory();

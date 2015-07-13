@@ -12,6 +12,9 @@ use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
 use Scato\Serializer\ObjectAccess\SimpleAccessor;
 use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
 
+/**
+ * Creates a JSON deserializer and all its components
+ */
 class JsonDeserializerFactory extends AbstractDeserializerFactory
 {
     /**

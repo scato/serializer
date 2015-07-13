@@ -9,6 +9,9 @@ use Scato\Serializer\Core\VisitorInterface;
 use Scato\Serializer\Navigation\Navigator;
 use Scato\Serializer\ObjectAccess\SimpleAccessor;
 
+/**
+ * Creates an XML serializer and all its components
+ */
 class XmlSerializerFactory extends AbstractSerializerFactory
 {
     /**

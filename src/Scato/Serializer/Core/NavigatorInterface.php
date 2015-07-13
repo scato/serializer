@@ -9,7 +9,7 @@ interface NavigatorInterface
 {
     /**
      * @param VisitorInterface $visitor
-     * @param mixed $value
+     * @param mixed            $value
      * @return void
      */
     public function accept(VisitorInterface $visitor, $value);

@@ -11,6 +11,9 @@ use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
 use Scato\Serializer\ObjectAccess\SimpleAccessor;
 use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
 
+/**
+ * Creates a URL deserializer and all its components
+ */
 class UrlDeserializerFactory extends AbstractDeserializerFactory
 {
     /**
