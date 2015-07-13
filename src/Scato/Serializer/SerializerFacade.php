@@ -5,6 +5,12 @@ namespace Scato\Serializer;
 use InvalidArgumentException;
 use Scato\Serializer\Core\AbstractDeserializerFactory;
 use Scato\Serializer\Core\AbstractSerializerFactory;
+use Scato\Serializer\Json\JsonDeserializerFactory;
+use Scato\Serializer\Json\JsonSerializerFactory;
+use Scato\Serializer\Url\UrlDeserializerFactory;
+use Scato\Serializer\Url\UrlSerializerFactory;
+use Scato\Serializer\Xml\XmlDeserializerFactory;
+use Scato\Serializer\Xml\XmlSerializerFactory;
 
 /**
  * Serializes, deserializes and maps values
@@ -34,6 +40,25 @@ class SerializerFacade
         foreach ($deserializerFactories as $format => $deserializerFactory) {
             $this->addDeserializerFactory($format, $deserializerFactory);
         }
+    }
+
+    /**
+     * @return SerializerFacade
+     */
+    public static function create()
+    {
+        return new self(
+            array(
+                'json' => new JsonSerializerFactory(),
+                'url' => new UrlSerializerFactory(),
+                'xml' => new XmlSerializerFactory(),
+            ),
+            array(
+                'json' => new JsonDeserializerFactory(),
+                'url' => new UrlDeserializerFactory(),
+                'xml' => new XmlDeserializerFactory(),
+            )
+        );
     }
 
     /**

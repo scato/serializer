@@ -7,7 +7,8 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Fixtures\DataSource;
 use PHPUnit_Framework_Assert as PHPUnit;
-use Scato\Serializer\SerializerFactory;
+use Scato\Serializer\Data\DataMapperFactory;
+use Scato\Serializer\SerializerFacade;
 
 /**
  * Defines application features from the specific context.
@@ -76,11 +77,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iSerializeItTo($format)
     {
-        $factory = new SerializerFactory();
-        $method = 'create' . ucfirst($format) . 'Serializer';
+        $serializer = SerializerFacade::create();
 
         $this->format = $format;
-        $this->output = $factory->$method()->serialize($this->input);
+        $this->output = $serializer->serialize($this->input, strtolower($format));
     }
 
     /**
@@ -88,11 +88,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iDeserializeIt()
     {
-        $factory = new SerializerFactory();
-        $method = 'create' . ucfirst($this->format) . 'Deserializer';
+        $serializer = SerializerFacade::create();
         $class = 'Fixtures\Person';
 
-        $this->output = $factory->$method()->deserialize($this->input, $class);
+        $this->output = $serializer->deserialize($this->input, $class, strtolower($this->format));
     }
 
     /**
@@ -100,9 +99,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iMapItTo($type)
     {
-        $factory = new SerializerFactory();
+        $factory = new DataMapperFactory();
 
-        $this->output = $factory->createDataMapper()->map($this->input, $type);
+        $this->output = $factory->createMapper()->map($this->input, $type);
     }
 
     /**
