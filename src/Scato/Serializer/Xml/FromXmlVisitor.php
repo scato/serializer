@@ -70,17 +70,6 @@ class FromXmlVisitor extends DeserializeVisitor
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param string $name
-     * @return void
-     */
-    protected function pushPropertyType($name)
-    {
-        parent::pushElementType($name);
-    }
-
-    /**
      * Replace the top of the result stack with the appropriate associative array
      *
      * Because we get properties as arrays, we need to take the first of each array to end up with the values
