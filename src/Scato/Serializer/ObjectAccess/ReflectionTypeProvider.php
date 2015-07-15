@@ -11,7 +11,9 @@ use Scato\Serializer\Core\Type;
 use Scato\Serializer\Navigation\TypeProviderInterface;
 
 /**
- * Provides property types using the var docblock tag
+ * Provides property types using the var DocBlock tag
+ *
+ * Thanks to mkvriel for writing the DocBlock library and helping me implement it
  */
 class ReflectionTypeProvider implements TypeProviderInterface
 {

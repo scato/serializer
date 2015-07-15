@@ -26,7 +26,7 @@ class DOMElementAccessor implements ObjectAccessorInterface
         }
 
         if (!($object instanceof DOMElement)) {
-            throw new InvalidArgumentException("SimpleXmlElementAccessor only accepts values of type DOMElement");
+            throw new InvalidArgumentException("DOMElementAccessor only accepts values of type DOMElement");
         }
 
         $nodeNames = array();

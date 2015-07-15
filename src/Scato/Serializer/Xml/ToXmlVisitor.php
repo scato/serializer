@@ -10,12 +10,11 @@ use Scato\Serializer\Navigation\SerializeVisitor;
 /**
  * Turns an object graph into a DOMDocument
  *
- * All values are turned into elements
  * The root element is named 'root'
  * Property elements are named after the corresponding property name
  * Arrays get an 'entry' tag for each element in the array
  * Booleans are converted to 'true' or 'false'
- * The other scalar values are converted to strings
+ * Other scalar values are converted to strings
  *
  * The final result on the stack is a DOMElement, but getResult replaces it with its DOMDocument
  */

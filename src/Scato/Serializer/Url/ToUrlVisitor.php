@@ -10,7 +10,7 @@ use Scato\Serializer\Navigation\SerializeVisitor;
  * All objects are transformed into associative arrays
  * Arrays keep their original type
  * Booleans are converted to '1' or '0'
- * The other scalar values are converted to strings
+ * Other scalar values are converted to strings
  */
 class ToUrlVisitor extends SerializeVisitor
 {

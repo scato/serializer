@@ -7,6 +7,9 @@ use Scato\Serializer\Core\VisitorInterface;
 
 /**
  * Guides a Visitor through an object graph or data tree
+ *
+ * Objects are handed to the Visitor as array
+ * (this provides the most flexibility with the least complexity)
  */
 class Navigator implements NavigatorInterface
 {

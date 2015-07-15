@@ -3,13 +3,13 @@ Core
 
 The Core namespace contains the basic serialization framework.
 
-Object Graph
-------------
+Definition: Object Graph
+------------------------
 
 When you pass an object into a serializer, the object and all the objects it refers to is called *the object graph*.
 
-Data Tree
----------
+Definition: Data Tree
+---------------------
 
 When you deserialize a string, you will first get a tree consisting of strings, arrays, stdClass objects and/or
 DOMElements. This, we will call *the data tree*.
@@ -20,17 +20,10 @@ Encoder/Decoder
 These are the objects that turn data trees into a strings and vice versa. They are basically wrappers for JSON, XML and
 URL functions.
 
-ObjectAccessor
---------------
-
-This object knows how to find the names of the properties of an object, as well as retrieve values for those properties.
-
 Navigator
 ---------
 
-This object takes care of the traversal. It can traverse both object graphs and data trees.
-
-To traverse the properties of an object, the Navigator is assisted by an ObjectAccessor.
+This object takes care of the traversal.
 
 Visitor
 -------

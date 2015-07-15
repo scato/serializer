@@ -20,11 +20,11 @@ class DOMElementAccessorSpec extends ObjectBehavior
         $object = new stdClass();
 
         $this->shouldThrow(
-            new InvalidArgumentException('SimpleXmlElementAccessor only accepts values of type DOMElement')
+            new InvalidArgumentException('DOMElementAccessor only accepts values of type DOMElement')
         )->duringGetNames($object);
 
         $this->shouldThrow(
-            new InvalidArgumentException('SimpleXmlElementAccessor only accepts values of type DOMElement')
+            new InvalidArgumentException('DOMElementAccessor only accepts values of type DOMElement')
         )->duringGetValue($object, 'foo');
     }
 

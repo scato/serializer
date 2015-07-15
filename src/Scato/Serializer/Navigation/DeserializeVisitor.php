@@ -10,12 +10,13 @@ use SplStack;
 /**
  * Turns a data tree into an object graph
  *
- * All objects are transformed into another object of the appropriate type using an ObjectFactory
+ * All arrays are transformed into an array, or an object of the appropriate type using an ObjectFactory
  * All other values keep their original type
+ *
+ * Before visiting the root of the data tree, the associated type should be visited
  * For each property, the associated type should be provided by a TypeProvider
  * For each element of an array, the associated type is inferred using the type of its array
  *
- * Before visiting the root of the data tree, the associated type should be visited
  * A type stack is used to store the type associated with each part of the data tree
  */
 class DeserializeVisitor extends SerializeVisitor implements TypedVisitorInterface

@@ -12,7 +12,9 @@ use Scato\Serializer\Navigation\DeserializeVisitor;
  * Tags corresponding to properties should occur only once
  * Tags corresponding to elements of an array (called 'entry') can occur any number of times
  *
- * Because properties are wrapped in arrays, the associated type should be corrected as well
+ * The DOMDocument is traversed by the DOMNavigator
+ * Because properties are wrapped in arrays, the Navigator can passes a property with the same name multiple times
+ * For that reason, values are collected in arrays
  * After visiting a tag that corresponds to an object, an associative array should be produced
  * After visiting a tag that corresponds to an array, an indexed array should be produced
  */

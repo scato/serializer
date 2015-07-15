@@ -7,8 +7,7 @@ use Scato\Serializer\Navigation\DeserializeVisitor;
 /**
  * Turns an array into an object graph
  *
- * Objects do not appear in URL encoded data
- * All arrays are transformed into an object of the appropriate type using an ObjectFactory
+ * All arrays are transformed into an array, or an object of the appropriate type using an ObjectFactory
  * Strings are transformed into the appropriate scalar type
  */
 class FromUrlVisitor extends DeserializeVisitor
