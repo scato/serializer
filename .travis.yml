@@ -13,6 +13,7 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update --no-interaction --prefer-source
+  - npm install
 
 script:
   - grunt
