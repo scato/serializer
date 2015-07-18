@@ -12,9 +12,5 @@ encoding.
 Mapper
 ------
 
-The Mapper uses the FromUrlVisitor, which happens to traverse objects as well as arrays. It is already smart about
-creating objects, which it only does for class types.
-
-In order to map objects back to arrays, I had to write an ArrayTypeProviderDecorator, which is used to decorate the
-ReflectionTypeProvider. If it is asked for the type of a property on an array type (like `string[]`), it returns the
-appropriate element type (in this case: `string`).
+The Mapper uses the DeserializeVisitor. It maps arrays to objects, which is exactly what we need. On top of that, if
+you pass 'mixed' as the type, it maps objects to arrays.
