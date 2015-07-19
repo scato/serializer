@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased][unreleased]
+## [0.2.0] - 2015-07-18
 ### Added
 - Travis configuration
 - Gruntfile.js to run all inspections
@@ -26,5 +26,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Serializer and Deserializer for JSON, URL and XML
 - TypeProvider that uses DocBlock var tags
 
-[unreleased]: https://github.com/scato/serializer/compare/v0.1.0...HEAD
+[0.2.0]: https://github.com/scato/serializer/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/scato/serializer/tree/v0.1.0
