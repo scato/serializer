@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1199f0aa028d338fcad5f6b8f422ac4a",
+    "hash": "487d247f118dac09ae6f002be73755a8",
     "packages": [
         {
             "name": "phpdocumentor/reflection-common",
@@ -1612,42 +1612,6 @@
                 "xunit"
             ],
             "time": "2015-06-11 15:55:48"
-        },
-        {
-            "name": "scrutinizer/ocular",
-            "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/scrutinizer-ci/ocular.git",
-                "reference": "8e0a8c7f085bc4857bd52132833679dcfd504fc1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/scrutinizer-ci/ocular/zipball/8e0a8c7f085bc4857bd52132833679dcfd504fc1",
-                "reference": "8e0a8c7f085bc4857bd52132833679dcfd504fc1",
-                "shasum": ""
-            },
-            "require": {
-                "guzzle/guzzle": "~3.0",
-                "jms/serializer": "~0.13",
-                "phpoption/phpoption": "~1.0",
-                "symfony/console": "~2.0",
-                "symfony/process": "~2.3"
-            },
-            "require-dev": {
-                "symfony/filesystem": "~2.0"
-            },
-            "bin": [
-                "bin/ocular"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Scrutinizer\\Ocular\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2014-04-12 20:46:35"
         },
         {
             "name": "sebastian/comparator",
