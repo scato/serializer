@@ -35,9 +35,15 @@ $ composer test
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Security
+## Known issues
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+Composite types are not supported. If your type reads `array|Foo[]` or `string|null`, you're out of luck.
+
+The serializer does not support polymorphism. If a type says `Foo`, an object will never be deserialized as a subclass
+of `Foo`. The reason for this is that DocBlocks have no way to define discriminators. We could use the `@uses` tag to
+point to properties with default values, so the property/value-pair can be used as a discriminator...
+
+There are no hooks you can use.
 
 ## Credits
 
