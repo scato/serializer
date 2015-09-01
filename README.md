@@ -21,6 +21,8 @@ $serializer = SerializerFacade::create();
 $string = $serializer->serialize(..., 'json');
 ```
 
+Read [the docs](doc/Usage.md) for more examples on how to use the serializer.
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
