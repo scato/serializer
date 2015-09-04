@@ -42,10 +42,12 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 Composite types are not supported. If your type reads `array|Foo[]` or `string|null`, you're out of luck.
 
 The serializer does not support polymorphism. If a type says `Foo`, an object will never be deserialized as a subclass
-of `Foo`. The reason for this is that DocBlocks have no way to define discriminators. (We could use the `@uses` tag
-to point to a property with a default value, so the property/value-pair can be used as a discriminator...)
+of `Foo`. The reason for this is that DocBlocks have no way to define discriminators. (Maybe we could use the `@uses`
+tag to point to a property with a default value, so the property/value-pair can be used as a discriminator.)
 
 Hooks have not been implemented yet.
+
+No caching is performed, which makes deserialization relatively slow.
 
 ## Credits
 
