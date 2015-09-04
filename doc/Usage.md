@@ -88,3 +88,60 @@ class Person
 }
 ```
 
+Advanced Usage
+--------------
+
+Currently there is no easy way to do advanced stuff like custom type handling or discriminator maps. What you *can* do
+is replace one of the components with your own.
+
+For example, if you want to use reflection to serialize objects with private fields, you could write your own
+ObjectAccessor:
+
+```php
+class ReflectionAccessor implements ObjectAccessorInterface
+{
+    ...
+}
+```
+
+You can then extend the JsonSerializerFactory like so:
+
+```php
+class CustomJsonSerializerFactory extends SerializerFactory
+{
+    /**
+     * @return NavigatorInterface
+     */
+    protected function createNavigator()
+    {
+        return new Navigator(new ReflectionAccessor());
+    }
+}
+```
+
+Finally, you need a SerializerFacade that uses your serializer instead of the default one:
+
+```php
+$serializer = new SerializerFacade(['json' => new CustomJsonSerializerFactory()], [])
+```
+
+This serializer will only support JSON, and only for serialization, unless you add more factories.
+
+Data Mapper
+-----------
+
+This library also contains a crude Data Mapper. It is not part of the SerializerFacade, you have to create it yourself:
+
+```php
+$factory = new DataMapperFactory();
+$mapper = $factory->createMapper();
+```
+
+You can use this mapper to convert objects to arrays and vice versa:
+
+```php
+$array = $mapper->map($person, 'array');
+$person = $mapper->map($array, 'Person');
+```
+
+You could use this to map `$_REQUEST` values or rows from a database.
