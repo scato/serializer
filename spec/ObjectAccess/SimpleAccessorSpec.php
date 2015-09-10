@@ -28,4 +28,20 @@ class SimpleAccessorSpec extends ObjectBehavior
 
         $this->getValue($object, 'foo')->shouldBe('bar');
     }
+
+    function it_should_find_properties_with_dashes()
+    {
+        $array = ['foo-bar' => 'foobar'];
+        $object = (object) $array;
+
+        $this->getNames($object)->shouldBe(array('foo-bar'));
+    }
+
+    function it_should_read_properties_with_dashes()
+    {
+        $array = ['foo-bar' => 'foobar'];
+        $object = (object) $array;
+
+        $this->getValue($object, 'foo-bar')->shouldBe('foobar');
+    }
 }
