@@ -1,0 +1,5 @@
+default:
+  suites:
+    main:
+      paths:    [ %paths.base%/features ]
+      contexts: [ DataSourceContext ]

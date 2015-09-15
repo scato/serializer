@@ -1,35 +1,14 @@
 <?php
 
-use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Fixtures\DataSource;
 use PHPUnit_Framework_Assert as PHPUnit;
-use Scato\Serializer\Data\DataMapperFactory;
-use Scato\Serializer\SerializerFacade;
 
 /**
- * Defines application features from the specific context.
+ * Defines steps related to the data source
  */
-class FeatureContext implements Context, SnippetAcceptingContext
+class DataSourceContext extends SerializerContext implements SnippetAcceptingContext
 {
-    /**
-     * @var mixed
-     */
-    private $input;
-
-    /**
-     * @var mixed
-     */
-    private $output;
-
-    /**
-     * @var string
-     */
-    private $format;
-
     /**
      * @var DataSource
      */
@@ -70,38 +49,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iHaveAnArray()
     {
         $this->input = $this->dataSource->getArray();
-    }
-
-    /**
-     * @When I serialize it to :format
-     */
-    public function iSerializeItTo($format)
-    {
-        $serializer = SerializerFacade::create();
-
-        $this->format = $format;
-        $this->output = $serializer->serialize($this->input, strtolower($format));
-    }
-
-    /**
-     * @When I deserialize it
-     */
-    public function iDeserializeIt()
-    {
-        $serializer = SerializerFacade::create();
-        $class = 'Fixtures\Person';
-
-        $this->output = $serializer->deserialize($this->input, $class, strtolower($this->format));
-    }
-
-    /**
-     * @When I map it to :type
-     */
-    public function iMapItTo($type)
-    {
-        $factory = new DataMapperFactory();
-
-        $this->output = $factory->createMapper()->map($this->input, $type);
     }
 
     /**
