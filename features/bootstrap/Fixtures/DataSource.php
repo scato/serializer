@@ -3,6 +3,8 @@
 
 namespace Fixtures;
 
+use DateTime;
+use DateTimeZone;
 use Nelmio\Alice\Loader\Yaml as YamlLoader;
 use Symfony\Component\Yaml\Yaml as YamlParser;
 
@@ -53,5 +55,21 @@ class DataSource
         );
 
         return $array;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateTime()
+    {
+        return new DateTime('2015-09-07', new DateTimeZone('UTC'));
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomDateString()
+    {
+        return '2015-09-07T00:00:00+00:00';
     }
 }

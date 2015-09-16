@@ -52,6 +52,14 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     }
 
     /**
+     * @Given I have a DateTime object
+     */
+    public function iHaveADateTimeObject()
+    {
+        $this->input = $this->dataSource->getDateTime();
+    }
+
+    /**
      * @Then I should have the corresponding string
      */
     public function iShouldHaveTheCorrespondingString()
@@ -81,5 +89,13 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     public function iShouldHaveTheCorrespondingArray()
     {
         PHPUnit::assertEquals($this->dataSource->getArray(), $this->output);
+    }
+
+    /**
+     * @Then I should have a custom date string
+     */
+    public function iShouldHaveACustomDateString()
+    {
+        PHPUnit::assertEquals($this->dataSource->getCustomDateString(), $this->output);
     }
 }
