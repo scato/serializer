@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     },
     watch: {
       specs: {
-        files: '<%= phpspec.app.specs %>',
+        files: '<%= phpspec.app.specs %>**/*.php',
         tasks: ['phpspec']
       },
       src: {
@@ -58,5 +58,8 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', ['phpcs', 'phpmd', 'phpspec', 'behat']);
+
+  // Pre-commit task.
+  grunt.registerTask('pre-commit', ['phpcs', 'phpspec']);
 
 };
