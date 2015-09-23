@@ -47,10 +47,10 @@ class DOMNavigatorSpec extends ObjectBehavior
 
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('entry')->shouldBeCalled();
-        $visitor->visitValue('foo')->shouldBeCalled();
+        $navigator->accept($navigator, $visitor, 'foo')->shouldBeCalled();
         $visitor->visitElementEnd('entry')->shouldBeCalled();
         $visitor->visitElementStart('entry')->shouldBeCalled();
-        $visitor->visitValue('bar')->shouldBeCalled();
+        $navigator->accept($navigator, $visitor, 'bar')->shouldBeCalled();
         $visitor->visitElementEnd('entry')->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 

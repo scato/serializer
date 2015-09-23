@@ -33,26 +33,11 @@ class NavigatorSpec extends ObjectBehavior
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('foo')->shouldBeCalled();
-        $visitor->visitValue('bar')->shouldBeCalled();
+        $navigator->accept($navigator, $visitor, 'bar')->shouldBeCalled();
         $visitor->visitElementEnd('foo')->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 
         $this->accept($navigator, $visitor, array('foo' => 'bar'));
-    }
-
-    function it_should_accept_an_array_with_an_array(NavigatorInterface $navigator, VisitorInterface $visitor)
-    {
-        $visitor->visitArrayStart()->shouldBeCalled();
-        $visitor->visitElementStart(0)->shouldBeCalled();
-        $visitor->visitArrayStart()->shouldBeCalled();
-        $visitor->visitElementStart(0)->shouldBeCalled();
-        $visitor->visitValue('foo')->shouldBeCalled();
-        $visitor->visitElementEnd(0)->shouldBeCalled();
-        $visitor->visitArrayEnd()->shouldBeCalled();
-        $visitor->visitElementEnd(0)->shouldBeCalled();
-        $visitor->visitArrayEnd()->shouldBeCalled();
-
-        $this->accept($navigator, $visitor, array(array('foo')));
     }
 
     function it_should_accept_an_empty_object(
@@ -79,35 +64,12 @@ class NavigatorSpec extends ObjectBehavior
 
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('foo')->shouldBeCalled();
-        $visitor->visitValue('bar')->shouldBeCalled();
+        $navigator->accept($navigator, $visitor, 'bar')->shouldBeCalled();
         $visitor->visitElementEnd('foo')->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn('bar');
-
-        $this->accept($navigator, $visitor, $object);
-    }
-
-    function it_should_accept_an_object_with_an_array(
-        NavigatorInterface $navigator,
-        ObjectAccessorInterface $objectAccessor,
-        VisitorInterface $visitor
-    ) {
-        $object = new stdClass();
-
-        $visitor->visitArrayStart()->shouldBeCalled();
-        $visitor->visitElementStart('foo')->shouldBeCalled();
-        $visitor->visitArrayStart()->shouldBeCalled();
-        $visitor->visitElementStart(0)->shouldBeCalled();
-        $visitor->visitValue('bar')->shouldBeCalled();
-        $visitor->visitElementEnd(0)->shouldBeCalled();
-        $visitor->visitArrayEnd()->shouldBeCalled();
-        $visitor->visitElementEnd('foo')->shouldBeCalled();
-        $visitor->visitArrayEnd()->shouldBeCalled();
-
-        $objectAccessor->getNames($object)->willReturn(array('foo'));
-        $objectAccessor->getValue($object, 'foo')->willReturn(array('bar'));
 
         $this->accept($navigator, $visitor, $object);
     }

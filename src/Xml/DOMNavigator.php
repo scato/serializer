@@ -42,7 +42,7 @@ class DOMNavigator implements NavigatorInterface
 
                     foreach ($properties as $property) {
                         $visitor->visitElementStart($name);
-                        $this->accept($navigator, $visitor, $property);
+                        $navigator->accept($navigator, $visitor, $property);
                         $visitor->visitElementEnd($name);
                     }
                 }

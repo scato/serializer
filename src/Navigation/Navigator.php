@@ -42,7 +42,7 @@ class Navigator implements NavigatorInterface
                 foreach ($names as $name) {
                     $property = $this->objectAccessor->getValue($value, $name);
                     $visitor->visitElementStart($name);
-                    $this->accept($navigator, $visitor, $property);
+                    $navigator->accept($navigator, $visitor, $property);
                     $visitor->visitElementEnd($name);
                 }
 
@@ -54,7 +54,7 @@ class Navigator implements NavigatorInterface
 
                 foreach ($value as $key => $element) {
                     $visitor->visitElementStart($key);
-                    $this->accept($navigator, $visitor, $element);
+                    $navigator->accept($navigator, $visitor, $element);
                     $visitor->visitElementEnd($key);
                 }
 
