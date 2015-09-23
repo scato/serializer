@@ -4,6 +4,7 @@ namespace spec\Scato\Serializer\Navigation;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\VisitorInterface;
 use Scato\Serializer\Navigation\ObjectAccessorInterface;
 use stdClass;
@@ -20,15 +21,15 @@ class NavigatorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Core\NavigatorInterface');
     }
 
-    function it_should_accept_an_empty_array(VisitorInterface $visitor)
+    function it_should_accept_an_empty_array(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 
-        $this->accept($visitor, array());
+        $this->accept($navigator, $visitor, array());
     }
 
-    function it_should_accept_an_array_with_a_string(VisitorInterface $visitor)
+    function it_should_accept_an_array_with_a_string(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart('foo')->shouldBeCalled();
@@ -36,10 +37,10 @@ class NavigatorSpec extends ObjectBehavior
         $visitor->visitElementEnd('foo')->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 
-        $this->accept($visitor, array('foo' => 'bar'));
+        $this->accept($navigator, $visitor, array('foo' => 'bar'));
     }
 
-    function it_should_accept_an_array_with_an_array(VisitorInterface $visitor)
+    function it_should_accept_an_array_with_an_array(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitArrayStart()->shouldBeCalled();
         $visitor->visitElementStart(0)->shouldBeCalled();
@@ -51,10 +52,11 @@ class NavigatorSpec extends ObjectBehavior
         $visitor->visitElementEnd(0)->shouldBeCalled();
         $visitor->visitArrayEnd()->shouldBeCalled();
 
-        $this->accept($visitor, array(array('foo')));
+        $this->accept($navigator, $visitor, array(array('foo')));
     }
 
     function it_should_accept_an_empty_object(
+        NavigatorInterface $navigator,
         ObjectAccessorInterface $objectAccessor,
         VisitorInterface $visitor
     ) {
@@ -65,10 +67,11 @@ class NavigatorSpec extends ObjectBehavior
 
         $objectAccessor->getNames($object)->willReturn(array());
 
-        $this->accept($visitor, $object);
+        $this->accept($navigator, $visitor, $object);
     }
 
     function it_should_accept_an_object_with_a_string(
+        NavigatorInterface $navigator,
         ObjectAccessorInterface $objectAccessor,
         VisitorInterface $visitor
     ) {
@@ -83,10 +86,11 @@ class NavigatorSpec extends ObjectBehavior
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn('bar');
 
-        $this->accept($visitor, $object);
+        $this->accept($navigator, $visitor, $object);
     }
 
     function it_should_accept_an_object_with_an_array(
+        NavigatorInterface $navigator,
         ObjectAccessorInterface $objectAccessor,
         VisitorInterface $visitor
     ) {
@@ -105,34 +109,34 @@ class NavigatorSpec extends ObjectBehavior
         $objectAccessor->getNames($object)->willReturn(array('foo'));
         $objectAccessor->getValue($object, 'foo')->willReturn(array('bar'));
 
-        $this->accept($visitor, $object);
+        $this->accept($navigator, $visitor, $object);
     }
 
-    function it_should_accept_a_string(VisitorInterface $visitor)
+    function it_should_accept_a_string(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitValue('foobar')->shouldBeCalled();
 
-        $this->accept($visitor, 'foobar');
+        $this->accept($navigator, $visitor, 'foobar');
     }
 
-    function it_should_accept_null(VisitorInterface $visitor)
+    function it_should_accept_null(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitValue(null)->shouldBeCalled();
 
-        $this->accept($visitor, null);
+        $this->accept($navigator, $visitor, null);
     }
 
-    function it_should_accept_a_number(VisitorInterface $visitor)
+    function it_should_accept_a_number(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitValue(1)->shouldBeCalled();
 
-        $this->accept($visitor, 1);
+        $this->accept($navigator, $visitor, 1);
     }
 
-    function it_should_accept_a_boolean(VisitorInterface $visitor)
+    function it_should_accept_a_boolean(NavigatorInterface $navigator, VisitorInterface $visitor)
     {
         $visitor->visitValue(true)->shouldBeCalled();
 
-        $this->accept($visitor, true);
+        $this->accept($navigator, $visitor, true);
     }
 }

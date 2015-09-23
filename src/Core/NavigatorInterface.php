@@ -8,9 +8,10 @@ namespace Scato\Serializer\Core;
 interface NavigatorInterface
 {
     /**
-     * @param VisitorInterface $visitor
-     * @param mixed            $value
+     * @param NavigatorInterface $navigator
+     * @param VisitorInterface   $visitor
+     * @param mixed              $value
      * @return void
      */
-    public function accept(VisitorInterface $visitor, $value);
+    public function accept(NavigatorInterface $navigator, VisitorInterface $visitor, $value);
 }

@@ -25,11 +25,12 @@ class DOMNavigator implements NavigatorInterface
     }
 
     /**
-     * @param VisitorInterface $visitor
-     * @param mixed            $value
+     * @param NavigatorInterface $navigator
+     * @param VisitorInterface   $visitor
+     * @param mixed              $value
      * @return void
      */
-    public function accept(VisitorInterface $visitor, $value)
+    public function accept(NavigatorInterface $navigator, VisitorInterface $visitor, $value)
     {
         switch (gettype($value)) {
             case 'object':
@@ -41,7 +42,7 @@ class DOMNavigator implements NavigatorInterface
 
                     foreach ($properties as $property) {
                         $visitor->visitElementStart($name);
-                        $this->accept($visitor, $property);
+                        $this->accept($navigator, $visitor, $property);
                         $visitor->visitElementEnd($name);
                     }
                 }

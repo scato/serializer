@@ -28,7 +28,7 @@ class DeserializerSpec extends ObjectBehavior
         $visitor->visitType(Type::fromString('boolean[]'))->willReturn();
 
         // the navigator guides the visitor through the tree
-        $navigator->accept($visitor, array('foo' => '1'))->willReturn();
+        $navigator->accept($navigator, $visitor, array('foo' => '1'))->willReturn();
 
         // the visitor builds the final graph
         $visitor->getResult()->willReturn(array('foo' => true));

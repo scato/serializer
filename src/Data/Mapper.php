@@ -42,7 +42,7 @@ class Mapper
     {
         $this->visitor->visitType(Type::fromString($type));
 
-        $this->navigator->accept($this->visitor, $value);
+        $this->navigator->accept($this->navigator, $this->visitor, $value);
 
         return $this->visitor->getResult();
     }
