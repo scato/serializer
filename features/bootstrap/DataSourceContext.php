@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Fixtures\DataSource;
+use Fixtures\CustomDateSerializationFilter;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 /**
@@ -57,6 +58,14 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     public function iHaveADateTimeObject()
     {
         $this->input = $this->dataSource->getDateTime();
+    }
+
+    /**
+     * @Given I have a custom date serialization filter
+     */
+    public function iHaveACustomDateSerializationFilter()
+    {
+        $this->filters[] = new CustomDateSerializationFilter();
     }
 
     /**

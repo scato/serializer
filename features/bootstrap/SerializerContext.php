@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Scato\Serializer\Data\DataMapperFactory;
+use Scato\Serializer\Navigation\FilterInterface;
 use Scato\Serializer\SerializerFacade;
 
 /**
@@ -25,11 +26,20 @@ class SerializerContext implements Context
     protected $format;
 
     /**
+     * @var FilterInterface[]
+     */
+    protected $filters = [];
+
+    /**
      * @When I serialize it to :format
      */
     public function iSerializeItTo($format)
     {
         $serializer = SerializerFacade::create();
+
+        foreach ($this->filters as $filter) {
+            $serializer->addFilter($filter);
+        }
 
         $this->format = $format;
         $this->output = $serializer->serialize($this->input, strtolower($format));

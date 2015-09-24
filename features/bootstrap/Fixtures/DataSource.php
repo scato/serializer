@@ -70,6 +70,6 @@ class DataSource
      */
     public function getCustomDateString()
     {
-        return '2015-09-07T00:00:00+00:00';
+        return '"2015-09-07T00:00:00+00:00"';
     }
 }

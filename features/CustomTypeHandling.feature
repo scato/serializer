@@ -5,5 +5,6 @@ Feature:
 
   Scenario: Serializing a DateTime object to JSON
     Given I have a DateTime object
+    And I have a custom date serialization filter
     When I serialize it to JSON
     Then I should have a custom date string
