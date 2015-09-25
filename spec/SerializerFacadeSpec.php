@@ -9,6 +9,7 @@ use Scato\Serializer\Core\AbstractDeserializerFactory;
 use Scato\Serializer\Core\AbstractSerializerFactory;
 use Scato\Serializer\Core\Deserializer;
 use Scato\Serializer\Core\Serializer;
+use Scato\Serializer\Navigation\DeserializationFilterInterface;
 use Scato\Serializer\Navigation\SerializationConverterInterface;
 
 class SerializerFacadeSpec extends ObjectBehavior
@@ -47,11 +48,13 @@ class SerializerFacadeSpec extends ObjectBehavior
 
     function it_should_deserialize_values(
         AbstractDeserializerFactory $deserializerFactory,
-        Deserializer $deserializer
+        Deserializer $deserializer,
+        DeserializationFilterInterface $filter
     ) {
-        $deserializerFactory->createDeserializer()->willReturn($deserializer);
+        $deserializerFactory->createDeserializer([$filter])->willReturn($deserializer);
         $deserializer->deserialize('bar', 'Foo')->willReturn('foo');
 
+        $this->addDeserializationFilter($filter);
         $this->deserialize('bar', 'Foo', 'my-format')->shouldBe('foo');
     }
 }
