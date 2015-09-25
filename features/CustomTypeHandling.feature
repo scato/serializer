@@ -8,3 +8,9 @@ Feature:
     And I have a custom date serialization filter
     When I serialize it to JSON
     Then I should have a custom date string
+
+  Scenario: Deserializing a DateTime object from JSON
+    Given I have a custom JSON date string
+#    And I have a custom date deserialization filter
+    When I deserialize it to DateTime
+    Then I should have the corresponding DateTime object

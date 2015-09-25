@@ -61,6 +61,15 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     }
 
     /**
+     * @Given I have a custom :format date string
+     */
+    public function iHaveACustomJSONDateString($format)
+    {
+        $this->format = $format;
+        $this->input = $this->dataSource->getCustomDateString($format);
+    }
+
+    /**
      * @Given I have a custom date serialization filter
      */
     public function iHaveACustomDateSerializationFilter()
@@ -105,6 +114,14 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
      */
     public function iShouldHaveACustomDateString()
     {
-        PHPUnit::assertEquals($this->dataSource->getCustomDateString(), $this->output);
+        PHPUnit::assertEquals($this->dataSource->getCustomDateString($this->format), $this->output);
+    }
+
+    /**
+     * @Then I should have the corresponding DateTime object
+     */
+    public function iShouldHaveTheCorrespondingDateTimeObject()
+    {
+        PHPUnit::assertEquals($this->dataSource->getDateTime(), $this->output);
     }
 }

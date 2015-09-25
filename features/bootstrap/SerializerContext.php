@@ -57,6 +57,16 @@ class SerializerContext implements Context
     }
 
     /**
+     * @When I deserialize it to :class
+     */
+    public function iDeserializeItTo($class)
+    {
+        $serializer = SerializerFacade::create();
+
+        $this->output = $serializer->deserialize($this->input, $class, strtolower($this->format));
+    }
+
+    /**
      * @When I map it to :type
      */
     public function iMapItTo($type)
