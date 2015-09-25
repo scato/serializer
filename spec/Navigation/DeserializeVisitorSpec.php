@@ -77,6 +77,18 @@ class DeserializeVisitorSpec extends ObjectBehavior
         $this->getResult()->shouldBeLike($object);
     }
 
+    function it_should_try_to_turn_a_string_into_an_object(
+        ObjectFactoryInterface $objectFactory,
+        stdClass $object
+    ) {
+        $objectFactory->createObject(Type::fromString('Person'), 'foo')->willReturn($object);
+
+        $this->visitType(Type::fromString('Person'));
+        $this->visitValue('foo');
+
+        $this->getResult()->shouldBeLike($object);
+    }
+
     private function visitProperties()
     {
         $this->visitElementStart('personId');

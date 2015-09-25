@@ -87,6 +87,8 @@ class SerializeVisitor implements VisitorInterface
     public function visitValue($value)
     {
         $this->results->push($value);
+
+        $this->createObject();
     }
 
     /**
@@ -96,7 +98,7 @@ class SerializeVisitor implements VisitorInterface
      */
     protected function createObject()
     {
-        // keep the array
+        // keep the current value
     }
 
     /**
