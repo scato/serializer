@@ -10,11 +10,11 @@ use Scato\Serializer\Core\Type;
 interface ObjectFactoryInterface
 {
     /**
-     * Create an object of specified type with specified properties
+     * Create an object of specified type based on an arbitrary value
      *
      * @param Type  $type
-     * @param array $properties
+     * @param mixed $value
      * @return mixed
      */
-    public function createObject(Type $type, array $properties);
+    public function createObject(Type $type, $value);
 }

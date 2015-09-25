@@ -21,15 +21,28 @@ class SimpleObjectFactorySpec extends ObjectBehavior
         $object->foo = 'bar';
 
         $type = Type::fromString('stdClass');
+        $value = ['foo' => 'bar'];
 
-        $this->createObject($type, array('foo' => 'bar'))->shouldBeLike($object);
+        $this->createObject($type, $value)->shouldBeLike($object);
     }
 
     function it_should_not_create_an_object_without_knowing_its_type()
     {
-        $type = Type::fromString(null);
+        $exception = new InvalidArgumentException("Cannot create object for non-class type: 'mixed'");
 
-        $this->shouldThrow(new InvalidArgumentException("Cannot create object for non-class type: 'mixed'"))
-            ->duringCreateObject($type, array('foo' => 'bar'));
+        $type = Type::fromString(null);
+        $value = ['foo' => 'bar'];
+
+        $this->shouldThrow($exception)->duringCreateObject($type, $value);
+    }
+
+    function it_should_only_accept_arrays()
+    {
+        $exception = new InvalidArgumentException("Cannot create object from non-array value: 'foo'");
+
+        $type = Type::fromString('stdClass');
+        $value = 'foo';
+
+        $this->shouldThrow($exception)->duringCreateObject($type, $value);
     }
 }

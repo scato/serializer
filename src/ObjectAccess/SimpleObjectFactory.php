@@ -15,21 +15,25 @@ class SimpleObjectFactory implements ObjectFactoryInterface
      * {@inheritdoc}
      *
      * @param Type  $type
-     * @param array $properties
+     * @param mixed $value
      * @return mixed
      * @throws InvalidArgumentException
      */
-    public function createObject(Type $type, array $properties)
+    public function createObject(Type $type, $value)
     {
         if (!$type->isClass()) {
             throw new InvalidArgumentException("Cannot create object for non-class type: '{$type->toString()}'");
+        }
+
+        if (!is_array($value)) {
+            throw new InvalidArgumentException("Cannot create object from non-array value: '{$value}'");
         }
 
         $class = $type->toString();
 
         $object = new $class();
 
-        foreach ($properties as $name => $property) {
+        foreach ($value as $name => $property) {
             $object->{$name} = $property;
         }
 
