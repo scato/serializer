@@ -9,7 +9,7 @@ use Scato\Serializer\Core\AbstractDeserializerFactory;
 use Scato\Serializer\Core\AbstractSerializerFactory;
 use Scato\Serializer\Core\Deserializer;
 use Scato\Serializer\Core\Serializer;
-use Scato\Serializer\Navigation\FilterInterface;
+use Scato\Serializer\Navigation\SerializationConverterInterface;
 
 class SerializerFacadeSpec extends ObjectBehavior
 {
@@ -31,12 +31,12 @@ class SerializerFacadeSpec extends ObjectBehavior
     function it_should_serialize_values(
         AbstractSerializerFactory $serializerFactory,
         Serializer $serializer,
-        FilterInterface $filter
+        SerializationConverterInterface $converter
     ) {
-        $serializerFactory->createSerializer([$filter])->willReturn($serializer);
+        $serializerFactory->createSerializer([$converter])->willReturn($serializer);
         $serializer->serialize('foo')->willReturn('bar');
 
-        $this->addFilter($filter);
+        $this->addSerializationConverter($converter);
         $this->serialize('foo', 'my-format')->shouldBe('bar');
     }
 

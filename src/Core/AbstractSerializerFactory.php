@@ -2,8 +2,8 @@
 
 namespace Scato\Serializer\Core;
 
-use Scato\Serializer\Navigation\FilterInterface;
-use Scato\Serializer\Navigation\FilterNavigatorDecorator;
+use Scato\Serializer\Navigation\SerializationConverterInterface;
+use Scato\Serializer\Navigation\ConversionNavigatorDecorator;
 
 /**
  * Creates a serializer and all its components
@@ -11,15 +11,15 @@ use Scato\Serializer\Navigation\FilterNavigatorDecorator;
 abstract class AbstractSerializerFactory
 {
     /**
-     * @param FilterInterface[] $filters
+     * @param SerializationConverterInterface[] $converters
      * @return Serializer
      */
-    public function createSerializer(array $filters = [])
+    public function createSerializer(array $converters = [])
     {
         $navigator = $this->createNavigator();
 
-        foreach ($filters as $filter) {
-            $navigator = new FilterNavigatorDecorator($navigator, $filter);
+        foreach ($converters as $converter) {
+            $navigator = new ConversionNavigatorDecorator($navigator, $converter);
         }
 
         return new Serializer(

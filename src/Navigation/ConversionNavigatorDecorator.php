@@ -6,9 +6,9 @@ use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\VisitorInterface;
 
 /**
- * Wraps around a Navigator, transforming the input before passing it on
+ * Wraps around a Navigator, converting the input before passing it on
  */
-class FilterNavigatorDecorator implements NavigatorInterface
+class ConversionNavigatorDecorator implements NavigatorInterface
 {
     /**
      * @var NavigatorInterface
@@ -16,18 +16,18 @@ class FilterNavigatorDecorator implements NavigatorInterface
     private $navigator;
 
     /**
-     * @var FilterInterface
+     * @var SerializationConverterInterface
      */
-    private $filter;
+    private $converter;
 
     /**
-     * @param NavigatorInterface $navigator
-     * @param FilterInterface    $filter
+     * @param NavigatorInterface              $navigator
+     * @param SerializationConverterInterface $converter
      */
-    public function __construct(NavigatorInterface $navigator, FilterInterface $filter)
+    public function __construct(NavigatorInterface $navigator, SerializationConverterInterface $converter)
     {
         $this->navigator = $navigator;
-        $this->filter = $filter;
+        $this->converter = $converter;
     }
 
     /**
@@ -38,6 +38,6 @@ class FilterNavigatorDecorator implements NavigatorInterface
      */
     public function accept(NavigatorInterface $navigator, VisitorInterface $visitor, $value)
     {
-        $this->navigator->accept($navigator, $visitor, $this->filter->filter($value));
+        $this->navigator->accept($navigator, $visitor, $this->converter->convert($value));
     }
 }

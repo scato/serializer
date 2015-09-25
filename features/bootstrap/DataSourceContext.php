@@ -2,7 +2,7 @@
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Fixtures\DataSource;
-use Fixtures\CustomDateSerializationFilter;
+use Fixtures\CustomDateSerializationConverter;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 /**
@@ -74,7 +74,7 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
      */
     public function iHaveACustomDateSerializationFilter()
     {
-        $this->filters[] = new CustomDateSerializationFilter();
+        $this->converters[] = new CustomDateSerializationConverter();
     }
 
     /**

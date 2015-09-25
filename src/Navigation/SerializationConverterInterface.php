@@ -5,11 +5,11 @@ namespace Scato\Serializer\Navigation;
 /**
  * Transforms some piece of input before passing it back
  */
-interface FilterInterface
+interface SerializationConverterInterface
 {
     /**
      * @param mixed $value
      * @return mixed
      */
-    public function filter($value);
+    public function convert($value);
 }

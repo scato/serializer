@@ -2,7 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Scato\Serializer\Data\DataMapperFactory;
-use Scato\Serializer\Navigation\FilterInterface;
+use Scato\Serializer\Navigation\SerializationConverterInterface;
 use Scato\Serializer\SerializerFacade;
 
 /**
@@ -26,9 +26,9 @@ class SerializerContext implements Context
     protected $format;
 
     /**
-     * @var FilterInterface[]
+     * @var SerializationConverterInterface[]
      */
-    protected $filters = [];
+    protected $converters = [];
 
     /**
      * @When I serialize it to :format
@@ -37,8 +37,8 @@ class SerializerContext implements Context
     {
         $serializer = SerializerFacade::create();
 
-        foreach ($this->filters as $filter) {
-            $serializer->addFilter($filter);
+        foreach ($this->converters as $converter) {
+            $serializer->addSerializationConverter($converter);
         }
 
         $this->format = $format;

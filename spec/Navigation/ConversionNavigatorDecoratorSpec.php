@@ -6,13 +6,13 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\VisitorInterface;
-use Scato\Serializer\Navigation\FilterInterface;
+use Scato\Serializer\Navigation\SerializationConverterInterface;
 
-class FilterNavigatorDecoratorSpec extends ObjectBehavior
+class ConversionNavigatorDecoratorSpec extends ObjectBehavior
 {
-    function let(NavigatorInterface $navigator, FilterInterface $filter)
+    function let(NavigatorInterface $navigator, SerializationConverterInterface $converter)
     {
-        $this->beConstructedWith($navigator, $filter);
+        $this->beConstructedWith($navigator, $converter);
     }
 
     function it_should_be_a_navigator()
@@ -20,12 +20,12 @@ class FilterNavigatorDecoratorSpec extends ObjectBehavior
         $this->shouldHaveType('Scato\Serializer\Core\NavigatorInterface');
     }
 
-    function it_should_apply_the_filter_before_passing_the_value_to_its_inner_navigator(
+    function it_should_apply_the_converter_before_passing_the_value_to_its_inner_navigator(
         NavigatorInterface $navigator,
         VisitorInterface $visitor,
-        FilterInterface $filter
+        SerializationConverterInterface $converter
     ) {
-        $filter->filter('foo')->willReturn('foobar');
+        $converter->convert('foo')->willReturn('foobar');
 
         $navigator->accept($navigator, $visitor, 'foobar')->shouldBeCalled();
 

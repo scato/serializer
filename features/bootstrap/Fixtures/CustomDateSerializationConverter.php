@@ -3,15 +3,15 @@
 namespace Fixtures;
 
 use DateTime;
-use Scato\Serializer\Navigation\FilterInterface;
+use Scato\Serializer\Navigation\SerializationConverterInterface;
 
-class CustomDateSerializationFilter implements FilterInterface
+class CustomDateSerializationConverter implements SerializationConverterInterface
 {
     /**
      * @param mixed $value
      * @return mixed
      */
-    public function filter($value)
+    public function convert($value)
     {
         if ($value instanceof DateTime) {
             return $value->format('c');

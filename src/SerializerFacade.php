@@ -7,7 +7,7 @@ use Scato\Serializer\Core\AbstractDeserializerFactory;
 use Scato\Serializer\Core\AbstractSerializerFactory;
 use Scato\Serializer\Json\JsonDeserializerFactory;
 use Scato\Serializer\Json\JsonSerializerFactory;
-use Scato\Serializer\Navigation\FilterInterface;
+use Scato\Serializer\Navigation\SerializationConverterInterface;
 use Scato\Serializer\Url\UrlDeserializerFactory;
 use Scato\Serializer\Url\UrlSerializerFactory;
 use Scato\Serializer\Xml\XmlDeserializerFactory;
@@ -29,9 +29,9 @@ class SerializerFacade
     private $deserializerFactories = [];
 
     /**
-     * @var FilterInterface[]
+     * @var SerializationConverterInterface[]
      */
-    private $filters = [];
+    private $converters = [];
 
     /**
      * @param array|AbstractSerializerFactory[]   $serializerFactories
@@ -68,12 +68,12 @@ class SerializerFacade
     }
 
     /**
-     * @param FilterInterface $filter
+     * @param SerializationConverterInterface $converter
      * @return void
      */
-    public function addFilter(FilterInterface $filter)
+    public function addSerializationConverter(SerializationConverterInterface $converter)
     {
-        $this->filters[] = $filter;
+        $this->converters[] = $converter;
     }
 
     /**
@@ -88,7 +88,7 @@ class SerializerFacade
             throw new InvalidArgumentException("Unknown format '$format'");
         }
 
-        $serializer = $this->serializerFactories[$format]->createSerializer($this->filters);
+        $serializer = $this->serializerFactories[$format]->createSerializer($this->converters);
 
         return $serializer->serialize($value);
     }
