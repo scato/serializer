@@ -37,7 +37,7 @@ class SerializerFacade
     /**
      * @var DeserializationFilterInterface[]
      */
-    private $filters;
+    private $filters = [];
 
     /**
      * @param array|AbstractSerializerFactory[]   $serializerFactories

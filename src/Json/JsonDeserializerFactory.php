@@ -8,6 +8,7 @@ use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\TypedVisitorInterface;
 use Scato\Serializer\Navigation\DeserializeVisitor;
 use Scato\Serializer\Navigation\Navigator;
+use Scato\Serializer\Navigation\ObjectFactoryInterface;
 use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
 use Scato\Serializer\ObjectAccess\SimpleAccessor;
 use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
@@ -26,11 +27,12 @@ class JsonDeserializerFactory extends AbstractDeserializerFactory
     }
 
     /**
+     * @param ObjectFactoryInterface $objectFactory
      * @return TypedVisitorInterface
      */
-    protected function createVisitor()
+    protected function createVisitor(ObjectFactoryInterface $objectFactory)
     {
-        return new DeserializeVisitor(new SimpleObjectFactory(), new ReflectionTypeProvider());
+        return new DeserializeVisitor($objectFactory, new ReflectionTypeProvider());
     }
 
     /**

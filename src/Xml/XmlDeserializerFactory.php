@@ -6,6 +6,7 @@ use Scato\Serializer\Core\AbstractDeserializerFactory;
 use Scato\Serializer\Core\DecoderInterface;
 use Scato\Serializer\Core\NavigatorInterface;
 use Scato\Serializer\Core\TypedVisitorInterface;
+use Scato\Serializer\Navigation\ObjectFactoryInterface;
 use Scato\Serializer\ObjectAccess\ReflectionTypeProvider;
 use Scato\Serializer\ObjectAccess\SimpleObjectFactory;
 
@@ -23,11 +24,12 @@ class XmlDeserializerFactory extends AbstractDeserializerFactory
     }
 
     /**
+     * @param ObjectFactoryInterface $objectFactory
      * @return TypedVisitorInterface
      */
-    protected function createVisitor()
+    protected function createVisitor(ObjectFactoryInterface $objectFactory)
     {
-        return new FromXmlVisitor(new SimpleObjectFactory(), new ReflectionTypeProvider());
+        return new FromXmlVisitor($objectFactory, new ReflectionTypeProvider());
     }
 
     /**
