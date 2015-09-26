@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Scato\Serializer\Data\DataMapperFactory;
+use Scato\Serializer\Navigation\DeserializationFilterInterface;
 use Scato\Serializer\Navigation\SerializationConverterInterface;
 use Scato\Serializer\SerializerFacade;
 
@@ -26,9 +27,19 @@ class SerializerContext implements Context
     protected $format;
 
     /**
+     * @var string
+     */
+    protected $class;
+
+    /**
      * @var SerializationConverterInterface[]
      */
     protected $converters = [];
+
+    /**
+     * @var DeserializationFilterInterface[]
+     */
+    protected $filters = [];
 
     /**
      * @When I serialize it to :format
@@ -51,19 +62,12 @@ class SerializerContext implements Context
     public function iDeserializeIt()
     {
         $serializer = SerializerFacade::create();
-        $class = 'Fixtures\Person';
 
-        $this->output = $serializer->deserialize($this->input, $class, strtolower($this->format));
-    }
+        foreach ($this->filters as $filter) {
+            $serializer->addDeserializationFilter($filter);
+        }
 
-    /**
-     * @When I deserialize it to :class
-     */
-    public function iDeserializeItTo($class)
-    {
-        $serializer = SerializerFacade::create();
-
-        $this->output = $serializer->deserialize($this->input, $class, strtolower($this->format));
+        $this->output = $serializer->deserialize($this->input, $this->class, strtolower($this->format));
     }
 
     /**

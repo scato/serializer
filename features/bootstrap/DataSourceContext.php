@@ -1,6 +1,7 @@
 <?php
 
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Fixtures\CustomDateDeserializationFilter;
 use Fixtures\DataSource;
 use Fixtures\CustomDateSerializationConverter;
 use PHPUnit_Framework_Assert as PHPUnit;
@@ -41,6 +42,7 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     public function iHaveAString($format)
     {
         $this->format = $format;
+        $this->class = 'Fixtures\Person';
         $this->input = $this->dataSource->getString($format);
     }
 
@@ -66,15 +68,24 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     public function iHaveACustomJSONDateString($format)
     {
         $this->format = $format;
+        $this->class = 'DateTime';
         $this->input = $this->dataSource->getCustomDateString($format);
     }
 
     /**
-     * @Given I have a custom date serialization filter
+     * @Given I have a custom date serialization converter
      */
     public function iHaveACustomDateSerializationFilter()
     {
         $this->converters[] = new CustomDateSerializationConverter();
+    }
+
+    /**
+     * @Given I have a custom date deserialization filter
+     */
+    public function iHaveACustomDateDeserializationFilter()
+    {
+        $this->filters[] = new CustomDateDeserializationFilter();
     }
 
     /**
