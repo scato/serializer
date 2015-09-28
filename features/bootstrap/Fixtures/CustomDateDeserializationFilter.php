@@ -9,6 +9,12 @@ use Scato\Serializer\Navigation\ObjectFactoryInterface;
 
 class CustomDateDeserializationFilter implements DeserializationFilterInterface
 {
+    /**
+     * @param Type                   $type
+     * @param mixed                  $value
+     * @param ObjectFactoryInterface $next
+     * @return mixed
+     */
     public function filter(Type $type, $value, ObjectFactoryInterface $next)
     {
         if ($type->toString() === 'DateTime') {
