@@ -103,4 +103,4 @@ $serializer = new SerializerFacade(['json' => new CustomJsonSerializerFactory()]
 
 This serializer will only support JSON, and only for serialization, unless you add more factories.
 
-[link-corp](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern)
+[link-corp]: https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern
