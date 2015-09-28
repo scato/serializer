@@ -91,41 +91,7 @@ class Person
 Advanced Usage
 --------------
 
-Currently there is no easy way to do advanced stuff like custom type handling or discriminator maps. What you *can* do
-is replace one of the components with your own.
-
-For example, if you want to use reflection to serialize objects with private fields, you could write your own
-ObjectAccessor:
-
-```php
-class ReflectionAccessor implements ObjectAccessorInterface
-{
-    ...
-}
-```
-
-You can then extend the JsonSerializerFactory like so:
-
-```php
-class CustomJsonSerializerFactory extends SerializerFactory
-{
-    /**
-     * @return NavigatorInterface
-     */
-    protected function createNavigator()
-    {
-        return new Navigator(new ReflectionAccessor());
-    }
-}
-```
-
-Finally, you need a SerializerFacade that uses your serializer instead of the default one:
-
-```php
-$serializer = new SerializerFacade(['json' => new CustomJsonSerializerFactory()], [])
-```
-
-This serializer will only support JSON, and only for serialization, unless you add more factories.
+For advanced usage, see [Advanced Usage](AdvancedUsage.md).
 
 Data Mapper
 -----------
