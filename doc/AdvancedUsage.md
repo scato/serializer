@@ -64,19 +64,33 @@ $serializer->addDeserializationFilter(new CustomDateDeserializationFilter());
 
 Like serialization converters, these filters are also called in reverse order.
 
-Factories
----------
+Custom Factories
+----------------
 
-Converters and filters allow you to do pretty much anything. If you need to do something really exotic, however, you
-can always resort to creating your own factory.
+Converters and filters allow you to do almost anything. There are some edge cases, however, that require you to write
+a custom factory.
 
-For example, if you want to use reflection to serialize objects with private fields, you could write your own
-ObjectAccessor:
+For example, if you want to limit the recursion depth, you would first write your own Navigator decorator:
 
 ```php
-class ReflectionAccessor implements ObjectAccessorInterface
+class MaxDepthNavigatorDecorator implements NavigatorInterface
 {
-    ...
+    public function __construct(NavigatorInterface $parent)
+    {
+        $this->parent = $parent;
+        $this->depth = 0;
+    }
+
+    public function accept(NavigatorInterface $navigator, VisitorInterface $visitor, $value)
+    {
+        if ($this->depth > 100) {
+            $value = null;
+        }
+
+        $this->depth += 1;
+        $this->parent->accept($navigator, $visitor, $value);
+        $this->depth -= 1;
+    }
 }
 ```
 
@@ -90,17 +104,19 @@ class CustomJsonSerializerFactory extends JsonSerializerFactory
      */
     protected function createNavigator()
     {
-        return new Navigator(new ReflectionAccessor());
+        return new MaxDepthNavigatorDecorator(parent::createNavigator());
     }
 }
 ```
 
-Finally, you need a SerializerFacade that uses your serializer instead of the default one:
+Finally, you need a SerializerFacade that uses your serializer factory instead of the default one:
 
 ```php
 $serializer = new SerializerFacade(['json' => new CustomJsonSerializerFactory()], [])
 ```
 
 This serializer will only support JSON, and only for serialization, unless you add more factories.
+
+For more help on how internals work, read the [internals](internals/Core.md) documentation.
 
 [link-corp]: https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern
