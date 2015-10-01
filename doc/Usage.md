@@ -64,7 +64,7 @@ Configuration
 -------------
 
 No setup or configuration is needed to serialize objects. To deserialize strings, the serializer should know the type of
-each property on your object. You can use normal DocBlocks to do so.
+each property on your object. It uses normal DocBlocks to figure this out.
 
 For example, if a Person also has an Address and zero or more PhoneNumbers, just add `@var` tags like so:
 
