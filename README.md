@@ -54,7 +54,7 @@ There is a problem with the `phpdocumentor/reflection-common` component, so you 
 ``` json
   "require": {
     "phpdocumentor/reflection-common": "^1.0@dev"
-  },
+  }
 ```
 
 ## Credits

@@ -10,6 +10,8 @@ use Scato\Serializer\Core\Type;
 interface DeserializationFilterInterface
 {
     /**
+     * Handle object creation and return the object or value
+     *
      * @param Type                   $type
      * @param mixed                  $value
      * @param ObjectFactoryInterface $next

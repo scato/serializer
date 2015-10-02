@@ -67,8 +67,8 @@ Like serialization converters, these filters are also called in reverse order.
 Custom Factories
 ----------------
 
-Converters and filters allow you to do almost anything. There are some edge cases, however, that require you to write
-a custom factory.
+Converters and filters allow you to do almost anything. There are some cases, however, that require you to write a
+custom factory.
 
 For example, if you want to limit the recursion depth, you would first write your own Navigator decorator:
 

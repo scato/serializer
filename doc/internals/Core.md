@@ -47,8 +47,10 @@ SerializerFacade
 ----------------
 
 There is a facade that ties everything together. It has a `serialize()` and `deserialize()` method that take a format
-as a parameter. It uses a set of Serializer and Deserializer factories to instantiate de appropriate object, which does
-the real work.
+as a parameter. It uses a set of Serializer and Deserializer factories to instantiate the appropriate object.
+
+The object is discarded once it has done its work. This is a good thing. Serializers and Deserializers use Visitors,
+which are unsafe for reuse, since they are stateful.
 
 Type
 ----

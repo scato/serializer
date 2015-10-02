@@ -8,6 +8,8 @@ namespace Scato\Serializer\Navigation;
 interface SerializationConverterInterface
 {
     /**
+     * Convert value
+     *
      * @param mixed $value
      * @return mixed
      */
