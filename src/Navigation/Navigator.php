@@ -27,11 +27,12 @@ class Navigator implements NavigatorInterface
     }
 
     /**
-     * @param VisitorInterface $visitor
-     * @param mixed            $value
+     * @param NavigatorInterface $navigator
+     * @param VisitorInterface   $visitor
+     * @param mixed              $value
      * @return void
      */
-    public function accept(VisitorInterface $visitor, $value)
+    public function accept(NavigatorInterface $navigator, VisitorInterface $visitor, $value)
     {
         switch (gettype($value)) {
             case 'object':
@@ -41,7 +42,7 @@ class Navigator implements NavigatorInterface
                 foreach ($names as $name) {
                     $property = $this->objectAccessor->getValue($value, $name);
                     $visitor->visitElementStart($name);
-                    $this->accept($visitor, $property);
+                    $navigator->accept($navigator, $visitor, $property);
                     $visitor->visitElementEnd($name);
                 }
 
@@ -53,7 +54,7 @@ class Navigator implements NavigatorInterface
 
                 foreach ($value as $key => $element) {
                     $visitor->visitElementStart($key);
-                    $this->accept($visitor, $element);
+                    $navigator->accept($navigator, $visitor, $element);
                     $visitor->visitElementEnd($key);
                 }
 

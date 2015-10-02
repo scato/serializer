@@ -21,7 +21,7 @@ class SerializerSpec extends ObjectBehavior
         EncoderInterface $encoder
     ) {
         // the navigator guides the visitor through the value graph
-        $navigator->accept($visitor, array('foo' => true))->willReturn();
+        $navigator->accept($navigator, $visitor, array('foo' => true))->willReturn();
 
         // the visitor builds a tree that can be encoded
         $visitor->getResult()->willReturn(array('foo' => '1'));

@@ -17,7 +17,7 @@
     "behat/behat": "^3.0",
     "phpunit/phpunit": "^4.6",
     "nelmio/alice": "^1.7",
-    "squizlabs/php_codesniffer": "^2.3",
+    "squizlabs/php_codesniffer": "dev-master",
     "phpmd/phpmd": "^2.2"
   },
   "scripts": {

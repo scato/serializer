@@ -50,7 +50,7 @@ class Deserializer
 
         $value = $this->decoder->decode($string);
 
-        $this->navigator->accept($this->visitor, $value);
+        $this->navigator->accept($this->navigator, $this->visitor, $value);
 
         return $this->visitor->getResult();
     }

@@ -45,7 +45,7 @@ class Serializer
      */
     public function serialize($value)
     {
-        $this->navigator->accept($this->visitor, $value);
+        $this->navigator->accept($this->navigator, $this->visitor, $value);
 
         $result = $this->visitor->getResult();
 

@@ -3,7 +3,10 @@
 
 namespace Fixtures;
 
+use DateTime;
+use DateTimeZone;
 use Nelmio\Alice\Loader\Yaml as YamlLoader;
+use RuntimeException;
 use Symfony\Component\Yaml\Yaml as YamlParser;
 
 class DataSource
@@ -53,5 +56,27 @@ class DataSource
         );
 
         return $array;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateTime()
+    {
+        return new DateTime('2015-09-07', new DateTimeZone('UTC'));
+    }
+
+    /**
+     * @param string $format
+     * @return string
+     */
+    public function getCustomDateString($format)
+    {
+        switch ($format) {
+            case 'JSON':
+                return '"2015-09-07T00:00:00+00:00"';
+            default:
+                throw new RuntimeException("DataSource::getCustomDateString does not support format $format");
+        }
     }
 }

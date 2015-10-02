@@ -21,7 +21,8 @@ $serializer = SerializerFacade::create();
 $string = $serializer->serialize(..., 'json');
 ```
 
-Read [the docs](doc/Usage.md) for more examples on how to use the serializer.
+Read [the docs](doc/Usage.md) for more examples on how to use the serializer, or jump to
+[Advanced Usage](doc/AdvancedUsage.md) to learn about custom type handling and custom factories.
 
 ## Change log
 
@@ -41,13 +42,20 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 Composite types are not supported. If your type reads `array|Foo[]` or `string|null`, you're out of luck.
 
-The serializer does not support polymorphism. If a type says `Foo`, an object will never be deserialized as a subclass
+Deserialization does not support polymorphism. If a type says `Foo`, an object will never be deserialized as a subclass
 of `Foo`. The reason for this is that DocBlocks have no way to define discriminators. (Maybe we could use the `@uses`
 tag to point to a property with a default value, so the property/value-pair can be used as a discriminator.)
 
-Hooks have not been implemented yet.
-
 No caching is performed, which makes deserialization relatively slow.
+
+There is a problem with the `phpdocumentor/reflection-common` component, so you have to add it to your own
+`composer.json`:
+
+``` json
+  "require": {
+    "phpdocumentor/reflection-common": "^1.0@dev"
+  }
+```
 
 ## Credits
 

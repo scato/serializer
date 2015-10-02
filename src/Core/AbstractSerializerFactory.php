@@ -2,18 +2,28 @@
 
 namespace Scato\Serializer\Core;
 
+use Scato\Serializer\Navigation\SerializationConverterInterface;
+use Scato\Serializer\Navigation\ConversionNavigatorDecorator;
+
 /**
  * Creates a serializer and all its components
  */
 abstract class AbstractSerializerFactory
 {
     /**
+     * @param SerializationConverterInterface[] $converters
      * @return Serializer
      */
-    public function createSerializer()
+    public function createSerializer(array $converters = [])
     {
+        $navigator = $this->createNavigator();
+
+        foreach ($converters as $converter) {
+            $navigator = new ConversionNavigatorDecorator($navigator, $converter);
+        }
+
         return new Serializer(
-            $this->createNavigator(),
+            $navigator,
             $this->createVisitor(),
             $this->createEncoder()
         );

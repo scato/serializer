@@ -1,35 +1,16 @@
 <?php
 
-use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
+use Fixtures\CustomDateDeserializationFilter;
 use Fixtures\DataSource;
+use Fixtures\CustomDateSerializationConverter;
 use PHPUnit_Framework_Assert as PHPUnit;
-use Scato\Serializer\Data\DataMapperFactory;
-use Scato\Serializer\SerializerFacade;
 
 /**
- * Defines application features from the specific context.
+ * Defines steps related to the data source
  */
-class FeatureContext implements Context, SnippetAcceptingContext
+class DataSourceContext extends SerializerContext implements SnippetAcceptingContext
 {
-    /**
-     * @var mixed
-     */
-    private $input;
-
-    /**
-     * @var mixed
-     */
-    private $output;
-
-    /**
-     * @var string
-     */
-    private $format;
-
     /**
      * @var DataSource
      */
@@ -61,6 +42,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iHaveAString($format)
     {
         $this->format = $format;
+        $this->class = 'Fixtures\Person';
         $this->input = $this->dataSource->getString($format);
     }
 
@@ -73,35 +55,37 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I serialize it to :format
+     * @Given I have a DateTime object
      */
-    public function iSerializeItTo($format)
+    public function iHaveADateTimeObject()
     {
-        $serializer = SerializerFacade::create();
+        $this->input = $this->dataSource->getDateTime();
+    }
 
+    /**
+     * @Given I have a custom :format date string
+     */
+    public function iHaveACustomJSONDateString($format)
+    {
         $this->format = $format;
-        $this->output = $serializer->serialize($this->input, strtolower($format));
+        $this->class = 'DateTime';
+        $this->input = $this->dataSource->getCustomDateString($format);
     }
 
     /**
-     * @When I deserialize it
+     * @Given I have a custom date serialization converter
      */
-    public function iDeserializeIt()
+    public function iHaveACustomDateSerializationFilter()
     {
-        $serializer = SerializerFacade::create();
-        $class = 'Fixtures\Person';
-
-        $this->output = $serializer->deserialize($this->input, $class, strtolower($this->format));
+        $this->converters[] = new CustomDateSerializationConverter();
     }
 
     /**
-     * @When I map it to :type
+     * @Given I have a custom date deserialization filter
      */
-    public function iMapItTo($type)
+    public function iHaveACustomDateDeserializationFilter()
     {
-        $factory = new DataMapperFactory();
-
-        $this->output = $factory->createMapper()->map($this->input, $type);
+        $this->filters[] = new CustomDateDeserializationFilter();
     }
 
     /**
@@ -134,5 +118,21 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function iShouldHaveTheCorrespondingArray()
     {
         PHPUnit::assertEquals($this->dataSource->getArray(), $this->output);
+    }
+
+    /**
+     * @Then I should have a custom date string
+     */
+    public function iShouldHaveACustomDateString()
+    {
+        PHPUnit::assertEquals($this->dataSource->getCustomDateString($this->format), $this->output);
+    }
+
+    /**
+     * @Then I should have the corresponding DateTime object
+     */
+    public function iShouldHaveTheCorrespondingDateTimeObject()
+    {
+        PHPUnit::assertEquals($this->dataSource->getDateTime(), $this->output);
     }
 }
