@@ -15,7 +15,9 @@ use Scato\Serializer\Xml\XmlDeserializerFactory;
 use Scato\Serializer\Xml\XmlSerializerFactory;
 
 /**
- * Serializes, deserializes and maps values
+ * Serializes and deserializes values
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class SerializerFacade
 {
