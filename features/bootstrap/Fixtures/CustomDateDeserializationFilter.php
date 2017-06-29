@@ -18,8 +18,7 @@ class CustomDateDeserializationFilter implements DeserializationFilterInterface
     public function filter(Type $type, $value, ObjectFactoryInterface $next)
     {
         if ($type->toString() === 'DateTime') {
-            // unfortunately, createFromFormat() doesn't accept 'c' as a format
-            return DateTime::createFromFormat('Y-m-d\\TH:i:sP', $value);
+            return DateTime::createFromFormat(DateTime::W3C, $value);
         }
 
         return $next->createObject($type, $value);

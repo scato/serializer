@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Scato\Serializer\Data\DataMapperFactory;
+use Scato\Serializer\MapperFacade;
 use Scato\Serializer\Navigation\DeserializationFilterInterface;
 use Scato\Serializer\Navigation\SerializationConverterInterface;
 use Scato\Serializer\SerializerFacade;
@@ -75,8 +76,17 @@ class SerializerContext implements Context
      */
     public function iMapItTo($type)
     {
-        $factory = new DataMapperFactory();
+        $mapper = MapperFacade::create();
 
-        $this->output = $factory->createMapper()->map($this->input, $type);
+        foreach ($this->converters as $converter) {
+            $mapper->addSerializationConverter($converter);
+        }
+
+        foreach ($this->filters as $filter) {
+            $mapper->addDeserializationFilter($filter);
+        }
+
+        $this->format = 'PHP';
+        $this->output = $mapper->map($this->input, $type);
     }
 }

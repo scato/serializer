@@ -14,7 +14,7 @@ class CustomDateSerializationConverter implements SerializationConverterInterfac
     public function convert($value)
     {
         if ($value instanceof DateTime) {
-            return $value->format('c');
+            return $value->format(DateTime::W3C);
         }
 
         return $value;

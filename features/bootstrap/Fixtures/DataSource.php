@@ -75,6 +75,8 @@ class DataSource
         switch ($format) {
             case 'JSON':
                 return '"2015-09-07T00:00:00+00:00"';
+            case 'PHP':
+                return '2015-09-07T00:00:00+00:00';
             default:
                 throw new RuntimeException("DataSource::getCustomDateString does not support format $format");
         }

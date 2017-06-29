@@ -4,6 +4,10 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Fixtures\CustomDateDeserializationFilter;
 use Fixtures\DataSource;
 use Fixtures\CustomDateSerializationConverter;
+use Fixtures\Handler\CustomAddressDeserializationFilter;
+use Fixtures\Handler\CustomPersonDeserializationFilter;
+use Fixtures\Handler\CustomPhoneNumberDeserializationFilter;
+use Fixtures\Model\PersonFactory;
 use PHPUnit_Framework_Assert as PHPUnit;
 
 /**
@@ -17,6 +21,11 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     private $dataSource;
 
     /**
+     * @var PersonFactory
+     */
+    private $personFactory;
+
+    /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -26,6 +35,7 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     public function __construct()
     {
         $this->dataSource = new DataSource();
+        $this->personFactory = new PersonFactory();
     }
 
     /**
@@ -89,6 +99,30 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     }
 
     /**
+     * @Given I have a custom person deserialization filter
+     */
+    public function iHaveACustomPersonDeserializationFilter()
+    {
+        $this->filters[] = new CustomPersonDeserializationFilter();
+    }
+
+    /**
+     * @Given I have a custom address deserialization filter
+     */
+    public function iHaveACustomAddressDeserializationFilter()
+    {
+        $this->filters[] = new CustomAddressDeserializationFilter();
+    }
+
+    /**
+     * @Given I have a custom phone number deserialization filter
+     */
+    public function iHaveACustomPhoneNumberDeserializationFilter()
+    {
+        $this->filters[] = new CustomPhoneNumberDeserializationFilter();
+    }
+
+    /**
      * @Then I should have the corresponding string
      */
     public function iShouldHaveTheCorrespondingString()
@@ -134,5 +168,13 @@ class DataSourceContext extends SerializerContext implements SnippetAcceptingCon
     public function iShouldHaveTheCorrespondingDateTimeObject()
     {
         PHPUnit::assertEquals($this->dataSource->getDateTime(), $this->output);
+    }
+
+    /**
+     * @Then I should have the corresponding entity
+     */
+    public function iShouldHaveTheCorrespondingEntity()
+    {
+        PHPUnit::assertEquals($this->personFactory->create(), $this->output);
     }
 }
